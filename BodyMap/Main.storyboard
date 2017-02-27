@@ -23,18 +23,40 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hY1-GF-kuT" customClass="SceneKitView" customModule="BodyMap" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CSJ-bR-fJ9" customClass="BottomSheetView" customModule="BodyMap" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="420" width="375" height="667"/>
+                                <subviews>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YWq-GJ-bWU">
+                                        <rect key="frame" x="0.0" y="68" width="375" height="579"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </tableView>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="YWq-GJ-bWU" secondAttribute="bottom" constant="20" id="3ma-qy-0nF"/>
+                                    <constraint firstItem="YWq-GJ-bWU" firstAttribute="leading" secondItem="CSJ-bR-fJ9" secondAttribute="leading" id="69E-o7-mE0"/>
+                                    <constraint firstItem="YWq-GJ-bWU" firstAttribute="top" secondItem="CSJ-bR-fJ9" secondAttribute="top" constant="68" id="KfR-Q1-Ipg"/>
+                                    <constraint firstAttribute="trailing" secondItem="YWq-GJ-bWU" secondAttribute="trailing" id="UkY-ea-2uQ"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="hY1-GF-kuT" firstAttribute="leading" secondItem="MHU-kT-At7" secondAttribute="leading" id="5eo-50-b3C"/>
+                            <constraint firstAttribute="trailing" secondItem="CSJ-bR-fJ9" secondAttribute="trailing" id="DJJ-0g-YYC"/>
                             <constraint firstAttribute="trailing" secondItem="hY1-GF-kuT" secondAttribute="trailing" id="OIN-Ss-rtL"/>
+                            <constraint firstItem="CSJ-bR-fJ9" firstAttribute="height" secondItem="MHU-kT-At7" secondAttribute="height" id="SQO-g1-HhL"/>
                             <constraint firstItem="hY1-GF-kuT" firstAttribute="top" secondItem="MHU-kT-At7" secondAttribute="top" id="cpV-zb-QZC"/>
+                            <constraint firstItem="CSJ-bR-fJ9" firstAttribute="top" secondItem="yPJ-lG-zGE" secondAttribute="bottom" constant="400" id="wZu-ft-1DC"/>
+                            <constraint firstItem="CSJ-bR-fJ9" firstAttribute="leading" secondItem="MHU-kT-At7" secondAttribute="leading" id="yPO-2x-N2P"/>
                             <constraint firstItem="Xdf-NV-7ne" firstAttribute="top" secondItem="hY1-GF-kuT" secondAttribute="bottom" id="zWy-tV-wmV"/>
                         </constraints>
                     </view>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
+                        <outlet property="bottomSheet" destination="CSJ-bR-fJ9" id="bfJ-bs-lVa"/>
                         <outlet property="sceneKitView" destination="hY1-GF-kuT" id="hL6-Bf-CTY"/>
                     </connections>
                 </viewController>

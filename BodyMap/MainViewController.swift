@@ -12,6 +12,8 @@ import SceneKit
 
 class MainViewController: UIViewController, SceneKitViewDelegate, SCNSceneRendererDelegate {
 
+    @IBOutlet weak var bottomSheet: BottomSheetView!
+    
     // MARK: Outlets
     @IBOutlet weak var sceneKitView: SceneKitView!
     
