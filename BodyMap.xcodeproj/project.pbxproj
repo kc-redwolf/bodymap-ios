@@ -9,12 +9,15 @@
 /* Begin PBXBuildFile section */
 		7A9638951E621C9000EB059D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9638941E621C9000EB059D /* AppDelegate.swift */; };
 		7A9638971E621C9000EB059D /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A9638961E621C9000EB059D /* art.scnassets */; };
-		7A9638991E621C9000EB059D /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9638981E621C9000EB059D /* GameViewController.swift */; };
-		7A96389C1E621C9000EB059D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A96389A1E621C9000EB059D /* Main.storyboard */; };
 		7A96389E1E621C9000EB059D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A96389D1E621C9000EB059D /* Assets.xcassets */; };
 		7A9638A11E621C9000EB059D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A96389F1E621C9000EB059D /* LaunchScreen.storyboard */; };
 		7A9638AC1E621C9000EB059D /* BodyMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9638AB1E621C9000EB059D /* BodyMapTests.swift */; };
 		7A9638B71E621C9000EB059D /* BodyMapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9638B61E621C9000EB059D /* BodyMapUITests.swift */; };
+		7AC820251E63D97F00FE347E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC820241E63D97F00FE347E /* MainViewController.swift */; };
+		7AC820281E63D98600FE347E /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC820261E63D98600FE347E /* Resources.swift */; };
+		7AC820291E63D98600FE347E /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC820271E63D98600FE347E /* SceneKitView.swift */; };
+		7AC8202B1E63D98E00FE347E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7AC8202A1E63D98E00FE347E /* Info.plist */; };
+		7AC8202D1E63D99700FE347E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AC8202C1E63D99700FE347E /* Main.storyboard */; };
 		7DB83D619ABB8CE157A84467 /* Pods_BodyMapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75434846BE593BD70AB0145B /* Pods_BodyMapTests.framework */; };
 		CC8EAC250BF6D01DFBA8738C /* Pods_BodyMapUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF4EF6B9C42B0ED40E1D2E64 /* Pods_BodyMapUITests.framework */; };
 		EEEF4AF8F2B547B2EDF444EF /* Pods_BodyMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D26387C4A340C017E1B5E3EB /* Pods_BodyMap.framework */; };
@@ -44,17 +47,19 @@
 		7A9638911E621C9000EB059D /* BodyMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BodyMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9638941E621C9000EB059D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7A9638961E621C9000EB059D /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
-		7A9638981E621C9000EB059D /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
-		7A96389B1E621C9000EB059D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7A96389D1E621C9000EB059D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7A9638A01E621C9000EB059D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		7A9638A21E621C9000EB059D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7A9638A71E621C9000EB059D /* BodyMapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BodyMapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9638AB1E621C9000EB059D /* BodyMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyMapTests.swift; sourceTree = "<group>"; };
 		7A9638AD1E621C9000EB059D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7A9638B21E621C9000EB059D /* BodyMapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BodyMapUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9638B61E621C9000EB059D /* BodyMapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyMapUITests.swift; sourceTree = "<group>"; };
 		7A9638B81E621C9000EB059D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7AC820241E63D97F00FE347E /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		7AC820261E63D98600FE347E /* Resources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
+		7AC820271E63D98600FE347E /* SceneKitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneKitView.swift; sourceTree = "<group>"; };
+		7AC8202A1E63D98E00FE347E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7AC8202C1E63D99700FE347E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		8A8D1A56E1AA5495C799C90A /* Pods-BodyMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BodyMap.release.xcconfig"; path = "Pods/Target Support Files/Pods-BodyMap/Pods-BodyMap.release.xcconfig"; sourceTree = "<group>"; };
 		986094C5ABBE4BDF58915D09 /* Pods-BodyMapTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BodyMapTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BodyMapTests/Pods-BodyMapTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C796B14CDEE3B5E433FCE2DB /* Pods-BodyMapTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BodyMapTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BodyMapTests/Pods-BodyMapTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -126,13 +131,9 @@
 		7A9638931E621C9000EB059D /* BodyMap */ = {
 			isa = PBXGroup;
 			children = (
-				7A9638941E621C9000EB059D /* AppDelegate.swift */,
-				7A9638961E621C9000EB059D /* art.scnassets */,
-				7A9638981E621C9000EB059D /* GameViewController.swift */,
-				7A96389A1E621C9000EB059D /* Main.storyboard */,
-				7A96389D1E621C9000EB059D /* Assets.xcassets */,
-				7A96389F1E621C9000EB059D /* LaunchScreen.storyboard */,
-				7A9638A21E621C9000EB059D /* Info.plist */,
+				7AC820311E63DA2900FE347E /* Launcher */,
+				7AC820301E63DA1E00FE347E /* Main */,
+				7AC8202E1E63D9FB00FE347E /* Resources */,
 			);
 			path = BodyMap;
 			sourceTree = "<group>";
@@ -153,6 +154,44 @@
 				7A9638B81E621C9000EB059D /* Info.plist */,
 			);
 			path = BodyMapUITests;
+			sourceTree = "<group>";
+		};
+		7AC8202E1E63D9FB00FE347E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7AC8202F1E63DA0A00FE347E /* Views */,
+				7AC820261E63D98600FE347E /* Resources.swift */,
+				7A96389D1E621C9000EB059D /* Assets.xcassets */,
+				7A9638961E621C9000EB059D /* art.scnassets */,
+				7AC8202A1E63D98E00FE347E /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		7AC8202F1E63DA0A00FE347E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7AC820271E63D98600FE347E /* SceneKitView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		7AC820301E63DA1E00FE347E /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				7AC820241E63D97F00FE347E /* MainViewController.swift */,
+				7AC8202C1E63D99700FE347E /* Main.storyboard */,
+			);
+			name = Main;
+			sourceTree = "<group>";
+		};
+		7AC820311E63DA2900FE347E /* Launcher */ = {
+			isa = PBXGroup;
+			children = (
+				7A9638941E621C9000EB059D /* AppDelegate.swift */,
+				7A96389F1E621C9000EB059D /* LaunchScreen.storyboard */,
+			);
+			name = Launcher;
 			sourceTree = "<group>";
 		};
 		A8A8BA056A16CE054FAD2594 /* Pods */ = {
@@ -287,10 +326,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7AC8202B1E63D98E00FE347E /* Info.plist in Resources */,
+				7AC8202D1E63D99700FE347E /* Main.storyboard in Resources */,
 				7A9638971E621C9000EB059D /* art.scnassets in Resources */,
 				7A9638A11E621C9000EB059D /* LaunchScreen.storyboard in Resources */,
 				7A96389E1E621C9000EB059D /* Assets.xcassets in Resources */,
-				7A96389C1E621C9000EB059D /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -453,8 +493,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A9638991E621C9000EB059D /* GameViewController.swift in Sources */,
+				7AC820281E63D98600FE347E /* Resources.swift in Sources */,
 				7A9638951E621C9000EB059D /* AppDelegate.swift in Sources */,
+				7AC820291E63D98600FE347E /* SceneKitView.swift in Sources */,
+				7AC820251E63D97F00FE347E /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,14 +532,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		7A96389A1E621C9000EB059D /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7A96389B1E621C9000EB059D /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		7A96389F1E621C9000EB059D /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -709,6 +743,7 @@
 				7A9638BD1E621C9000EB059D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7A9638BE1E621C9000EB059D /* Build configuration list for PBXNativeTarget "BodyMapTests" */ = {
 			isa = XCConfigurationList;
@@ -717,6 +752,7 @@
 				7A9638C01E621C9000EB059D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7A9638C11E621C9000EB059D /* Build configuration list for PBXNativeTarget "BodyMapUITests" */ = {
 			isa = XCConfigurationList;
@@ -725,6 +761,7 @@
 				7A9638C31E621C9000EB059D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
