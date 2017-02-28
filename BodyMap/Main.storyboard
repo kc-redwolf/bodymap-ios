@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -26,16 +27,15 @@
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CSJ-bR-fJ9" customClass="BottomSheetView" customModule="BodyMap" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="420" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="420" width="375" height="1334"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YWq-GJ-bWU">
-                                        <rect key="frame" x="0.0" y="68" width="375" height="579"/>
+                                        <rect key="frame" x="0.0" y="68" width="375" height="667"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="YWq-GJ-bWU" secondAttribute="bottom" constant="20" id="3ma-qy-0nF"/>
                                     <constraint firstItem="YWq-GJ-bWU" firstAttribute="leading" secondItem="CSJ-bR-fJ9" secondAttribute="leading" id="69E-o7-mE0"/>
                                     <constraint firstItem="YWq-GJ-bWU" firstAttribute="top" secondItem="CSJ-bR-fJ9" secondAttribute="top" constant="68" id="KfR-Q1-Ipg"/>
                                     <constraint firstAttribute="trailing" secondItem="YWq-GJ-bWU" secondAttribute="trailing" id="UkY-ea-2uQ"/>
@@ -47,7 +47,8 @@
                             <constraint firstItem="hY1-GF-kuT" firstAttribute="leading" secondItem="MHU-kT-At7" secondAttribute="leading" id="5eo-50-b3C"/>
                             <constraint firstAttribute="trailing" secondItem="CSJ-bR-fJ9" secondAttribute="trailing" id="DJJ-0g-YYC"/>
                             <constraint firstAttribute="trailing" secondItem="hY1-GF-kuT" secondAttribute="trailing" id="OIN-Ss-rtL"/>
-                            <constraint firstItem="CSJ-bR-fJ9" firstAttribute="height" secondItem="MHU-kT-At7" secondAttribute="height" id="SQO-g1-HhL"/>
+                            <constraint firstItem="CSJ-bR-fJ9" firstAttribute="height" secondItem="MHU-kT-At7" secondAttribute="height" multiplier="2" id="SQO-g1-HhL"/>
+                            <constraint firstItem="YWq-GJ-bWU" firstAttribute="height" secondItem="hY1-GF-kuT" secondAttribute="height" id="VZ6-sG-MwO"/>
                             <constraint firstItem="hY1-GF-kuT" firstAttribute="top" secondItem="MHU-kT-At7" secondAttribute="top" id="cpV-zb-QZC"/>
                             <constraint firstItem="CSJ-bR-fJ9" firstAttribute="top" secondItem="yPJ-lG-zGE" secondAttribute="bottom" constant="400" id="wZu-ft-1DC"/>
                             <constraint firstItem="CSJ-bR-fJ9" firstAttribute="leading" secondItem="MHU-kT-At7" secondAttribute="leading" id="yPO-2x-N2P"/>

@@ -14,6 +14,7 @@ class BottomSheetView: UIView {
     private let headerHeight:CGFloat = 68
     private let statusBarHeight:CGFloat = 20
     private var initialTouchPoint:CGPoint! = nil
+    private var pinnedPoint:CGFloat = 0
     
     // View State
     enum State {
@@ -24,9 +25,9 @@ class BottomSheetView: UIView {
         didSet {
             switch viewState {
             case .opened:
-                open(animated: false)
+                open(animated: true)
             case .pinned:
-                pin(animated: false)
+                pin(animated: true)
             }
         }
     }
@@ -39,16 +40,62 @@ class BottomSheetView: UIView {
     
     // MARK: Setup
     private func setup() {
+        
+        // Set pin point
+        pinnedPoint = superview!.bounds.height - (headerHeight + statusBarHeight)
+        frame.origin.y = pinnedPoint
+        
+        // Set view pinned
         viewState = .pinned
     }
     
     // MARK: View Settings
     private func open(animated: Bool) {
-        frame.origin.y = 20
+        
+        // Handle non-animated
+        if (!animated) {
+            frame.origin.y = statusBarHeight
+            return
+        }
+        
+        // Animate
+        UIView.animate(
+            withDuration: 0.33,
+            delay: 0.0,
+            usingSpringWithDamping: 0.7,
+            initialSpringVelocity: 1.0,
+            options: .allowUserInteraction,
+            animations: {
+                
+                self.frame.origin.y = self.statusBarHeight
+                
+        }, completion: { (value: Bool) in
+            //
+        })
     }
     
     private func pin(animated: Bool) {
-        frame.origin.y = superview!.bounds.height - (headerHeight + statusBarHeight)
+        
+        // Handle non-animated
+        if (!animated) {
+            frame.origin.y = pinnedPoint
+            return
+        }
+        
+        // Animate
+        UIView.animate(
+            withDuration: 0.33,
+            delay: 0.0,
+            usingSpringWithDamping: 0.7,
+            initialSpringVelocity: 1.0,
+            options: .allowUserInteraction,
+            animations: {
+                
+                self.frame.origin.y = self.pinnedPoint
+                
+        }, completion: { (value: Bool) in
+            //
+        })
     }
     
     // MARK: Touches
@@ -66,12 +113,44 @@ class BottomSheetView: UIView {
             let superLocation = touch.location(in: superview)
             let calcTouchLocation = superLocation.y - initialTouchPoint.y
             
-            print(frame.origin.y)
+            // Get states
+//            let isAboveStatusBar = frame.origin.y <= statusBarHeight
+            let isBelowPinnedPoint = frame.origin.y >= pinnedPoint
             
-            // Check if we can change position
-            if (frame.origin.y > statusBarHeight && calcTouchLocation < bounds.height - (headerHeight + statusBarHeight)) {
+            // Resistence Variables
+            let calcHeight = superview!.bounds.height - statusBarHeight - headerHeight
+            let downwardResistenceLocation = calcHeight * (1 + log10(calcTouchLocation / calcHeight))
+//            let upwardResistenceLocation = statusBarHeight * (1 + log10(frame.origin.y / statusBarHeight))
+            
+            if (isBelowPinnedPoint) {
+                frame.origin.y = downwardResistenceLocation
+            } else {
                 frame.origin.y = calcTouchLocation
             }
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+        
+            // Get states
+            let isAboveStatusBar = frame.origin.y <= statusBarHeight
+            let isBelowPinnedPoint = frame.origin.y >= pinnedPoint
+            let superLocation = touch.location(in: superview)
+            let calcTouchLocation = superLocation.y - initialTouchPoint.y
+            let threshold = superview!.bounds.height / 2
+            
+            // Set postition
+            if (isAboveStatusBar) {
+                viewState = .opened
+            } else if (isBelowPinnedPoint) {
+                viewState = .pinned
+            } else if (calcTouchLocation < threshold) {
+                viewState = .opened
+            } else if (calcTouchLocation >= threshold) {
+                viewState = .pinned
+            }
+            
         }
     }
 
