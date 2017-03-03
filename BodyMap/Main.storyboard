@@ -30,7 +30,7 @@
                                 <rect key="frame" x="0.0" y="420" width="375" height="1334"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YWq-GJ-bWU">
-                                        <rect key="frame" x="0.0" y="68" width="375" height="667"/>
+                                        <rect key="frame" x="0.0" y="68" width="375" height="579"/>
                                         <color key="backgroundColor" red="0.72156862749999995" green="0.20392156859999999" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableView>
                                 </subviews>
@@ -48,7 +48,7 @@
                             <constraint firstAttribute="trailing" secondItem="CSJ-bR-fJ9" secondAttribute="trailing" id="DJJ-0g-YYC"/>
                             <constraint firstAttribute="trailing" secondItem="hY1-GF-kuT" secondAttribute="trailing" id="OIN-Ss-rtL"/>
                             <constraint firstItem="CSJ-bR-fJ9" firstAttribute="height" secondItem="MHU-kT-At7" secondAttribute="height" multiplier="2" id="SQO-g1-HhL"/>
-                            <constraint firstItem="YWq-GJ-bWU" firstAttribute="height" secondItem="hY1-GF-kuT" secondAttribute="height" id="VZ6-sG-MwO"/>
+                            <constraint firstItem="YWq-GJ-bWU" firstAttribute="height" secondItem="hY1-GF-kuT" secondAttribute="height" constant="-88" id="VZ6-sG-MwO"/>
                             <constraint firstItem="hY1-GF-kuT" firstAttribute="top" secondItem="MHU-kT-At7" secondAttribute="top" id="cpV-zb-QZC"/>
                             <constraint firstItem="CSJ-bR-fJ9" firstAttribute="top" secondItem="yPJ-lG-zGE" secondAttribute="bottom" constant="400" id="wZu-ft-1DC"/>
                             <constraint firstItem="CSJ-bR-fJ9" firstAttribute="leading" secondItem="MHU-kT-At7" secondAttribute="leading" id="yPO-2x-N2P"/>

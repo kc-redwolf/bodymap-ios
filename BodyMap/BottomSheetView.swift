@@ -287,22 +287,9 @@ class BottomSheetView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate
     // MARK: ScrollView Delegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        let offset = scrollView.contentOffset.y
-        
-        if (offset < 0) {
-            scrollView.bounces = false
-            frame.origin.y = -offset + statusBarHeight
-        } else {
+        // Ensure bounces happen
+        if (!scrollView.bounces) {
             scrollView.bounces = true
         }
     }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if (scrollVelocity > velocityThreshold + (velocityThreshold / 2)) {
-            pin(animated: true)
-        } else {
-            open(animated: true)
-        }
-    }
-
 }
