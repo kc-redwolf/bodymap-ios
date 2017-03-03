@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A41356C1E69329600C489F5 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A41356B1E69329600C489F5 /* BlurView.swift */; };
 		7A9638951E621C9000EB059D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9638941E621C9000EB059D /* AppDelegate.swift */; };
 		7A9638971E621C9000EB059D /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A9638961E621C9000EB059D /* art.scnassets */; };
 		7A96389E1E621C9000EB059D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A96389D1E621C9000EB059D /* Assets.xcassets */; };
@@ -45,6 +46,7 @@
 		0D37D3BB17607938B35EA438 /* Pods-BodyMapUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BodyMapUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BodyMapUITests/Pods-BodyMapUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		41C9628DD1B8CF7A63D9D80F /* Pods-BodyMap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BodyMap.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BodyMap/Pods-BodyMap.debug.xcconfig"; sourceTree = "<group>"; };
 		75434846BE593BD70AB0145B /* Pods_BodyMapTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BodyMapTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A41356B1E69329600C489F5 /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		7A9638911E621C9000EB059D /* BodyMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BodyMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9638941E621C9000EB059D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7A9638961E621C9000EB059D /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 			children = (
 				7AC820271E63D98600FE347E /* SceneKitView.swift */,
 				7AC820321E63DCE900FE347E /* BottomSheetView.swift */,
+				7A41356B1E69329600C489F5 /* BlurView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -501,6 +504,7 @@
 				7A9638951E621C9000EB059D /* AppDelegate.swift in Sources */,
 				7AC820291E63D98600FE347E /* SceneKitView.swift in Sources */,
 				7AC820251E63D97F00FE347E /* MainViewController.swift in Sources */,
+				7A41356C1E69329600C489F5 /* BlurView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

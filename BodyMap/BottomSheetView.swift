@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BottomSheetView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate {
+class BottomSheetView: BlurView, UIScrollViewDelegate, UIGestureRecognizerDelegate {
     
     // MARK: Variables
     private let headerHeight:CGFloat = 68
@@ -24,6 +24,25 @@ class BottomSheetView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate
         case pinned
     }
     var viewState:State = .pinned
+    
+    // MARK: Init
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        style()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        style()
+    }
+    
+    // MARK: Style
+    private func style() {
+        
+        // Corners
+        layer.cornerRadius = 8
+        clipsToBounds = true
+    }
     
     // MARK: Layout Subviews
     override func layoutSubviews() {

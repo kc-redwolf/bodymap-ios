@@ -27,6 +27,7 @@ class MainViewController: UIViewController, SceneKitViewDelegate, SCNSceneRender
         // Init TableView
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.rowHeight = 68
     }
     
     // MARK: SceneView Delegate
@@ -39,16 +40,14 @@ class MainViewController: UIViewController, SceneKitViewDelegate, SCNSceneRender
     }
     
     // MARK: TableView Delegates
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 48
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 20
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let cell = UITableViewCell()
+        cell.backgroundColor = UIColor.clear
+        return cell
     }
 
 }

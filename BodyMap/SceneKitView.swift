@@ -54,7 +54,7 @@ class SceneKitView: UIView, SCNSceneRendererDelegate {
             addSubview(sceneView)
             sceneView.allowsCameraControl = true
             sceneView.delegate = self
-            sceneView.play(self)
+//            sceneView.play(self)
             
             // Set colors
             backgroundColor = UIColor.clear
