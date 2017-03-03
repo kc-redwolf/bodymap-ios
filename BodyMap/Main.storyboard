@@ -59,6 +59,7 @@
                     <connections>
                         <outlet property="bottomSheet" destination="CSJ-bR-fJ9" id="bfJ-bs-lVa"/>
                         <outlet property="sceneKitView" destination="hY1-GF-kuT" id="hL6-Bf-CTY"/>
+                        <outlet property="tableView" destination="YWq-GJ-bWU" id="fFO-v9-0bG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>

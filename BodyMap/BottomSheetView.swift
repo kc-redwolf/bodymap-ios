@@ -13,6 +13,7 @@ class BottomSheetView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate
     // MARK: Variables
     private let headerHeight:CGFloat = 68
     private let statusBarHeight:CGFloat = 20
+    private let velocityThreshold:CGFloat = 800
     private var initialTouchPoint:CGFloat = 0
     private var pinnedPoint:CGFloat = 0
     private var scrollView:UIScrollView! = nil
@@ -167,9 +168,9 @@ class BottomSheetView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate
                 open(animated: true)
             } else if (isBelowPinnedPoint) {
                 pin(animated: true)
-            } else if (velocity > 800) {
+            } else if (velocity > velocityThreshold) {
                 pin(animated: true)
-            } else if (velocity < -800) {
+            } else if (velocity < -velocityThreshold) {
                 open(animated: true)
             } else if (calcTouchLocation < threshold) {
                 open(animated: true)
@@ -192,13 +193,11 @@ class BottomSheetView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate
         }
     }
     
-    var scrollTouchLocation:CGFloat! = nil
+    // MARK: Scrolling Variables
+    private var scrollTouchLocation:CGFloat! = nil
+    private var scrollVelocity:CGFloat = 0
+    
     @objc private func scrollViewPan(gestureRecognize: UIPanGestureRecognizer) {
-        
-        let offset = scrollView.contentOffset.y
-        if (offset > 0) {
-            return
-        }
         
         // Get point
         let superLocation = gestureRecognize.location(in: superview).y
@@ -207,30 +206,43 @@ class BottomSheetView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate
         let isAboveStatusBar = frame.origin.y <= statusBarHeight
         let isBelowPinnedPoint = frame.origin.y >= pinnedPoint
         let threshold = superview!.bounds.height / 2
-        let velocity = gestureRecognize.velocity(in: self).y
+        scrollVelocity = gestureRecognize.velocity(in: self).y
+        
+        // Check for offset and remove slop
+        let offset = scrollView.contentOffset.y
+        if (offset > 0) {
+            if (frame.origin.y > statusBarHeight) {
+                frame.origin.y = statusBarHeight
+            }
+            return
+        }
         
         // Handle interaction
         switch (gestureRecognize.state) {
+            
         case .began:
             
-            print("began")
-            
-            // Get initial touch location
-//            scrollTouchLocation = gestureRecognize.location(in: self).y
-            
-//            print(scrollTouchLocation)
-            
+            scrollTouchLocation = gestureRecognize.location(in: self).y
+
         case .changed:
             
+            // Check for last scroll location
             if (scrollTouchLocation == nil) {
                 scrollTouchLocation = gestureRecognize.location(in: self).y
             }
             
             // Get the actual location of the user's input
-            let calculatedLocation = superLocation - scrollTouchLocation
+            let calculatedLocation = (superLocation - scrollTouchLocation) - statusBarHeight
             
+            // Apply gesture change
             frame.origin.y = calculatedLocation
             
+            // Make scroll view appear at top
+            if (scrollView.contentOffset.y != 0) {
+                scrollView.contentOffset = CGPoint.zero
+            }
+            
+            // Fixes strange scroll bug
             if (frame.origin.y < statusBarHeight) {
                 frame.origin.y = statusBarHeight
                 scrollView.bounces = true
@@ -240,6 +252,7 @@ class BottomSheetView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate
             
         case .ended:
             
+            // Enable bounces again
             scrollView.bounces = true
             
             // Set postition
@@ -247,9 +260,9 @@ class BottomSheetView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate
                 open(animated: true)
             } else if (isBelowPinnedPoint) {
                 pin(animated: true)
-            } else if (velocity > 800) {
+            } else if (scrollVelocity > velocityThreshold) {
                 pin(animated: true)
-            } else if (velocity < -800) {
+            } else if (scrollVelocity < -velocityThreshold) {
                 open(animated: true)
             } else if (frame.origin.y < threshold) {
                 open(animated: true)
@@ -257,10 +270,11 @@ class BottomSheetView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate
                 pin(animated: true)
             }
             
+            // Nil out scroll location
             scrollTouchLocation = nil
             
         default:
-            print("State unsupported 🤓")
+            break
         }
     }
     
@@ -270,16 +284,25 @@ class BottomSheetView: UIView, UIScrollViewDelegate, UIGestureRecognizerDelegate
         return true
     }
     
-//    // MARK: ScrollView Delegate
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        
-//        let offset = scrollView.contentOffset.y
-//        
-//        if (offset <= 0) {
-//            scrollView.bounces = false
-//        } else {
-//            scrollView.bounces = true
-//        }
-//    }
+    // MARK: ScrollView Delegate
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        let offset = scrollView.contentOffset.y
+        
+        if (offset < 0) {
+            scrollView.bounces = false
+            frame.origin.y = -offset + statusBarHeight
+        } else {
+            scrollView.bounces = true
+        }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if (scrollVelocity > velocityThreshold + (velocityThreshold / 2)) {
+            pin(animated: true)
+        } else {
+            open(animated: true)
+        }
+    }
 
 }

@@ -10,12 +10,12 @@ import UIKit
 import QuartzCore
 import SceneKit
 
-class MainViewController: UIViewController, SceneKitViewDelegate, SCNSceneRendererDelegate {
-
-    @IBOutlet weak var bottomSheet: BottomSheetView!
+class MainViewController: UIViewController, SceneKitViewDelegate, SCNSceneRendererDelegate, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: Outlets
     @IBOutlet weak var sceneKitView: SceneKitView!
+    @IBOutlet weak var bottomSheet: BottomSheetView!
+    @IBOutlet weak var tableView: UITableView!
     
     // MARK: View Delegates
     override func viewDidLoad() {
@@ -23,6 +23,10 @@ class MainViewController: UIViewController, SceneKitViewDelegate, SCNSceneRender
         
         // Setup delegates and scene
         sceneKitView.setScene(delegate: self, scene: Constants.car)
+        
+        // Init TableView
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
     // MARK: SceneView Delegate
@@ -32,6 +36,19 @@ class MainViewController: UIViewController, SceneKitViewDelegate, SCNSceneRender
     
     func sceneViewItemSelected(name: String) {
         print(name)
+    }
+    
+    // MARK: TableView Delegates
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 48
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 20
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
     }
 
 }
