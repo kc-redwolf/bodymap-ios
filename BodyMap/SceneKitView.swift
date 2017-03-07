@@ -14,6 +14,7 @@ import SceneKit
 protocol SceneKitViewDelegate {
     func sceneViewDidBeginMoving(position: SCNVector3)
     func sceneViewItemSelected(name: String)
+    func sceneViewItemDeselected()
 }
 
 // MARK: View
@@ -54,7 +55,6 @@ class SceneKitView: UIView, SCNSceneRendererDelegate {
             addSubview(sceneView)
             sceneView.allowsCameraControl = true
             sceneView.delegate = self
-//            sceneView.play(self)
             
             // Set colors
             backgroundColor = UIColor.clear
@@ -113,29 +113,50 @@ class SceneKitView: UIView, SCNSceneRendererDelegate {
                 
                 // retrieved the first clicked object
                 let result: AnyObject = hitResults[0]
+                let currentNode: SCNNode = result.node
                 
                 // Call delegate for item
                 if let d = self.delegate {
                     d.sceneViewItemSelected(name: result.node.name!)
                 }
                 
-                // Get the first material
-                if let material = result.node.geometry!.firstMaterial {
-                    
-                    // highlight it
-                    SCNTransaction.begin()
-                    SCNTransaction.animationDuration = 0.5
-                    
-                    // on completion - unhighlight
-                    SCNTransaction.completionBlock = {
-                        SCNTransaction.begin()
-                        SCNTransaction.animationDuration = 0.5
-                        material.emission.contents = UIColor.black
-                        SCNTransaction.commit()
+                // Loop Child nodes
+                self.sceneView.scene!.rootNode.enumerateChildNodes { (node, stop) -> Void in
+
+                    // Set opacity
+                    if let name = node.name {
+                        if (name == Constants.skeletal || name == Constants.spot) {
+                            node.opacity = 1
+                        } else {
+                            node.opacity = 0.2
+                        }
                     }
-                    
-                    material.emission.contents = UIColor.red
-                    SCNTransaction.commit()
+                }
+                
+                // Begin Animation
+                SCNTransaction.begin()
+                SCNTransaction.animationDuration = 0.33
+                
+                // Animated items
+                currentNode.opacity = 1
+//                self.sceneView.pointOfView!.position = currentNode.position
+//                self.sceneView.pointOfView!.position = SCNVector3(x: 0, y: 0, z: 15)
+                
+                print("\(currentNode.position) \(self.sceneView.pointOfView!.position)")
+                
+                // End
+                SCNTransaction.commit()
+
+            } else {
+                
+                // Loop Child nodes
+                self.sceneView.scene!.rootNode.enumerateChildNodes { (node, stop) -> Void in
+                    node.opacity = 1
+                }
+                
+                // Call delegate for deselection
+                if let d = self.delegate {
+                    d.sceneViewItemDeselected()
                 }
             }
         }

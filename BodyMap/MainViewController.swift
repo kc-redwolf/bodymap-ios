@@ -16,13 +16,14 @@ class MainViewController: UIViewController, SceneKitViewDelegate, SCNSceneRender
     @IBOutlet weak var sceneKitView: SceneKitView!
     @IBOutlet weak var bottomSheet: BottomSheetView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var dummyLabel: UILabel!
     
     // MARK: View Delegates
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Setup delegates and scene
-        sceneKitView.setScene(delegate: self, scene: Constants.car)
+        sceneKitView.setScene(delegate: self, scene: Constants.female)
         
         // Init TableView
         tableView.delegate = self
@@ -36,7 +37,12 @@ class MainViewController: UIViewController, SceneKitViewDelegate, SCNSceneRender
     }
     
     func sceneViewItemSelected(name: String) {
-        print(name)
+//        print(name)
+        dummyLabel.text = name
+    }
+    
+    func sceneViewItemDeselected() {
+        dummyLabel.text = nil
     }
     
     // MARK: TableView Delegates

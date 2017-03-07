@@ -24,5 +24,11 @@ struct Constants {
     static let sceneFovY:String = "sceneFovY"
     
     // SceneKit
-    static let car:SCNScene = SCNScene(named: "art.scnassets/car.dae")!
+    static let car:SCNScene = SCNScene(named: "art.scnassets/car.dae")! // For testing
+    static let male:SCNScene = SCNScene(named: "art.scnassets/male.dae")!
+    static let female:SCNScene = SCNScene(named: "art.scnassets/female.dae")!
+    
+    // Nodes
+    static let skeletal:String = "skeletal"
+    static let spot:String = "spot"
 }
