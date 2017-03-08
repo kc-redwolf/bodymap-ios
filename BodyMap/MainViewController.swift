@@ -23,7 +23,7 @@ class MainViewController: UIViewController, SceneKitViewDelegate, SCNSceneRender
         super.viewDidLoad()
         
         // Setup delegates and scene
-        sceneKitView.setScene(delegate: self, scene: Constants.female)
+        sceneKitView.setScene(delegate: self, scene: Constants.male)
         
         // Init TableView
         tableView.delegate = self

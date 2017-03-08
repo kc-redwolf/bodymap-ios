@@ -27,23 +27,172 @@ class SceneKitView: UIView, SCNSceneRendererDelegate {
     private var lastPointY:Double! = nil
     public let sceneView: SCNView = SCNView()
     
+    var cameraOrbit = SCNNode()
+    let cameraNode = SCNNode()
+    let camera = SCNCamera()
+    
+    //HANDLE PAN CAMERA
+    var lastWidthRatio: Float = 0
+    var lastHeightRatio: Float = 0.2
+    var widthRatio: Float = 0
+    var heightRatio: Float = 0.2
+    var fingersNeededToPan = 1
+    var fingersNeededToAdjust = 2
+    //    var maxWidthRatioRight: Float = 0.2
+    //    var maxWidthRatioLeft: Float = -0.2
+    var maxHeightRatioXDown: Float = -0.5
+    var maxHeightRatioXUp: Float = 0.5
+    
+    var lastAdjustWidthRatio: Float = 0
+    var lastAdjustHeightRatio: Float = 0
+    
+    let maxZoomDistance = 0.8
+    
+    //HANDLE PINCH CAMERA
+    var pinchAttenuation = 50.0  //1.0: very fast ---- 100.0 very slow
+    var lastFingersNumber = 0
+    
     public var scene: SCNScene? {
         didSet {
+            
+            //Create a camera like Rickster said
+            camera.usesOrthographicProjection = true
+            camera.orthographicScale = maxZoomDistance
+            camera.zNear = 1
+            camera.zFar = 100
+            
+            cameraNode.position = SCNVector3(x: 0, y: 0, z: 15)
+            cameraNode.camera = camera
+            cameraOrbit = SCNNode()
+            cameraOrbit.addChildNode(cameraNode)
+            scene!.rootNode.addChildNode(cameraOrbit)
+            
+            //initial camera setup
+            self.cameraOrbit.eulerAngles.y = Float(-2 * M_PI) * lastWidthRatio
+            self.cameraOrbit.eulerAngles.x = Float(-M_PI) * lastHeightRatio
+            
+            //allows the user to manipulate the camera
+            sceneView.allowsCameraControl = false  //not needed
+            
+            // add a tap gesture recognizer
+            let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
+            sceneView.addGestureRecognizer(panGesture)
+            
+            // add a pinch gesture recognizer
+            let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch))
+            sceneView.addGestureRecognizer(pinchGesture)
             
             // Set the scene
             sceneView.scene = scene
             
-            // place the camera
-            let defaults = UserDefaults.standard
-            if let defaultX = defaults.object(forKey: Constants.scenePositionX) as? Float, let defaultY = defaults.object(forKey: Constants.scenePositionY) as? Float, let defaultZ = defaults.object(forKey: Constants.scenePositionZ) as? Float, let rotationX = defaults.object(forKey: Constants.sceneRotationX) as? Float, let rotationY = defaults.object(forKey: Constants.sceneRotationY) as? Float, let rotationZ = defaults.object(forKey: Constants.sceneRotationZ) as? Float, let rotationW = defaults.object(forKey: Constants.sceneRotationW) as? Float, let fovX = defaults.object(forKey: Constants.sceneFovX) as? Double, let fovY = defaults.object(forKey: Constants.sceneFovY) as? Double {
-                sceneView.pointOfView!.position = SCNVector3(x: defaultX, y: defaultY, z: defaultZ)
-                sceneView.pointOfView!.rotation = SCNVector4(x: rotationX, y: rotationY, z: rotationZ, w: rotationW)
-                sceneView.pointOfView!.camera!.xFov = fovX
-                sceneView.pointOfView!.camera!.yFov = fovY
-            } else {
-                sceneView.pointOfView!.position = SCNVector3(x: 0, y: 0, z: 15)
-            }
+//            // place the camera
+//            let defaults = UserDefaults.standard
+//            if let defaultX = defaults.object(forKey: Constants.scenePositionX) as? Float, let defaultY = defaults.object(forKey: Constants.scenePositionY) as? Float, let defaultZ = defaults.object(forKey: Constants.scenePositionZ) as? Float, let rotationX = defaults.object(forKey: Constants.sceneRotationX) as? Float, let rotationY = defaults.object(forKey: Constants.sceneRotationY) as? Float, let rotationZ = defaults.object(forKey: Constants.sceneRotationZ) as? Float, let rotationW = defaults.object(forKey: Constants.sceneRotationW) as? Float, let fovX = defaults.object(forKey: Constants.sceneFovX) as? Double, let fovY = defaults.object(forKey: Constants.sceneFovY) as? Double {
+//                sceneView.pointOfView!.position = SCNVector3(x: defaultX, y: defaultY, z: defaultZ)
+//                sceneView.pointOfView!.rotation = SCNVector4(x: rotationX, y: rotationY, z: rotationZ, w: rotationW)
+//                sceneView.pointOfView!.camera!.xFov = fovX
+//                sceneView.pointOfView!.camera!.yFov = fovY
+//            } else {
+//                sceneView.pointOfView!.position = SCNVector3(x: 0, y: 0, z: 15)
+//            }
         }
+    }
+    
+    func handlePan(gestureRecognize: UIPanGestureRecognizer) {
+        
+        let numberOfTouches = gestureRecognize.numberOfTouches
+        
+        let translation = gestureRecognize.translation(in: gestureRecognize.view!)
+        
+        if (numberOfTouches==fingersNeededToPan) {
+            
+            widthRatio = Float(translation.x) / Float(gestureRecognize.view!.frame.size.width) + lastWidthRatio
+            heightRatio = Float(translation.y) / Float(gestureRecognize.view!.frame.size.height) + lastHeightRatio
+            
+            //  HEIGHT constraints
+            if (heightRatio >= maxHeightRatioXUp ) {
+                heightRatio = maxHeightRatioXUp
+            }
+            if (heightRatio <= maxHeightRatioXDown ) {
+                heightRatio = maxHeightRatioXDown
+            }
+            
+            
+            //            //  WIDTH constraints
+            //            if(widthRatio >= maxWidthRatioRight) {
+            //                widthRatio = maxWidthRatioRight
+            //            }
+            //            if(widthRatio <= maxWidthRatioLeft) {
+            //                widthRatio = maxWidthRatioLeft
+            //            }
+            
+            self.cameraOrbit.eulerAngles.y = Float(-2 * M_PI) * widthRatio
+            self.cameraOrbit.eulerAngles.x = Float(-M_PI) * heightRatio
+            
+            print("Height: \(round(heightRatio*100))")
+            print("Width: \(round(widthRatio*100))")
+            
+            
+            //for final check on fingers number
+            lastFingersNumber = fingersNeededToPan
+        }
+        
+        if (numberOfTouches==fingersNeededToAdjust) {
+            
+            widthRatio = Float(translation.x) / Float(gestureRecognize.view!.frame.size.width)
+            heightRatio = Float(translation.y) / Float(gestureRecognize.view!.frame.size.height)
+            
+            print("Height: \(self.cameraOrbit.position.y) \(heightRatio)")
+            print("Width : \(self.cameraOrbit.position.x) \(widthRatio)")
+            
+//            //  HEIGHT constraints
+//            if (heightRatio >= maxHeightRatioXUp ) {
+//                heightRatio = maxHeightRatioXUp
+//            }
+//            if (heightRatio <= maxHeightRatioXDown ) {
+//                heightRatio = maxHeightRatioXDown
+//            }
+//            
+//            self.cameraOrbit.position.y = self.cameraOrbit.position.y + heightRatio
+            self.cameraOrbit.position.x = self.cameraOrbit.position.x + -widthRatio
+            
+            //for final check on fingers number
+            lastFingersNumber = fingersNeededToAdjust
+        }
+        
+        lastFingersNumber = (numberOfTouches>0 ? numberOfTouches : lastFingersNumber)
+        
+        if (gestureRecognize.state == .ended && lastFingersNumber==fingersNeededToPan) {
+            lastWidthRatio = widthRatio
+            lastHeightRatio = heightRatio
+            print("Pan with \(lastFingersNumber) finger\(lastFingersNumber>1 ? "s" : "")")
+        }
+        
+        if (gestureRecognize.state == .ended && lastFingersNumber==fingersNeededToPan) {
+            lastAdjustWidthRatio = widthRatio
+            lastAdjustHeightRatio = heightRatio
+            print("Pan with \(lastFingersNumber) finger\(lastFingersNumber>1 ? "s" : "")")
+        }
+    }
+    
+    func handlePinch(gestureRecognize: UIPinchGestureRecognizer) {
+        let pinchVelocity = Double.init(gestureRecognize.velocity)
+        //print("PinchVelocity \(pinchVelocity)")
+        
+        camera.orthographicScale -= (pinchVelocity/pinchAttenuation)
+        
+        if camera.orthographicScale <= 0.1 {
+            camera.orthographicScale = 0.1
+        }
+        
+        if camera.orthographicScale >= maxZoomDistance {
+            camera.orthographicScale = maxZoomDistance
+        }
+        
+    }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
     public var delegate: SceneKitViewDelegate? {
@@ -120,12 +269,16 @@ class SceneKitView: UIView, SCNSceneRendererDelegate {
                     d.sceneViewItemSelected(name: result.node.name!)
                 }
                 
+                // Begin Animation
+                SCNTransaction.begin()
+                SCNTransaction.animationDuration = 0.33
+                
                 // Loop Child nodes
                 self.sceneView.scene!.rootNode.enumerateChildNodes { (node, stop) -> Void in
 
                     // Set opacity
                     if let name = node.name {
-                        if (name == Constants.skeletal || name == Constants.spot) {
+                        if (name == Constants.skeletal || name == Constants.spot || node.name == currentNode.name) {
                             node.opacity = 1
                         } else {
                             node.opacity = 0.2
@@ -133,26 +286,18 @@ class SceneKitView: UIView, SCNSceneRendererDelegate {
                     }
                 }
                 
-                // Begin Animation
-                SCNTransaction.begin()
-                SCNTransaction.animationDuration = 0.33
-                
-                // Animated items
-                currentNode.opacity = 1
-//                self.sceneView.pointOfView!.position = currentNode.position
-//                self.sceneView.pointOfView!.position = SCNVector3(x: 0, y: 0, z: 15)
-                
-                print("\(currentNode.position) \(self.sceneView.pointOfView!.position)")
-                
                 // End
                 SCNTransaction.commit()
 
             } else {
                 
                 // Loop Child nodes
+                SCNTransaction.begin()
+                SCNTransaction.animationDuration = 0.33
                 self.sceneView.scene!.rootNode.enumerateChildNodes { (node, stop) -> Void in
                     node.opacity = 1
                 }
+                SCNTransaction.commit()
                 
                 // Call delegate for deselection
                 if let d = self.delegate {
@@ -244,6 +389,19 @@ class SceneKitView: UIView, SCNSceneRendererDelegate {
             // Field of view
             UserDefaults.standard.set(sceneView.pointOfView!.camera!.xFov, forKey: Constants.sceneFovX)
             UserDefaults.standard.set(sceneView.pointOfView!.camera!.yFov, forKey: Constants.sceneFovY)
+        }
+        
+        // Loop Child nodes
+        scene.rootNode.enumerateChildNodes { (node, stop) -> Void in
+            
+            // Set opacity
+            if let name = node.name {
+                if (name.contains("Skeletal")) {
+                    node.isHidden = true
+                } else {
+                    node.isHidden = false
+                }
+            }
         }
     }
 
