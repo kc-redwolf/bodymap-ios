@@ -33,7 +33,8 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     let camera = SCNCamera()
     
     // MARK: Interaction Variables
-    private var panGesture:UIPanGestureRecognizer!
+    private var singlePanGesture:UIPanGestureRecognizer!
+    private var doublePanGesture:UIPanGestureRecognizer!
     private var pinchGesture:UIPinchGestureRecognizer!
     private let pinchAttenuation:Double = 50.0 // 1.0: very fast - 100.0 very slow
     private let maxHeightRatioXDown:Float = -0.5
@@ -70,10 +71,18 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             // Disable default camera controls
             sceneView.allowsCameraControl = false
             
-            // Pan gesture recognizer
-            panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
-            panGesture.delegate = self
-            sceneView.addGestureRecognizer(panGesture)
+            // Single pan gesture recognizer
+            singlePanGesture = UIPanGestureRecognizer(target: self, action: #selector(handleSinglePan))
+            singlePanGesture.maximumNumberOfTouches = 1
+            singlePanGesture.delegate = self
+            sceneView.addGestureRecognizer(singlePanGesture)
+            
+            // Double pan gesture recognizer
+            doublePanGesture = UIPanGestureRecognizer(target: self, action: #selector(handleDoublePan))
+            doublePanGesture.minimumNumberOfTouches = 2
+            doublePanGesture.maximumNumberOfTouches = 2
+            doublePanGesture.delegate = self
+            sceneView.addGestureRecognizer(doublePanGesture)
             
             // Pinch gesture recognizer
             pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch))
@@ -148,8 +157,8 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
         }
     }
     
-    // MARK: Handle Pan
-    @objc private func handlePan(gesture: UIPanGestureRecognizer) {
+    // MARK: Handle Single Pan
+    @objc private func handleSinglePan(gesture: UIPanGestureRecognizer) {
         
         // Get translation
         // ** the distance that the gesture has moved in view
@@ -190,6 +199,55 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
         default:
             break
         }
+    }
+    
+    private var lastAdjustHeightRatio:Float = 0.2
+    private var adjustHeightRatio:Float = 0.2
+    private let maxPanDown:Float = -1.0
+    private let maxPanUp:Float = 1.0
+    
+    // MARK: Handle Double Pan
+    @objc private func handleDoublePan(gesture: UIPanGestureRecognizer) {
+        
+        // Get translation
+        // ** the distance that the gesture has moved in view
+        let translation = gesture.translation(in: gesture.view!)
+        
+        // Get ratios
+        adjustHeightRatio = Float(translation.y) / Float(gesture.view!.frame.size.height) + lastAdjustHeightRatio
+        
+        // Get panning state
+        switch gesture.state {
+            
+        case .began:
+            break
+            
+        case .changed:
+            
+            // Up limiation
+            if (adjustHeightRatio >= maxPanUp) {
+                adjustHeightRatio = maxPanUp
+            }
+            
+            // Down limiation
+            if (adjustHeightRatio <= maxPanDown) {
+                adjustHeightRatio = maxPanDown
+            }
+            
+            // Set postition of camera
+            cameraOrbit.position.y = adjustHeightRatio
+            
+        case .ended:
+            
+            // Save ratios
+            lastAdjustHeightRatio = adjustHeightRatio
+            
+        default:
+            break
+        }
+        
+        print(adjustHeightRatio)
+        
     }
     
     // MARK: Handle Pinch
