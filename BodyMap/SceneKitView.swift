@@ -46,6 +46,7 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     private let maxZoomDistance:Double = 0.8
     private let minZoomDistance:Double = 0.1
     private let animationDuration:Double = 0.33
+    private var roundedRotation:Double = 0.5
     
     // Set scene
     public var scene: SCNScene? {
@@ -176,12 +177,12 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             
         case .changed:
             
-            // Up limiation
+            // Up limitation
             if (heightRatio >= maxHeightRatioXUp) {
                 heightRatio = maxHeightRatioXUp
             }
             
-            // Down limiation
+            // Down limitation
             if (heightRatio <= maxHeightRatioXDown) {
                 heightRatio = maxHeightRatioXDown
             }
@@ -189,6 +190,9 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             // Set camera position
             cameraOrbit.eulerAngles.y = Float(-2 * M_PI) * widthRatio
             cameraOrbit.eulerAngles.x = Float(-M_PI) * heightRatio
+            
+            // Save current rotation
+            roundedRotation = Double((widthRatio - round(widthRatio)) + 0.5)
             
         case .ended:
             
@@ -201,10 +205,14 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
         }
     }
     
-    private var lastAdjustHeightRatio:Float = 0.2
-    private var adjustHeightRatio:Float = 0.2
+    private var lastAdjustWidthRatio:Float = 0
+    private var lastAdjustHeightRatio:Float = 0
+    private var adjustWidthRatio:Float = 0
+    private var adjustHeightRatio:Float = 0
     private let maxPanDown:Float = -1.0
     private let maxPanUp:Float = 1.0
+    private let maxPanLeft:Float = -0.8
+    private let maxPanRight:Float = 0.8
     
     // MARK: Handle Double Pan
     @objc private func handleDoublePan(gesture: UIPanGestureRecognizer) {
@@ -213,7 +221,24 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
         // ** the distance that the gesture has moved in view
         let translation = gesture.translation(in: gesture.view!)
         
+        // Get velocity
+        // ** the speed of touches in view
+        let velocity = gesture.velocity(in: gesture.view)
+        
+        // Invert X (if needed)
+        var calcVelocityX = velocity.x
+        if (calcVelocityX < 0) {
+            calcVelocityX = -calcVelocityX
+        }
+        
+        // Invert Y (if needed)
+        var calcVelocityY = velocity.y
+        if (calcVelocityY < 0) {
+            calcVelocityY = -calcVelocityY
+        }
+        
         // Get ratios
+        adjustWidthRatio = Float(translation.x) / Float(gesture.view!.frame.size.height) + lastAdjustWidthRatio
         adjustHeightRatio = Float(translation.y) / Float(gesture.view!.frame.size.height) + lastAdjustHeightRatio
         
         // Get panning state
@@ -234,20 +259,35 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
                 adjustHeightRatio = maxPanDown
             }
             
-            // Set postition of camera
+            // Right limiation
+            if (adjustWidthRatio >= maxPanRight) {
+                adjustWidthRatio = maxPanRight
+            }
+            
+            // Left limiation
+            if (adjustWidthRatio <= maxPanLeft) {
+                adjustWidthRatio = maxPanLeft
+            }
+            
+            // Set position of camera
             cameraOrbit.position.y = adjustHeightRatio
+
+            // Invert negatives
+            if (roundedRotation < 0.25 || roundedRotation > 0.75) {
+                cameraOrbit.position.x = adjustWidthRatio
+            } else {
+                cameraOrbit.position.x = -adjustWidthRatio
+            }
             
         case .ended:
             
             // Save ratios
+            lastAdjustWidthRatio = adjustWidthRatio
             lastAdjustHeightRatio = adjustHeightRatio
             
         default:
             break
         }
-        
-        print(adjustHeightRatio)
-        
     }
     
     // MARK: Handle Pinch
