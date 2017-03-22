@@ -22,7 +22,9 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     
     // MARK: Variables
     private let delayedSelectionTime:Double = 0.333
+    private let delayedDoubleTapTime:Double = 0.2
     private var singleTapAction:DispatchWorkItem! = nil
+    private var doubleTapAction:DispatchWorkItem! = nil
     private var sceneIntiallyRendered:Bool = false
     private var lastPointY:Double! = nil
     public let sceneView:SCNView = SCNView()
@@ -36,7 +38,7 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     private var singlePanGesture:UIPanGestureRecognizer!
     private var doublePanGesture:UIPanGestureRecognizer!
     private var pinchGesture:UIPinchGestureRecognizer!
-    private let pinchAttenuation:Double = 50.0 // 1.0: very fast - 100.0 very slow
+    private let pinchAttenuation:Double = 70.0 // 1.0: very fast - 100.0 very slow
     private let maxHeightRatioXDown:Float = -0.5
     private let maxHeightRatioXUp:Float = 0.5
     private var lastWidthRatio:Float = 0
@@ -47,6 +49,19 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     private let minZoomDistance:Double = 0.1
     private let animationDuration:Double = 0.33
     private var roundedRotation:Double = 0.5
+    
+    // Panning Variables
+    private var lastAdjustWidthRatio:Float = 0
+    private var lastAdjustHeightRatio:Float = 0
+    private var adjustWidthRatio:Float = 0
+    private var adjustHeightRatio:Float = 0
+    private let maxPanDown:Float = -1.0
+    private let maxPanUp:Float = 1.0
+    private let maxPanLeft:Float = -0.8
+    private let maxPanRight:Float = 0.8
+    private var isFacingFront:Bool = true
+    private var wasFacingFacingFrontLast:Bool = true
+    private var lastLongPressLocation:CGPoint! = nil
     
     // Set scene
     public var scene: SCNScene? {
@@ -71,24 +86,6 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             
             // Disable default camera controls
             sceneView.allowsCameraControl = false
-            
-            // Single pan gesture recognizer
-            singlePanGesture = UIPanGestureRecognizer(target: self, action: #selector(handleSinglePan))
-            singlePanGesture.maximumNumberOfTouches = 1
-            singlePanGesture.delegate = self
-            sceneView.addGestureRecognizer(singlePanGesture)
-            
-            // Double pan gesture recognizer
-            doublePanGesture = UIPanGestureRecognizer(target: self, action: #selector(handleDoublePan))
-            doublePanGesture.minimumNumberOfTouches = 2
-            doublePanGesture.maximumNumberOfTouches = 2
-            doublePanGesture.delegate = self
-            sceneView.addGestureRecognizer(doublePanGesture)
-            
-            // Pinch gesture recognizer
-            pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch))
-            pinchGesture.delegate = self
-            sceneView.addGestureRecognizer(pinchGesture)
             
             // Set the scene
             sceneView.scene = scene
@@ -129,11 +126,36 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             doubleTap.numberOfTapsRequired = 2
             sceneView.addGestureRecognizer(doubleTap)
             
+            // Add triple tap
+            let tripleTap = UITapGestureRecognizer(target: self, action: #selector(tripleTapped))
+            tripleTap.numberOfTapsRequired = 3
+            sceneView.addGestureRecognizer(tripleTap)
+            
             // Add long press
-//            let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressed))
-//            longPress.numberOfTapsRequired = 1
-//            longPress.minimumPressDuration = 0.08
-//            sceneView.addGestureRecognizer(longPress)
+            let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressed))
+            longPress.numberOfTapsRequired = 1
+            longPress.minimumPressDuration = 0.16
+            sceneView.addGestureRecognizer(longPress)
+            
+            // Single pan gesture recognizer
+            singlePanGesture = UIPanGestureRecognizer(target: self, action: #selector(handleSinglePan))
+            singlePanGesture.maximumNumberOfTouches = 1
+            singlePanGesture.delegate = self
+            sceneView.addGestureRecognizer(singlePanGesture)
+            
+            // Double pan gesture recognizer
+            doublePanGesture = UIPanGestureRecognizer(target: self, action: #selector(handleDoublePan))
+            doublePanGesture.minimumNumberOfTouches = 2
+            doublePanGesture.maximumNumberOfTouches = 2
+            doublePanGesture.delegate = self
+            sceneView.addGestureRecognizer(doublePanGesture)
+            
+            // Pinch gesture recognizer
+            pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch))
+            doublePanGesture.minimumNumberOfTouches = 2
+            doublePanGesture.maximumNumberOfTouches = 2
+            pinchGesture.delegate = self
+            sceneView.addGestureRecognizer(pinchGesture)
         }
     }
     
@@ -194,25 +216,31 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             // Save current rotation
             roundedRotation = Double((widthRatio - round(widthRatio)) + 0.5)
             
+            // Check for rotation
+            if (roundedRotation < 0.25 || roundedRotation > 0.75) {
+                isFacingFront = false
+            } else {
+                isFacingFront = true
+            }
+            
         case .ended:
             
             // Save ratios
             lastWidthRatio = widthRatio
             lastHeightRatio = heightRatio
             
+            // Check if rotation was changed
+            if (wasFacingFacingFrontLast != isFacingFront) {
+                lastAdjustWidthRatio = -lastAdjustWidthRatio
+            }
+            
+            // Save rotation side
+            wasFacingFacingFrontLast = isFacingFront
+            
         default:
             break
         }
     }
-    
-    private var lastAdjustWidthRatio:Float = 0
-    private var lastAdjustHeightRatio:Float = 0
-    private var adjustWidthRatio:Float = 0
-    private var adjustHeightRatio:Float = 0
-    private let maxPanDown:Float = -1.0
-    private let maxPanUp:Float = 1.0
-    private let maxPanLeft:Float = -0.8
-    private let maxPanRight:Float = 0.8
     
     // MARK: Handle Double Pan
     @objc private func handleDoublePan(gesture: UIPanGestureRecognizer) {
@@ -221,21 +249,21 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
         // ** the distance that the gesture has moved in view
         let translation = gesture.translation(in: gesture.view!)
         
-        // Get velocity
-        // ** the speed of touches in view
-        let velocity = gesture.velocity(in: gesture.view)
-        
-        // Invert X (if needed)
-        var calcVelocityX = velocity.x
-        if (calcVelocityX < 0) {
-            calcVelocityX = -calcVelocityX
-        }
-        
-        // Invert Y (if needed)
-        var calcVelocityY = velocity.y
-        if (calcVelocityY < 0) {
-            calcVelocityY = -calcVelocityY
-        }
+//        // Get velocity
+//        // ** the speed of touches in view
+//        let velocity = gesture.velocity(in: gesture.view)
+//        
+//        // Invert X (if needed)
+//        var calcVelocityX = velocity.x
+//        if (calcVelocityX < 0) {
+//            calcVelocityX = -calcVelocityX
+//        }
+//        
+//        // Invert Y (if needed)
+//        var calcVelocityY = velocity.y
+//        if (calcVelocityY < 0) {
+//            calcVelocityY = -calcVelocityY
+//        }
         
         // Get ratios
         adjustWidthRatio = Float(translation.x) / Float(gesture.view!.frame.size.height) + lastAdjustWidthRatio
@@ -249,34 +277,43 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             
         case .changed:
             
+            // Get factors
+            var zoomRatio = 1 + Float(camera.orthographicScale)
+            let upDownFactor = adjustHeightRatio * zoomRatio
+            let leftRightFactor = adjustWidthRatio * zoomRatio
+            
             // Up limiation
-            if (adjustHeightRatio >= maxPanUp) {
+            if (upDownFactor >= maxPanUp) {
+                zoomRatio = 1
                 adjustHeightRatio = maxPanUp
             }
             
             // Down limiation
-            if (adjustHeightRatio <= maxPanDown) {
+            if (upDownFactor <= maxPanDown) {
+                zoomRatio = 1
                 adjustHeightRatio = maxPanDown
             }
             
             // Right limiation
-            if (adjustWidthRatio >= maxPanRight) {
+            if (leftRightFactor >= maxPanRight) {
+                zoomRatio = 1
                 adjustWidthRatio = maxPanRight
             }
             
             // Left limiation
-            if (adjustWidthRatio <= maxPanLeft) {
+            if (leftRightFactor <= maxPanLeft) {
+                zoomRatio = 1
                 adjustWidthRatio = maxPanLeft
             }
             
             // Set position of camera
-            cameraOrbit.position.y = adjustHeightRatio
+            cameraOrbit.position.y = adjustHeightRatio * (1 + Float(camera.orthographicScale))
 
-            // Invert negatives
+            // Check for rotation
             if (roundedRotation < 0.25 || roundedRotation > 0.75) {
-                cameraOrbit.position.x = adjustWidthRatio
+                cameraOrbit.position.x = adjustWidthRatio * zoomRatio
             } else {
-                cameraOrbit.position.x = -adjustWidthRatio
+                cameraOrbit.position.x = -adjustWidthRatio * zoomRatio
             }
             
         case .ended:
@@ -290,23 +327,126 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
         }
     }
     
+    // Long Press Gesture
+    @objc private func longPressed(gesture: UIGestureRecognizer) {
+        
+        // Cancel Single Tap Action
+        if let tapAction = singleTapAction {
+            tapAction.cancel()
+        }
+        
+        if let doubleTapAction = doubleTapAction {
+            doubleTapAction.cancel()
+        }
+        
+        // Handle panning
+        panXY(gesture: gesture)
+    }
+    
+    // MARK: Pan the view X and Y
+    private func panXY(gesture: UIGestureRecognizer) {
+        
+        // Get translation
+        // ** the distance that the gesture has moved in view
+        let location = gesture.location(in: sceneView)
+        
+        // Set location for nil
+        if (lastLongPressLocation == nil) {
+            lastLongPressLocation = location
+        }
+        
+        // Get translation
+        let translation = CGPoint(x: location.x - lastLongPressLocation.x, y: location.y - lastLongPressLocation.y)
+        
+        // Get ratios
+        adjustWidthRatio = Float(translation.x) / Float(sceneView.frame.size.height) + lastAdjustWidthRatio
+        adjustHeightRatio = Float(translation.y) / Float(sceneView.frame.size.height) + lastAdjustHeightRatio
+        
+        // Get panning state
+        switch gesture.state {
+            
+        case .began:
+            break
+            
+        case .changed:
+            
+            // Get factors
+            var zoomRatio = 1 + Float(camera.orthographicScale)
+            let upDownFactor = adjustHeightRatio * zoomRatio
+            let leftRightFactor = adjustWidthRatio * zoomRatio
+            
+            // Up limiation
+            if (upDownFactor >= maxPanUp) {
+                zoomRatio = 1
+                adjustHeightRatio = maxPanUp
+            }
+            
+            // Down limiation
+            if (upDownFactor <= maxPanDown) {
+                zoomRatio = 1
+                adjustHeightRatio = maxPanDown
+            }
+            
+            // Right limiation
+            if (leftRightFactor >= maxPanRight) {
+                zoomRatio = 1
+                adjustWidthRatio = maxPanRight
+            }
+            
+            // Left limiation
+            if (leftRightFactor <= maxPanLeft) {
+                zoomRatio = 1
+                adjustWidthRatio = maxPanLeft
+            }
+            
+            // Set position of camera
+            cameraOrbit.position.y = adjustHeightRatio * (1 + Float(camera.orthographicScale))
+            
+            // Check for rotation
+            if (roundedRotation < 0.25 || roundedRotation > 0.75) {
+                cameraOrbit.position.x = adjustWidthRatio * zoomRatio
+            } else {
+                cameraOrbit.position.x = -adjustWidthRatio * zoomRatio
+            }
+            
+        case .ended:
+            
+            // Save ratios
+            lastAdjustWidthRatio = adjustWidthRatio
+            lastAdjustHeightRatio = adjustHeightRatio
+            
+            // Reset last location
+            lastLongPressLocation = nil
+            
+        default:
+            break
+        }
+    }
+    
     // MARK: Handle Pinch
     @objc private func handlePinch(gesture: UIPinchGestureRecognizer) {
         
         // Get velocity
         let pinchVelocity = Double(gesture.velocity)
         
-        // Subtract velocity / pin factor
-        camera.orthographicScale -= (pinchVelocity / pinchAttenuation)
+        // Pinch threshold
+        let pinchThreshold = 0.4
         
-        // Set min pinch
-        if (camera.orthographicScale <= minZoomDistance) {
-            camera.orthographicScale = minZoomDistance
-        }
-        
-        // Set max pinch
-        if (camera.orthographicScale >= maxZoomDistance) {
-            camera.orthographicScale = maxZoomDistance
+        // Watch for threshold
+        if (pinchVelocity > pinchThreshold || pinchVelocity < -pinchThreshold) {
+            
+            // Subtract velocity / pin factor
+            camera.orthographicScale -= (pinchVelocity / pinchAttenuation)
+            
+            // Set min pinch
+            if (camera.orthographicScale <= minZoomDistance) {
+                camera.orthographicScale = minZoomDistance
+            }
+            
+            // Set max pinch
+            if (camera.orthographicScale >= maxZoomDistance) {
+                camera.orthographicScale = maxZoomDistance
+            }
         }
     }
     
@@ -381,6 +521,59 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             tapAction.cancel()
         }
         
+        // Save double tap action
+        doubleTapAction = DispatchWorkItem {
+        
+            // Zoom factor
+            let zoomFactor = 0.1
+            
+            // Calc what change would be
+            let calculatedChange = self.camera.orthographicScale - zoomFactor
+            
+            // Change camera scale
+            if (calculatedChange > self.minZoomDistance) {
+                
+                // Begin Animation
+                SCNTransaction.begin()
+                SCNTransaction.animationDuration = self.animationDuration
+                
+                // Perform Change
+                self.camera.orthographicScale -= zoomFactor
+                
+                // End
+                SCNTransaction.commit()
+                
+            } else if (calculatedChange <= self.minZoomDistance) {
+                
+                // Begin Animation
+                SCNTransaction.begin()
+                SCNTransaction.animationDuration = self.animationDuration
+                
+                // Perform Change
+                self.camera.orthographicScale = self.minZoomDistance
+                
+                // End
+                SCNTransaction.commit()
+            }
+        }
+        
+        // Perform delayed event
+        DispatchQueue.main.asyncAfter(deadline: .now() + delayedDoubleTapTime, execute: doubleTapAction)
+    }
+    
+    // Triple Tap Gesture
+    @objc private func tripleTapped(gesture: UIGestureRecognizer) {
+        
+        // Cancel Single Tap Action
+        if let singleTapAction = singleTapAction {
+            singleTapAction.cancel()
+        }
+        
+        // Cancel Single Tap Action
+        if let doubleTapAction = doubleTapAction {
+            doubleTapAction.cancel()
+        }
+        
         // Zoom factor
         let zoomFactor = 0.1
         
@@ -388,67 +581,29 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
         let calculatedChange = camera.orthographicScale - zoomFactor
         
         // Change camera scale
-        if (calculatedChange > minZoomDistance) {
+        if (calculatedChange < maxZoomDistance) {
             
             // Begin Animation
             SCNTransaction.begin()
             SCNTransaction.animationDuration = animationDuration
             
             // Perform Change
-            camera.orthographicScale -= zoomFactor
+            camera.orthographicScale += zoomFactor
             
             // End
             SCNTransaction.commit()
             
-        } else if (calculatedChange <= minZoomDistance) {
+        } else if (calculatedChange >= maxZoomDistance) {
             
             // Begin Animation
             SCNTransaction.begin()
             SCNTransaction.animationDuration = animationDuration
             
             // Perform Change
-            camera.orthographicScale = minZoomDistance
+            camera.orthographicScale = maxZoomDistance
             
             // End
             SCNTransaction.commit()
-        }
-    }
-    
-    // Long Press Gesture
-    @objc private func longPressed(gestureRecognize: UIGestureRecognizer) {
-        
-        // Cancel Single Tap Action
-        if let tapAction = singleTapAction {
-            tapAction.cancel()
-        }
-        
-        // Handle Gesture
-        if (gestureRecognize.state == .changed) {
-            
-            // Get touch point
-            let pointY:Double = Double(gestureRecognize.location(in: sceneView).y)
-            
-            // Check for existing touch point
-            if (lastPointY == nil) {
-                lastPointY = pointY
-                return
-            }
-            
-            // Calc a division
-            let division = lastPointY - pointY
-            let preFovY = sceneView.pointOfView!.camera!.yFov + division
-            
-            // Zoom in or out on panning
-            if (preFovY <= 115 && preFovY >= 5) {
-                sceneView.pointOfView!.camera!.xFov.add(division)
-                sceneView.pointOfView!.camera!.yFov.add(division)
-                
-                // Save new point
-                lastPointY = pointY
-            }
-            
-        } else if (gestureRecognize.state == .ended) {
-            lastPointY = nil
         }
     }
     
