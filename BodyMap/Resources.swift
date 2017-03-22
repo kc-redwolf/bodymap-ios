@@ -15,13 +15,14 @@ struct Constants {
     // User Defaults
     static let scenePositionX:String = "scenePositionX"
     static let scenePositionY:String = "scenePositionY"
-    static let scenePositionZ:String = "scenePositionZ"
-    static let sceneRotationX:String = "sceneRotationX"
-    static let sceneRotationY:String = "sceneRotationY"
-    static let sceneRotationZ:String = "sceneRotationZ"
-    static let sceneRotationW:String = "sceneRotationW"
-    static let sceneFovX:String = "sceneFovX"
-    static let sceneFovY:String = "sceneFovY"
+    static let sceneHeightRatio:String = "sceneHeightRatio"
+    static let sceneWidthRatio:String = "sceneWidthRatio"
+    static let sceneZoom:String = "sceneZoom"
+    static let scenePanX:String = "scenePanX"
+    static let scenePanY:String = "scenePanY"
+    static let scenePanHeightRatio:String = "scenePanHeightRatio"
+    static let scenePanWidthRatio:String = "scenePanWidthRatio"
+    static let sceneFacingFront:String = "sceneFacingFront"
     
     // SceneKit
     static let car:SCNScene = SCNScene(named: "art.scnassets/car.dae")! // For testing

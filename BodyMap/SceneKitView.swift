@@ -25,8 +25,6 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     private let delayedDoubleTapTime:Double = 0.2
     private var singleTapAction:DispatchWorkItem! = nil
     private var doubleTapAction:DispatchWorkItem! = nil
-    private var sceneIntiallyRendered:Bool = false
-    private var lastPointY:Double! = nil
     public let sceneView:SCNView = SCNView()
     
     // Cameras
@@ -69,7 +67,6 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             
             // Create a camera
             camera.usesOrthographicProjection = true
-            camera.orthographicScale = maxZoomDistance
             camera.zNear = 1
             camera.zFar = 100
             
@@ -90,16 +87,50 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             // Set the scene
             sceneView.scene = scene
             
-//            // place the camera
-//            let defaults = UserDefaults.standard
-//            if let defaultX = defaults.object(forKey: Constants.scenePositionX) as? Float, let defaultY = defaults.object(forKey: Constants.scenePositionY) as? Float, let defaultZ = defaults.object(forKey: Constants.scenePositionZ) as? Float, let rotationX = defaults.object(forKey: Constants.sceneRotationX) as? Float, let rotationY = defaults.object(forKey: Constants.sceneRotationY) as? Float, let rotationZ = defaults.object(forKey: Constants.sceneRotationZ) as? Float, let rotationW = defaults.object(forKey: Constants.sceneRotationW) as? Float, let fovX = defaults.object(forKey: Constants.sceneFovX) as? Double, let fovY = defaults.object(forKey: Constants.sceneFovY) as? Double {
-//                sceneView.pointOfView!.position = SCNVector3(x: defaultX, y: defaultY, z: defaultZ)
-//                sceneView.pointOfView!.rotation = SCNVector4(x: rotationX, y: rotationY, z: rotationZ, w: rotationW)
-//                sceneView.pointOfView!.camera!.xFov = fovX
-//                sceneView.pointOfView!.camera!.yFov = fovY
-//            } else {
-//                sceneView.pointOfView!.position = SCNVector3(x: 0, y: 0, z: 15)
-//            }
+            // place the camera
+            let defaults = UserDefaults.standard
+            
+            // Read defaults
+            if let defaultX = defaults.object(forKey: Constants.scenePositionX) as? Float,
+                let defaultY = defaults.object(forKey: Constants.scenePositionY) as? Float,
+                let heightRatio = defaults.object(forKey: Constants.sceneHeightRatio) as? Float,
+                let widthRatio = defaults.object(forKey: Constants.sceneWidthRatio) as? Float,
+                let zoom = defaults.object(forKey: Constants.sceneZoom) as? Double,
+                let panX = defaults.object(forKey: Constants.scenePanX) as? Float,
+                let panY = defaults.object(forKey: Constants.scenePanY) as? Float,
+                let panWidth = defaults.object(forKey: Constants.scenePanWidthRatio) as? Float,
+                let panHeight = defaults.object(forKey: Constants.scenePanHeightRatio) as? Float,
+                let facingFront = defaults.object(forKey: Constants.sceneFacingFront) as? Bool {
+                
+                // Set camera position
+                cameraOrbit.eulerAngles.y = defaultY
+                cameraOrbit.eulerAngles.x = defaultX
+                
+                // Last pan ratios
+                lastWidthRatio = widthRatio
+                lastHeightRatio = heightRatio
+                
+                // Set zoom
+                camera.orthographicScale = zoom
+                
+                // Set XY
+                cameraOrbit.position.x = panX
+                cameraOrbit.position.y = panY
+                
+                // Last XY pan
+                lastAdjustWidthRatio = panWidth
+                lastAdjustHeightRatio = panHeight
+                
+                // Check facing direction
+                wasFacingFacingFrontLast = facingFront
+                
+            } else {
+                
+                // Fallback
+                camera.orthographicScale = maxZoomDistance
+                cameraOrbit.eulerAngles.y = Float(-2 * M_PI) * lastWidthRatio
+                cameraOrbit.eulerAngles.x = Float(-M_PI) * lastHeightRatio
+            }
         }
     }
     
@@ -237,6 +268,13 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             // Save rotation side
             wasFacingFacingFrontLast = isFacingFront
             
+            // Save the camera positions
+            UserDefaults.standard.set(cameraOrbit.eulerAngles.x, forKey: Constants.scenePositionX)
+            UserDefaults.standard.set(cameraOrbit.eulerAngles.y, forKey: Constants.scenePositionY)
+            UserDefaults.standard.set(lastHeightRatio, forKey: Constants.sceneHeightRatio)
+            UserDefaults.standard.set(lastWidthRatio, forKey: Constants.sceneWidthRatio)
+            UserDefaults.standard.set(wasFacingFacingFrontLast, forKey: Constants.sceneFacingFront)
+            
         default:
             break
         }
@@ -343,6 +381,12 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             // Reset last location
             lastLongPressLocation = nil
             
+            // Save the camera positions
+            UserDefaults.standard.set(cameraOrbit.position.x, forKey: Constants.scenePanX)
+            UserDefaults.standard.set(cameraOrbit.position.y, forKey: Constants.scenePanY)
+            UserDefaults.standard.set(lastAdjustWidthRatio, forKey: Constants.scenePanWidthRatio)
+            UserDefaults.standard.set(lastAdjustHeightRatio, forKey: Constants.scenePanHeightRatio)
+            
         default:
             break
         }
@@ -372,6 +416,11 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             if (camera.orthographicScale >= maxZoomDistance) {
                 camera.orthographicScale = maxZoomDistance
             }
+        }
+        
+        // Save zoom
+        if (gesture.state == .ended) {
+            UserDefaults.standard.set(camera.orthographicScale, forKey: Constants.sceneZoom)
         }
     }
     
@@ -480,6 +529,9 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
                 // End
                 SCNTransaction.commit()
             }
+            
+            // Save zoom
+            UserDefaults.standard.set(self.camera.orthographicScale, forKey: Constants.sceneZoom)
         }
         
         // Perform delayed event
@@ -530,6 +582,9 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             // End
             SCNTransaction.commit()
         }
+        
+        // Save zoom
+        UserDefaults.standard.set(camera.orthographicScale, forKey: Constants.sceneZoom)
     }
     
     // MARK: Handle Multiple Gestures
@@ -539,27 +594,6 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     
     // MARK: SceneKit Render Delegates
     func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
-        
-        // Check if view has rendered before
-        if (!sceneIntiallyRendered) {
-            sceneIntiallyRendered = true
-        } else {
-            
-            // Point of view
-            UserDefaults.standard.set(sceneView.pointOfView!.position.x, forKey: Constants.scenePositionX)
-            UserDefaults.standard.set(sceneView.pointOfView!.position.y, forKey: Constants.scenePositionY)
-            UserDefaults.standard.set(sceneView.pointOfView!.position.z, forKey: Constants.scenePositionZ)
-            
-            // Rotation
-            UserDefaults.standard.set(sceneView.pointOfView!.rotation.x, forKey: Constants.sceneRotationX)
-            UserDefaults.standard.set(sceneView.pointOfView!.rotation.y, forKey: Constants.sceneRotationY)
-            UserDefaults.standard.set(sceneView.pointOfView!.rotation.z, forKey: Constants.sceneRotationZ)
-            UserDefaults.standard.set(sceneView.pointOfView!.rotation.w, forKey: Constants.sceneRotationW)
-            
-            // Field of view
-            UserDefaults.standard.set(sceneView.pointOfView!.camera!.xFov, forKey: Constants.sceneFovX)
-            UserDefaults.standard.set(sceneView.pointOfView!.camera!.yFov, forKey: Constants.sceneFovY)
-        }
         
         // Loop Child nodes
         scene.rootNode.enumerateChildNodes { (node, stop) -> Void in
