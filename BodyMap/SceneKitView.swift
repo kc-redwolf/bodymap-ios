@@ -246,85 +246,10 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     @objc private func handleDoublePan(gesture: UIPanGestureRecognizer) {
         
         // Get translation
-        // ** the distance that the gesture has moved in view
         let translation = gesture.translation(in: gesture.view!)
         
-//        // Get velocity
-//        // ** the speed of touches in view
-//        let velocity = gesture.velocity(in: gesture.view)
-//        
-//        // Invert X (if needed)
-//        var calcVelocityX = velocity.x
-//        if (calcVelocityX < 0) {
-//            calcVelocityX = -calcVelocityX
-//        }
-//        
-//        // Invert Y (if needed)
-//        var calcVelocityY = velocity.y
-//        if (calcVelocityY < 0) {
-//            calcVelocityY = -calcVelocityY
-//        }
-        
-        // Get ratios
-        adjustWidthRatio = Float(translation.x) / Float(gesture.view!.frame.size.height) + lastAdjustWidthRatio
-        adjustHeightRatio = Float(translation.y) / Float(gesture.view!.frame.size.height) + lastAdjustHeightRatio
-        
-        // Get panning state
-        switch gesture.state {
-            
-        case .began:
-            break
-            
-        case .changed:
-            
-            // Get factors
-            var zoomRatio = 1 + Float(camera.orthographicScale)
-            let upDownFactor = adjustHeightRatio * zoomRatio
-            let leftRightFactor = adjustWidthRatio * zoomRatio
-            
-            // Up limiation
-            if (upDownFactor >= maxPanUp) {
-                zoomRatio = 1
-                adjustHeightRatio = maxPanUp
-            }
-            
-            // Down limiation
-            if (upDownFactor <= maxPanDown) {
-                zoomRatio = 1
-                adjustHeightRatio = maxPanDown
-            }
-            
-            // Right limiation
-            if (leftRightFactor >= maxPanRight) {
-                zoomRatio = 1
-                adjustWidthRatio = maxPanRight
-            }
-            
-            // Left limiation
-            if (leftRightFactor <= maxPanLeft) {
-                zoomRatio = 1
-                adjustWidthRatio = maxPanLeft
-            }
-            
-            // Set position of camera
-            cameraOrbit.position.y = adjustHeightRatio * (1 + Float(camera.orthographicScale))
-
-            // Check for rotation
-            if (roundedRotation < 0.25 || roundedRotation > 0.75) {
-                cameraOrbit.position.x = adjustWidthRatio * zoomRatio
-            } else {
-                cameraOrbit.position.x = -adjustWidthRatio * zoomRatio
-            }
-            
-        case .ended:
-            
-            // Save ratios
-            lastAdjustWidthRatio = adjustWidthRatio
-            lastAdjustHeightRatio = adjustHeightRatio
-            
-        default:
-            break
-        }
+        // Handle panning
+        panXY(gesture: gesture, translation: translation)
     }
     
     // Long Press Gesture
@@ -335,19 +260,12 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             tapAction.cancel()
         }
         
+        // Cancel Double Tap Action
         if let doubleTapAction = doubleTapAction {
             doubleTapAction.cancel()
         }
         
-        // Handle panning
-        panXY(gesture: gesture)
-    }
-    
-    // MARK: Pan the view X and Y
-    private func panXY(gesture: UIGestureRecognizer) {
-        
         // Get translation
-        // ** the distance that the gesture has moved in view
         let location = gesture.location(in: sceneView)
         
         // Set location for nil
@@ -357,6 +275,13 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
         
         // Get translation
         let translation = CGPoint(x: location.x - lastLongPressLocation.x, y: location.y - lastLongPressLocation.y)
+        
+        // Handle panning
+        panXY(gesture: gesture, translation: translation)
+    }
+    
+    // MARK: Pan the view X and Y
+    private func panXY(gesture: UIGestureRecognizer, translation: CGPoint) {
         
         // Get ratios
         adjustWidthRatio = Float(translation.x) / Float(sceneView.frame.size.height) + lastAdjustWidthRatio
