@@ -9,6 +9,7 @@
 import UIKit
 import QuartzCore
 import SceneKit
+import AudioToolbox
 
 // MARK: Protocols
 protocol SceneKitViewDelegate {
@@ -60,6 +61,13 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     private var isFacingFront:Bool = true
     private var wasFacingFacingFrontLast:Bool = true
     private var lastLongPressLocation:CGPoint! = nil
+    
+    
+    
+    var forcePressure:CGFloat = 0.6
+    var isTouchForced:Bool = false
+    
+    
     
     // Set scene
     public var scene: SCNScene? {
@@ -165,7 +173,7 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             // Add long press
             let longPress = UILongPressGestureRecognizer(target: self, action: #selector(longPressed))
             longPress.numberOfTapsRequired = 1
-            longPress.minimumPressDuration = 0.16
+            longPress.minimumPressDuration = 0.12
             sceneView.addGestureRecognizer(longPress)
             
             // Single pan gesture recognizer
@@ -211,12 +219,47 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
         }
     }
     
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        // Look for movement
+        if let touch = touches.first, UIApplication.shared.keyWindow?.rootViewController?.traitCollection.forceTouchCapability == .available {
+            
+            // Check for
+            let force = touch.force / touch.maximumPossibleForce
+            
+            // Force touch started
+            if (force >= forcePressure) {
+                
+                // Enable forcing panning
+                if (!isTouchForced) {
+                    
+                    // Set var
+                    isTouchForced = true
+                    
+                    // Vibrate with "pop"
+                    let pop = 1520
+                    AudioServicesPlaySystemSound(SystemSoundID(pop))
+                }
+            }
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        isTouchForced = false
+    }
+    
     // MARK: Handle Single Pan
     @objc private func handleSinglePan(gesture: UIPanGestureRecognizer) {
         
         // Get translation
         // ** the distance that the gesture has moved in view
-        let translation = gesture.translation(in: gesture.view!)
+        let translation = gesture.translation(in: sceneView)
+        
+        // Handle force touch
+        if (isTouchForced) {
+            panXY(gesture: gesture, translation: translation)
+            return
+        }
         
         // Save ratios for later
         widthRatio = Float(translation.x) / Float(gesture.view!.frame.size.width) + lastWidthRatio
@@ -364,6 +407,8 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             }
             
         case .ended:
+            
+            isTouchForced = false
             
             // Save ratios
             lastAdjustWidthRatio = adjustWidthRatio
