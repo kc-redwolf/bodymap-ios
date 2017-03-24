@@ -18,6 +18,14 @@ class MainViewController: UIViewController, SceneKitViewDelegate, SCNSceneRender
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var dummyLabel: UILabel!
     
+    @IBAction func segmentChange(_ sender: UISegmentedControl) {
+        if (sender.selectedSegmentIndex == 0) {
+            sceneKitView.shouldPan = true
+        } else {
+            sceneKitView.shouldPan = false
+        }
+    }
+    
     // MARK: View Delegates
     override func viewDidLoad() {
         super.viewDidLoad()

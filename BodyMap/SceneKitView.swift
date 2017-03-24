@@ -21,6 +21,9 @@ protocol SceneKitViewDelegate {
 // MARK: View
 class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegate {
     
+    // For handling toggle
+    var shouldPan:Bool = true
+    
     // MARK: Variables
     private let delayedSelectionTime:Double = 0.333
     private let delayedDoubleTapTime:Double = 0.2
@@ -37,7 +40,7 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     private var singlePanGesture:UIPanGestureRecognizer!
     private var doublePanGesture:UIPanGestureRecognizer!
     private var pinchGesture:UIPinchGestureRecognizer!
-    private let pinchAttenuation:Double = 70.0 // 1.0: very fast - 100.0 very slow
+    private let pinchAttenuation:Double = 250.0
     private let maxHeightRatioXDown:Float = -0.5
     private let maxHeightRatioXUp:Float = 0.5
     private var lastWidthRatio:Float = 0
@@ -61,13 +64,8 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     private var isFacingFront:Bool = true
     private var wasFacingFacingFrontLast:Bool = true
     private var lastLongPressLocation:CGPoint! = nil
-    
-    
-    
-    var forcePressure:CGFloat = 0.6
-    var isTouchForced:Bool = false
-    
-    
+    private var forcePressure:CGFloat = 0.6
+    private var isTouchForced:Bool = false
     
     // Set scene
     public var scene: SCNScene? {
@@ -256,7 +254,7 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
         let translation = gesture.translation(in: sceneView)
         
         // Handle force touch
-        if (isTouchForced) {
+        if (isTouchForced || !shouldPan) {
             panXY(gesture: gesture, translation: translation)
             return
         }
@@ -434,24 +432,17 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
         // Get velocity
         let pinchVelocity = Double(gesture.velocity)
         
-        // Pinch threshold
-        let pinchThreshold = 0.4
+        // Subtract velocity / pin factor
+        camera.orthographicScale -= (pinchVelocity / pinchAttenuation)
         
-        // Watch for threshold
-        if (pinchVelocity > pinchThreshold || pinchVelocity < -pinchThreshold) {
-            
-            // Subtract velocity / pin factor
-            camera.orthographicScale -= (pinchVelocity / pinchAttenuation)
-            
-            // Set min pinch
-            if (camera.orthographicScale <= minZoomDistance) {
-                camera.orthographicScale = minZoomDistance
-            }
-            
-            // Set max pinch
-            if (camera.orthographicScale >= maxZoomDistance) {
-                camera.orthographicScale = maxZoomDistance
-            }
+        // Set min pinch
+        if (camera.orthographicScale <= minZoomDistance) {
+            camera.orthographicScale = minZoomDistance
+        }
+        
+        // Set max pinch
+        if (camera.orthographicScale >= maxZoomDistance) {
+            camera.orthographicScale = maxZoomDistance
         }
         
         // Save zoom
