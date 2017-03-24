@@ -322,7 +322,7 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     private func panXY(gesture: UIGestureRecognizer, translation: CGPoint) {
         
         // Get ratios
-        adjustWidthRatio = Float(translation.x) / Float(sceneView.frame.size.height) + lastAdjustWidthRatio
+        adjustWidthRatio = Float(translation.x) / Float(sceneView.frame.size.width) + lastAdjustWidthRatio
         adjustHeightRatio = Float(translation.y) / Float(sceneView.frame.size.height) + lastAdjustHeightRatio
         
         // Get panning state
@@ -333,43 +333,34 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             
         case .changed:
             
-            // Get factors
-            var zoomRatio = 1 + Float(camera.orthographicScale)
-            let upDownFactor = adjustHeightRatio * zoomRatio
-            let leftRightFactor = adjustWidthRatio * zoomRatio
-            
             // Up limiation
-            if (upDownFactor >= maxPanUp) {
-                zoomRatio = 1
+            if (adjustHeightRatio >= maxPanUp) {
                 adjustHeightRatio = maxPanUp
             }
             
             // Down limiation
-            if (upDownFactor <= maxPanDown) {
-                zoomRatio = 1
+            if (adjustHeightRatio <= maxPanDown) {
                 adjustHeightRatio = maxPanDown
             }
             
             // Right limiation
-            if (leftRightFactor >= maxPanRight) {
-                zoomRatio = 1
+            if (adjustWidthRatio >= maxPanRight) {
                 adjustWidthRatio = maxPanRight
             }
             
             // Left limiation
-            if (leftRightFactor <= maxPanLeft) {
-                zoomRatio = 1
+            if (adjustWidthRatio <= maxPanLeft) {
                 adjustWidthRatio = maxPanLeft
             }
             
             // Set position of camera
-            cameraOrbit.position.y = adjustHeightRatio * (1 + Float(camera.orthographicScale))
+            cameraOrbit.position.y = adjustHeightRatio
             
             // Check for rotation
             if (roundedRotation < 0.25 || roundedRotation > 0.75) {
-                cameraOrbit.position.x = adjustWidthRatio * zoomRatio
+                cameraOrbit.position.x = adjustWidthRatio
             } else {
-                cameraOrbit.position.x = -adjustWidthRatio * zoomRatio
+                cameraOrbit.position.x = -adjustWidthRatio
             }
             
         case .ended:
