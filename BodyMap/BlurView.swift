@@ -8,7 +8,11 @@
 
 import UIKit
 
+@IBDesignable
 class BlurView: UIView {
+    
+    // Effect value
+    @IBInspectable var lightEffect:Bool = false
 
     // MARK: Init
     override init(frame: CGRect) {
@@ -29,7 +33,13 @@ class BlurView: UIView {
             
             // Add blur view
             backgroundColor = UIColor.clear
-            let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+            var blurEffect = UIBlurEffect(style: .dark)
+            
+            // Check for light
+            if (lightEffect) {
+                blurEffect = UIBlurEffect(style: .light)
+            }
+            
             let blurEffectView = UIVisualEffectView(effect: blurEffect)
             blurEffectView.frame = bounds
             blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]

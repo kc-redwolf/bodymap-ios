@@ -28,7 +28,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O62-pY-GsY" customClass="ToggleButton" customModule="BodyMap" customModuleProvider="target">
-                                <rect key="frame" x="303" y="537" width="56" height="56"/>
+                                <rect key="frame" x="303" y="527" width="56" height="56"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="Abt-A5-gaN"/>
@@ -43,6 +43,19 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CSJ-bR-fJ9" customClass="BottomSheetView" customModule="BodyMap" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="560" width="375" height="1334"/>
                                 <subviews>
+                                    <view userInteractionEnabled="NO" alpha="0.26000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KEt-6G-hKF" customClass="CornerView" customModule="BodyMap" customModuleProvider="target">
+                                        <rect key="frame" x="169" y="7" width="36" height="4"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="36" id="KvT-KX-LGX"/>
+                                            <constraint firstAttribute="height" constant="4" id="kTi-3p-Kob"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="2"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YWq-GJ-bWU">
                                         <rect key="frame" x="0.0" y="68" width="375" height="579"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -51,11 +64,13 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="YWq-GJ-bWU" firstAttribute="leading" secondItem="CSJ-bR-fJ9" secondAttribute="leading" id="69E-o7-mE0"/>
+                                    <constraint firstItem="KEt-6G-hKF" firstAttribute="centerX" secondItem="CSJ-bR-fJ9" secondAttribute="centerX" id="JIK-RT-A9R"/>
+                                    <constraint firstItem="KEt-6G-hKF" firstAttribute="top" secondItem="CSJ-bR-fJ9" secondAttribute="top" constant="7" id="KZP-aU-TSA"/>
                                     <constraint firstItem="YWq-GJ-bWU" firstAttribute="top" secondItem="CSJ-bR-fJ9" secondAttribute="top" constant="68" id="KfR-Q1-Ipg"/>
                                     <constraint firstAttribute="trailing" secondItem="YWq-GJ-bWU" secondAttribute="trailing" id="UkY-ea-2uQ"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7tP-oR-YFK" customClass="BlurView" customModule="BodyMap" customModuleProvider="target">
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7tP-oR-YFK" customClass="BlurView" customModule="BodyMap" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>

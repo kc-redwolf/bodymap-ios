@@ -10,6 +10,7 @@
 		7A41356C1E69329600C489F5 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A41356B1E69329600C489F5 /* BlurView.swift */; };
 		7A6D473D1E8721880097E979 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6D473C1E8721880097E979 /* ToggleButton.swift */; };
 		7A6D473F1E883A350097E979 /* BodyMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6D473E1E883A350097E979 /* BodyMapViewController.swift */; };
+		7A6D47411E88432B0097E979 /* CornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6D47401E88432B0097E979 /* CornerView.swift */; };
 		7A9638951E621C9000EB059D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9638941E621C9000EB059D /* AppDelegate.swift */; };
 		7A9638971E621C9000EB059D /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A9638961E621C9000EB059D /* art.scnassets */; };
 		7A96389E1E621C9000EB059D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A96389D1E621C9000EB059D /* Assets.xcassets */; };
@@ -51,6 +52,7 @@
 		7A41356B1E69329600C489F5 /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		7A6D473C1E8721880097E979 /* ToggleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
 		7A6D473E1E883A350097E979 /* BodyMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BodyMapViewController.swift; sourceTree = "<group>"; };
+		7A6D47401E88432B0097E979 /* CornerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CornerView.swift; sourceTree = "<group>"; };
 		7A9638911E621C9000EB059D /* BodyMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BodyMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9638941E621C9000EB059D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7A9638961E621C9000EB059D /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -167,7 +169,6 @@
 		7AC8202E1E63D9FB00FE347E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				7A6D473E1E883A350097E979 /* BodyMapViewController.swift */,
 				7AC8202F1E63DA0A00FE347E /* Views */,
 				7AC820261E63D98600FE347E /* Resources.swift */,
 				7A96389D1E621C9000EB059D /* Assets.xcassets */,
@@ -180,9 +181,11 @@
 		7AC8202F1E63DA0A00FE347E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7A6D473E1E883A350097E979 /* BodyMapViewController.swift */,
 				7AC820271E63D98600FE347E /* SceneKitView.swift */,
 				7AC820321E63DCE900FE347E /* BottomSheetView.swift */,
 				7A41356B1E69329600C489F5 /* BlurView.swift */,
+				7A6D47401E88432B0097E979 /* CornerView.swift */,
 				7A6D473C1E8721880097E979 /* ToggleButton.swift */,
 			);
 			name = Views;
@@ -509,6 +512,7 @@
 				7A6D473F1E883A350097E979 /* BodyMapViewController.swift in Sources */,
 				7AC820281E63D98600FE347E /* Resources.swift in Sources */,
 				7AC820331E63DCE900FE347E /* BottomSheetView.swift in Sources */,
+				7A6D47411E88432B0097E979 /* CornerView.swift in Sources */,
 				7A9638951E621C9000EB059D /* AppDelegate.swift in Sources */,
 				7AC820291E63D98600FE347E /* SceneKitView.swift in Sources */,
 				7AC820251E63D97F00FE347E /* MainViewController.swift in Sources */,
