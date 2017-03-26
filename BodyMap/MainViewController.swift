@@ -10,13 +10,13 @@ import UIKit
 import QuartzCore
 import SceneKit
 
-class MainViewController: BodyMapViewController, ToggleButtonDelegate, SceneKitViewDelegate, SCNSceneRendererDelegate, UITableViewDelegate, UITableViewDataSource {
+class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewDelegate, SceneKitViewDelegate, SCNSceneRendererDelegate {
     
     // MARK: Outlets
     @IBOutlet weak var sceneKitView: SceneKitView!
-    @IBOutlet weak var bottomSheet: BottomSheetView!
-    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var toggleButton: ToggleButton!
+    @IBOutlet weak var infoView: InfoView!
+    @IBOutlet weak var infoViewBottom: NSLayoutConstraint!
     
     // MARK: View Delegates
     override func viewDidLoad() {
@@ -26,13 +26,16 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, SceneKitV
         toggleButton.delegate = self
         toggleButton.toggledOn = true
         
+        infoView.delegate = self
+        infoView.bottomConstraint = infoViewBottom
+        
         // Setup delegates and scene
         sceneKitView.setScene(delegate: self, scene: Constants.male)
-        
-        // Init TableView
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.rowHeight = 68
+    }
+    
+    // MARK: Info View Delegate
+    func infoViewDismissClick() {
+        sceneKitView.deselectAllNodes()
     }
     
     // MARK: Toggle Button
@@ -46,22 +49,11 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, SceneKitV
     }
     
     func sceneViewItemSelected(name: String) {
-        print(name)
+        infoView.show(title: name, subtitle: "TEST")
     }
     
     func sceneViewItemDeselected() {
         //dummyLabel.text = nil
+        infoView.hide()
     }
-    
-    // MARK: TableView Delegates
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.backgroundColor = UIColor.clear
-        return cell
-    }
-
 }

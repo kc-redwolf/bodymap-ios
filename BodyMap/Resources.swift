@@ -32,4 +32,11 @@ struct Constants {
     // Nodes
     static let skeletal:String = "skeletal"
     static let spot:String = "spot"
+    
+    // Icons
+    static let something:UIImage = UIImage(named: "icon_pan")!
+    static let iconClose:UIImage = UIImage(named: "icon_close")!
+    
+    // Fonts
+    static let ABeeZee:String = "ABeeZee-Regular"
 }

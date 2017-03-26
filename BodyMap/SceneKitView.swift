@@ -496,24 +496,29 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
                 SCNTransaction.commit()
 
             } else {
-                
-                // Loop Child nodes
-                SCNTransaction.begin()
-                SCNTransaction.animationDuration = self.animationDuration
-                self.sceneView.scene!.rootNode.enumerateChildNodes { (node, stop) -> Void in
-                    node.opacity = 1
-                }
-                SCNTransaction.commit()
-                
-                // Call delegate for deselection
-                if let d = self.delegate {
-                    d.sceneViewItemDeselected()
-                }
+                self.deselectAllNodes()
             }
         }
         
         // Perform delayed event
         DispatchQueue.main.asyncAfter(deadline: .now() + delayedSelectionTime, execute: singleTapAction)
+    }
+    
+    // MARK: Deselect All Nodes
+    func deselectAllNodes() {
+        
+        // Loop Child nodes
+        SCNTransaction.begin()
+        SCNTransaction.animationDuration = self.animationDuration
+        self.sceneView.scene!.rootNode.enumerateChildNodes { (node, stop) -> Void in
+            node.opacity = 1
+        }
+        SCNTransaction.commit()
+        
+        // Call delegate for deselection
+        if let d = self.delegate {
+            d.sceneViewItemDeselected()
+        }
     }
     
     // Double Tap Gesture

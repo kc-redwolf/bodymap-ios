@@ -10,7 +10,9 @@
 		7A41356C1E69329600C489F5 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A41356B1E69329600C489F5 /* BlurView.swift */; };
 		7A6D473D1E8721880097E979 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6D473C1E8721880097E979 /* ToggleButton.swift */; };
 		7A6D473F1E883A350097E979 /* BodyMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6D473E1E883A350097E979 /* BodyMapViewController.swift */; };
-		7A6D47411E88432B0097E979 /* CornerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6D47401E88432B0097E979 /* CornerView.swift */; };
+		7A6D47431E88469E0097E979 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6D47421E88469E0097E979 /* InfoView.swift */; };
+		7A6D47451E8859560097E979 /* BodyMapLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6D47441E8859560097E979 /* BodyMapLabel.swift */; };
+		7A6D47481E8859CE0097E979 /* ABeeZee-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7A6D47471E8859CE0097E979 /* ABeeZee-Regular.otf */; };
 		7A9638951E621C9000EB059D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9638941E621C9000EB059D /* AppDelegate.swift */; };
 		7A9638971E621C9000EB059D /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A9638961E621C9000EB059D /* art.scnassets */; };
 		7A96389E1E621C9000EB059D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A96389D1E621C9000EB059D /* Assets.xcassets */; };
@@ -22,7 +24,6 @@
 		7AC820291E63D98600FE347E /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC820271E63D98600FE347E /* SceneKitView.swift */; };
 		7AC8202B1E63D98E00FE347E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7AC8202A1E63D98E00FE347E /* Info.plist */; };
 		7AC8202D1E63D99700FE347E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AC8202C1E63D99700FE347E /* Main.storyboard */; };
-		7AC820331E63DCE900FE347E /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC820321E63DCE900FE347E /* BottomSheetView.swift */; };
 		7DB83D619ABB8CE157A84467 /* Pods_BodyMapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75434846BE593BD70AB0145B /* Pods_BodyMapTests.framework */; };
 		CC8EAC250BF6D01DFBA8738C /* Pods_BodyMapUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF4EF6B9C42B0ED40E1D2E64 /* Pods_BodyMapUITests.framework */; };
 		EEEF4AF8F2B547B2EDF444EF /* Pods_BodyMap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D26387C4A340C017E1B5E3EB /* Pods_BodyMap.framework */; };
@@ -52,7 +53,9 @@
 		7A41356B1E69329600C489F5 /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		7A6D473C1E8721880097E979 /* ToggleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
 		7A6D473E1E883A350097E979 /* BodyMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BodyMapViewController.swift; sourceTree = "<group>"; };
-		7A6D47401E88432B0097E979 /* CornerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CornerView.swift; sourceTree = "<group>"; };
+		7A6D47421E88469E0097E979 /* InfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		7A6D47441E8859560097E979 /* BodyMapLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BodyMapLabel.swift; sourceTree = "<group>"; };
+		7A6D47471E8859CE0097E979 /* ABeeZee-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ABeeZee-Regular.otf"; sourceTree = "<group>"; };
 		7A9638911E621C9000EB059D /* BodyMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BodyMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9638941E621C9000EB059D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7A9638961E621C9000EB059D /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -69,7 +72,6 @@
 		7AC820271E63D98600FE347E /* SceneKitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneKitView.swift; sourceTree = "<group>"; };
 		7AC8202A1E63D98E00FE347E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7AC8202C1E63D99700FE347E /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		7AC820321E63DCE900FE347E /* BottomSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
 		8A8D1A56E1AA5495C799C90A /* Pods-BodyMap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BodyMap.release.xcconfig"; path = "Pods/Target Support Files/Pods-BodyMap/Pods-BodyMap.release.xcconfig"; sourceTree = "<group>"; };
 		986094C5ABBE4BDF58915D09 /* Pods-BodyMapTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BodyMapTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BodyMapTests/Pods-BodyMapTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C796B14CDEE3B5E433FCE2DB /* Pods-BodyMapTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BodyMapTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-BodyMapTests/Pods-BodyMapTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -114,6 +116,14 @@
 				DF4EF6B9C42B0ED40E1D2E64 /* Pods_BodyMapUITests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7A6D47461E88599F0097E979 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				7A6D47471E8859CE0097E979 /* ABeeZee-Regular.otf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 		7A9638881E621C8F00EB059D = {
@@ -170,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				7AC8202F1E63DA0A00FE347E /* Views */,
+				7A6D47461E88599F0097E979 /* Fonts */,
 				7AC820261E63D98600FE347E /* Resources.swift */,
 				7A96389D1E621C9000EB059D /* Assets.xcassets */,
 				7A9638961E621C9000EB059D /* art.scnassets */,
@@ -183,10 +194,10 @@
 			children = (
 				7A6D473E1E883A350097E979 /* BodyMapViewController.swift */,
 				7AC820271E63D98600FE347E /* SceneKitView.swift */,
-				7AC820321E63DCE900FE347E /* BottomSheetView.swift */,
 				7A41356B1E69329600C489F5 /* BlurView.swift */,
-				7A6D47401E88432B0097E979 /* CornerView.swift */,
 				7A6D473C1E8721880097E979 /* ToggleButton.swift */,
+				7A6D47421E88469E0097E979 /* InfoView.swift */,
+				7A6D47441E8859560097E979 /* BodyMapLabel.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -341,6 +352,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A6D47481E8859CE0097E979 /* ABeeZee-Regular.otf in Resources */,
 				7AC8202B1E63D98E00FE347E /* Info.plist in Resources */,
 				7AC8202D1E63D99700FE347E /* Main.storyboard in Resources */,
 				7A9638971E621C9000EB059D /* art.scnassets in Resources */,
@@ -510,12 +522,12 @@
 			files = (
 				7A6D473D1E8721880097E979 /* ToggleButton.swift in Sources */,
 				7A6D473F1E883A350097E979 /* BodyMapViewController.swift in Sources */,
+				7A6D47451E8859560097E979 /* BodyMapLabel.swift in Sources */,
 				7AC820281E63D98600FE347E /* Resources.swift in Sources */,
-				7AC820331E63DCE900FE347E /* BottomSheetView.swift in Sources */,
-				7A6D47411E88432B0097E979 /* CornerView.swift in Sources */,
 				7A9638951E621C9000EB059D /* AppDelegate.swift in Sources */,
 				7AC820291E63D98600FE347E /* SceneKitView.swift in Sources */,
 				7AC820251E63D97F00FE347E /* MainViewController.swift in Sources */,
+				7A6D47431E88469E0097E979 /* InfoView.swift in Sources */,
 				7A41356C1E69329600C489F5 /* BlurView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

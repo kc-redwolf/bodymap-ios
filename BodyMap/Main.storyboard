@@ -7,7 +7,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -27,6 +26,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uMO-Nb-m9p" customClass="InfoView" customModule="BodyMap" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="599" width="375" height="68"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="136" id="Zif-bT-aVh"/>
+                                </constraints>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O62-pY-GsY" customClass="ToggleButton" customModule="BodyMap" customModuleProvider="target">
                                 <rect key="frame" x="303" y="527" width="56" height="56"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -40,36 +46,6 @@
                                     <userDefinedRuntimeAttribute type="image" keyPath="iconOff" value="icon_rotate"/>
                                 </userDefinedRuntimeAttributes>
                             </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CSJ-bR-fJ9" customClass="BottomSheetView" customModule="BodyMap" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="560" width="375" height="1334"/>
-                                <subviews>
-                                    <view userInteractionEnabled="NO" alpha="0.26000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KEt-6G-hKF" customClass="CornerView" customModule="BodyMap" customModuleProvider="target">
-                                        <rect key="frame" x="169" y="7" width="36" height="4"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="36" id="KvT-KX-LGX"/>
-                                            <constraint firstAttribute="height" constant="4" id="kTi-3p-Kob"/>
-                                        </constraints>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                <real key="value" value="2"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </view>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YWq-GJ-bWU">
-                                        <rect key="frame" x="0.0" y="68" width="375" height="579"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </tableView>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="YWq-GJ-bWU" firstAttribute="leading" secondItem="CSJ-bR-fJ9" secondAttribute="leading" id="69E-o7-mE0"/>
-                                    <constraint firstItem="KEt-6G-hKF" firstAttribute="centerX" secondItem="CSJ-bR-fJ9" secondAttribute="centerX" id="JIK-RT-A9R"/>
-                                    <constraint firstItem="KEt-6G-hKF" firstAttribute="top" secondItem="CSJ-bR-fJ9" secondAttribute="top" constant="7" id="KZP-aU-TSA"/>
-                                    <constraint firstItem="YWq-GJ-bWU" firstAttribute="top" secondItem="CSJ-bR-fJ9" secondAttribute="top" constant="68" id="KfR-Q1-Ipg"/>
-                                    <constraint firstAttribute="trailing" secondItem="YWq-GJ-bWU" secondAttribute="trailing" id="UkY-ea-2uQ"/>
-                                </constraints>
-                            </view>
                             <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7tP-oR-YFK" customClass="BlurView" customModule="BodyMap" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -80,27 +56,25 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="CSJ-bR-fJ9" firstAttribute="top" secondItem="yPJ-lG-zGE" secondAttribute="bottom" constant="540" id="0OF-ws-35B"/>
+                            <constraint firstItem="uMO-Nb-m9p" firstAttribute="top" secondItem="O62-pY-GsY" secondAttribute="bottom" constant="16" id="5YW-ex-FtA"/>
                             <constraint firstItem="hY1-GF-kuT" firstAttribute="leading" secondItem="MHU-kT-At7" secondAttribute="leading" id="5eo-50-b3C"/>
+                            <constraint firstItem="Xdf-NV-7ne" firstAttribute="top" secondItem="uMO-Nb-m9p" secondAttribute="bottom" id="9rc-iv-rWM"/>
                             <constraint firstItem="7tP-oR-YFK" firstAttribute="leading" secondItem="MHU-kT-At7" secondAttribute="leading" id="BtF-qg-5f8"/>
-                            <constraint firstItem="Xdf-NV-7ne" firstAttribute="top" secondItem="O62-pY-GsY" secondAttribute="bottom" constant="84" id="CPu-fX-GOB"/>
-                            <constraint firstAttribute="trailing" secondItem="CSJ-bR-fJ9" secondAttribute="trailing" id="DJJ-0g-YYC"/>
+                            <constraint firstItem="uMO-Nb-m9p" firstAttribute="leading" secondItem="MHU-kT-At7" secondAttribute="leading" id="D0t-In-SIW"/>
                             <constraint firstAttribute="trailing" secondItem="hY1-GF-kuT" secondAttribute="trailing" id="OIN-Ss-rtL"/>
                             <constraint firstAttribute="trailing" secondItem="O62-pY-GsY" secondAttribute="trailing" constant="16" id="PBV-X1-s2K"/>
-                            <constraint firstItem="CSJ-bR-fJ9" firstAttribute="height" secondItem="MHU-kT-At7" secondAttribute="height" multiplier="2" id="SQO-g1-HhL"/>
-                            <constraint firstItem="YWq-GJ-bWU" firstAttribute="height" secondItem="hY1-GF-kuT" secondAttribute="height" constant="-88" id="VZ6-sG-MwO"/>
                             <constraint firstItem="hY1-GF-kuT" firstAttribute="top" secondItem="MHU-kT-At7" secondAttribute="top" id="cpV-zb-QZC"/>
+                            <constraint firstAttribute="trailing" secondItem="uMO-Nb-m9p" secondAttribute="trailing" id="hfB-xv-M45"/>
                             <constraint firstItem="7tP-oR-YFK" firstAttribute="top" secondItem="MHU-kT-At7" secondAttribute="topMargin" id="rHD-Av-21S"/>
                             <constraint firstAttribute="trailing" secondItem="7tP-oR-YFK" secondAttribute="trailing" id="xpD-20-mpF"/>
-                            <constraint firstItem="CSJ-bR-fJ9" firstAttribute="leading" secondItem="MHU-kT-At7" secondAttribute="leading" id="yPO-2x-N2P"/>
                             <constraint firstItem="Xdf-NV-7ne" firstAttribute="top" secondItem="hY1-GF-kuT" secondAttribute="bottom" id="zWy-tV-wmV"/>
                         </constraints>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
-                        <outlet property="bottomSheet" destination="CSJ-bR-fJ9" id="bfJ-bs-lVa"/>
+                        <outlet property="infoView" destination="uMO-Nb-m9p" id="0Ie-nG-ggW"/>
+                        <outlet property="infoViewBottom" destination="9rc-iv-rWM" id="43s-ot-rR3"/>
                         <outlet property="sceneKitView" destination="hY1-GF-kuT" id="hL6-Bf-CTY"/>
-                        <outlet property="tableView" destination="YWq-GJ-bWU" id="fFO-v9-0bG"/>
                         <outlet property="toggleButton" destination="O62-pY-GsY" id="CHw-w5-VwD"/>
                     </connections>
                 </viewController>
