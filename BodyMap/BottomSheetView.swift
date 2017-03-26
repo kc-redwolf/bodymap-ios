@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BottomSheetView: BlurView, UIScrollViewDelegate, UIGestureRecognizerDelegate {
+class BottomSheetView: BlurView, UIScrollViewDelegate, UIGestureRecognizerDelegate, BodyMapViewControllerDelegate {
     
     // MARK: Variables
     private let headerHeight:CGFloat = 68
@@ -17,6 +17,18 @@ class BottomSheetView: BlurView, UIScrollViewDelegate, UIGestureRecognizerDelega
     private var initialTouchPoint:CGFloat = 0
     private var pinnedPoint:CGFloat = 0
     private var scrollView:UIScrollView! = nil
+    
+    // Parent view controller
+    var parentViewController: BodyMapViewController? {
+        var parentResponder: UIResponder? = self
+        while parentResponder != nil {
+            parentResponder = parentResponder!.next
+            if let viewController = parentResponder as? BodyMapViewController {
+                return viewController
+            }
+        }
+        return nil
+    }
     
     // View State
     enum State {
@@ -50,8 +62,18 @@ class BottomSheetView: BlurView, UIScrollViewDelegate, UIGestureRecognizerDelega
         setup()
     }
     
+    // MARK: View Controller Subview Delegate
+    func viewControllerDidLayoutSubviews() {
+        update()
+    }
+    
     // MARK: Setup
     private func setup() {
+        
+        // Set view controller delegate
+        if let p = parentViewController {
+            p.delegate = self
+        }
         
         // Set pin point
         pinnedPoint = superview!.bounds.height - headerHeight
@@ -87,6 +109,12 @@ class BottomSheetView: BlurView, UIScrollViewDelegate, UIGestureRecognizerDelega
                 continue
             }
         }
+    }
+    
+    // MARK: Update layout
+    func update() {
+        setNeedsLayout()
+        layoutIfNeeded()
     }
     
     // MARK: View Settings
@@ -151,7 +179,7 @@ class BottomSheetView: BlurView, UIScrollViewDelegate, UIGestureRecognizerDelega
         
         // Get states
         let isAboveStatusBar = frame.origin.y <= statusBarHeight
-        let isBelowPinnedPoint = frame.origin.y >= pinnedPoint
+        let isBelowPinnedPoint = frame.origin.y > pinnedPoint
         let threshold = superview!.bounds.height / 2
         
         // Handle interaction
@@ -167,7 +195,7 @@ class BottomSheetView: BlurView, UIScrollViewDelegate, UIGestureRecognizerDelega
             let calculatedLocation = superLocation - initialTouchPoint
             
             // Resistence Variables
-            let calcHeight = superview!.bounds.height - statusBarHeight - headerHeight
+            let calcHeight = superview!.bounds.height - headerHeight
             let downwardResistenceLocation = calcHeight * (1 + log10(calculatedLocation / calcHeight))
             
             // Determine if we need to apply resistence

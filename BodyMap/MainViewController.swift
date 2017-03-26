@@ -10,25 +10,21 @@ import UIKit
 import QuartzCore
 import SceneKit
 
-class MainViewController: UIViewController, SceneKitViewDelegate, SCNSceneRendererDelegate, UITableViewDelegate, UITableViewDataSource {
+class MainViewController: BodyMapViewController, ToggleButtonDelegate, SceneKitViewDelegate, SCNSceneRendererDelegate, UITableViewDelegate, UITableViewDataSource {
     
     // MARK: Outlets
     @IBOutlet weak var sceneKitView: SceneKitView!
     @IBOutlet weak var bottomSheet: BottomSheetView!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var dummyLabel: UILabel!
-    
-    @IBAction func segmentChange(_ sender: UISegmentedControl) {
-        if (sender.selectedSegmentIndex == 0) {
-            sceneKitView.shouldPan = true
-        } else {
-            sceneKitView.shouldPan = false
-        }
-    }
+    @IBOutlet weak var toggleButton: ToggleButton!
     
     // MARK: View Delegates
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Toggle button
+        toggleButton.delegate = self
+        toggleButton.toggledOn = true
         
         // Setup delegates and scene
         sceneKitView.setScene(delegate: self, scene: Constants.male)
@@ -39,18 +35,22 @@ class MainViewController: UIViewController, SceneKitViewDelegate, SCNSceneRender
         tableView.rowHeight = 68
     }
     
+    // MARK: Toggle Button
+    func didToggleButton(toggled: Bool) {
+        sceneKitView.shouldPan = toggled
+    }
+    
     // MARK: SceneView Delegate
     func sceneViewDidBeginMoving(position: SCNVector3) {
         //        print("\(position.x) : \(position.y) : \(position.z)")
     }
     
     func sceneViewItemSelected(name: String) {
-//        print(name)
-        dummyLabel.text = name
+        print(name)
     }
     
     func sceneViewItemDeselected() {
-        dummyLabel.text = nil
+        //dummyLabel.text = nil
     }
     
     // MARK: TableView Delegates

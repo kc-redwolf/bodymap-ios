@@ -40,13 +40,13 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     private var singlePanGesture:UIPanGestureRecognizer!
     private var doublePanGesture:UIPanGestureRecognizer!
     private var pinchGesture:UIPinchGestureRecognizer!
-    private let pinchAttenuation:Double = 250.0
-    private let maxHeightRatioXDown:Float = -0.5
-    private let maxHeightRatioXUp:Float = 0.5
+    private let pinchAttenuation:Double = 200.0
+    private let maxHeightRatioXDown:Float = -0.3
+    private let maxHeightRatioXUp:Float = 0.3
     private var lastWidthRatio:Float = 0
-    private var lastHeightRatio:Float = 0.2
+    private var lastHeightRatio:Float = 0
     private var widthRatio:Float = 0
-    private var heightRatio:Float = 0.2
+    private var heightRatio:Float = 0
     private let maxZoomDistance:Double = 0.8
     private let minZoomDistance:Double = 0.1
     private let animationDuration:Double = 0.33
@@ -254,7 +254,7 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
         let translation = gesture.translation(in: sceneView)
         
         // Handle force touch
-        if (isTouchForced || !shouldPan) {
+        if (isTouchForced || shouldPan) {
             panXY(gesture: gesture, translation: translation)
             return
         }
@@ -263,6 +263,16 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
         widthRatio = Float(translation.x) / Float(gesture.view!.frame.size.width) + lastWidthRatio
         heightRatio = Float(translation.y) / Float(gesture.view!.frame.size.height) + lastHeightRatio
         
+        // Up limitation
+        if (heightRatio >= maxHeightRatioXUp) {
+            heightRatio = maxHeightRatioXUp
+        }
+        
+        // Down limitation
+        if (heightRatio <= maxHeightRatioXDown) {
+            heightRatio = maxHeightRatioXDown
+        }
+        
         // Get panning state
         switch gesture.state {
             
@@ -270,16 +280,6 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             break
             
         case .changed:
-            
-            // Up limitation
-            if (heightRatio >= maxHeightRatioXUp) {
-                heightRatio = maxHeightRatioXUp
-            }
-            
-            // Down limitation
-            if (heightRatio <= maxHeightRatioXDown) {
-                heightRatio = maxHeightRatioXDown
-            }
             
             // Set camera position
             cameraOrbit.eulerAngles.y = Float(-2 * M_PI) * widthRatio
@@ -359,12 +359,34 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
         panXY(gesture: gesture, translation: translation)
     }
     
+    var previousLocation:SCNVector3!
+    
     // MARK: Pan the view X and Y
     private func panXY(gesture: UIGestureRecognizer, translation: CGPoint) {
         
         // Get ratios
         adjustWidthRatio = Float(translation.x) / Float(sceneView.frame.size.width) + lastAdjustWidthRatio
         adjustHeightRatio = Float(translation.y) / Float(sceneView.frame.size.height) + lastAdjustHeightRatio
+        
+        // Up limitation
+        if (adjustHeightRatio >= maxPanUp) {
+            adjustHeightRatio = maxPanUp
+        }
+        
+        // Down limitation
+        if (adjustHeightRatio <= maxPanDown) {
+            adjustHeightRatio = maxPanDown
+        }
+        
+        // Right limitation
+        if (adjustWidthRatio >= maxPanRight) {
+            adjustWidthRatio = maxPanRight
+        }
+        
+        // Left limitation
+        if (adjustWidthRatio <= maxPanLeft) {
+            adjustWidthRatio = maxPanLeft
+        }
         
         // Get panning state
         switch gesture.state {
@@ -373,26 +395,6 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             break
             
         case .changed:
-            
-            // Up limiation
-            if (adjustHeightRatio >= maxPanUp) {
-                adjustHeightRatio = maxPanUp
-            }
-            
-            // Down limiation
-            if (adjustHeightRatio <= maxPanDown) {
-                adjustHeightRatio = maxPanDown
-            }
-            
-            // Right limiation
-            if (adjustWidthRatio >= maxPanRight) {
-                adjustWidthRatio = maxPanRight
-            }
-            
-            // Left limiation
-            if (adjustWidthRatio <= maxPanLeft) {
-                adjustWidthRatio = maxPanLeft
-            }
             
             // Set position of camera
             cameraOrbit.position.y = adjustHeightRatio
