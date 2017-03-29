@@ -35,6 +35,7 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
         
         // InfoView
         infoView.delegate = self
+        infoView.viewStyle = .info
         infoView.bottomConstraint = infoViewBottom
         
         // Body System View
@@ -51,7 +52,7 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
     // MARK: Body System Action
     @IBAction func bodySystemButtonAction(_ sender: Any) {
         shadeView.show(animated: true)
-        bodySystemView.show(title: "Mike", subtitle: "TEST")
+        bodySystemView.show(animated: true)
         sceneKitView.zoomIn(zoomFactor: animatedZoomFactor)
     }
     
@@ -77,18 +78,19 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
     }
     
     func sceneViewItemSelected(name: String) {
-        infoView.show(title: name, subtitle: "TEST")
+        infoView.titleView.text = name
+        infoView.subtitleView.text = "TESTEST"
+        infoView.show(animated: true)
     }
     
     func sceneViewItemDeselected() {
-        //dummyLabel.text = nil
-        infoView.hide()
+        infoView.hide(animated: true)
     }
     
     // MARK: Shade View Delegate
     func shadeViewTapped() {
         shadeView.hide(animated: true)
-        bodySystemView.hide()
+        bodySystemView.hide(animated: true)
         sceneKitView.zoomOut(zoomFactor: animatedZoomFactor)
     }
 }

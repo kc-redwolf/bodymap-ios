@@ -32,6 +32,13 @@ class InfoView: BlurView {
         case hidden
     }
     var viewState:State = .hidden
+    
+    // View Style
+    enum Style {
+        case info
+        case normal
+    }
+    var viewStyle:Style = .normal
 
     // MARK: Init
     override init(frame: CGRect) {
@@ -64,12 +71,33 @@ class InfoView: BlurView {
         halfHeight = bounds.height / 2
         
         // Hide it by default? // CHANGE ME
-        hide()
+        hide(animated: false)
+        
+        // Close Button
+        closeButton = UIButton()
+        closeButton.frame.size.height = 72 // Hardcoded 😱
+        closeButton.frame.size.width = 64
+        closeButton.frame.origin.x = bounds.width - 64
+        closeButton.setImage(Constants.iconClose, for: .normal)
+        closeButton.addTarget(self, action: #selector(dismiss), for: .touchUpInside)
+        addSubview(closeButton)
+        
+        // Check style
+        switch viewStyle {
+        case .info:
+            addInfoStyle()
+        default:
+            break
+        }
+    }
+    
+    // MARK: Add Info Style
+    private func addInfoStyle() {
         
         // Remove all views
         for view in subviews {
-            if (view is UIVisualEffectView) {
-                //
+            if (view is UIVisualEffectView || view == closeButton) {
+                break
             } else {
                 view.removeFromSuperview()
             }
@@ -84,22 +112,13 @@ class InfoView: BlurView {
         iconView.contentMode = .center
         iconView.image = Constants.something
         iconView.frame.origin.x = 16
-        iconView.frame.origin.y = 16
+        iconView.frame.origin.y = 18
         addSubview(iconView)
-        
-        // Close Button
-        closeButton = UIButton()
-        closeButton.frame.size.height = 72 // Hardcoded 😱
-        closeButton.frame.size.width = 64
-        closeButton.frame.origin.x = bounds.width - 64
-        closeButton.setImage(Constants.iconClose, for: .normal)
-        closeButton.addTarget(self, action: #selector(dismiss), for: .touchUpInside)
-        addSubview(closeButton)
         
         // Title View
         titleView = BodyMapLabel()
         titleView.frame.origin.x = 16 + iconView.frame.size.width + iconView.frame.origin.x
-        titleView.frame.origin.y = 15
+        titleView.frame.origin.y = 16
         titleView.frame.size.height = 19
         titleView.frame.size.width = bounds.width - ((iconView.frame.origin.x * 2) + iconView.frame.size.width + closeButton.frame.size.width)
         titleView.textColor = UIColor.white
@@ -110,7 +129,7 @@ class InfoView: BlurView {
         // SubTitle View
         subtitleView = BodyMapLabel()
         subtitleView.frame.origin.x = 16 + iconView.frame.size.width + iconView.frame.origin.x
-        subtitleView.frame.origin.y = 36
+        subtitleView.frame.origin.y = 39
         subtitleView.frame.size.height = 17
         subtitleView.frame.size.width = bounds.width - ((iconView.frame.origin.x * 2) + iconView.frame.size.width + closeButton.frame.size.width)
         subtitleView.textColor = UIColor.white.withAlphaComponent(0.54)
@@ -120,11 +139,7 @@ class InfoView: BlurView {
     }
     
     // MARK: View Settings
-    func show(title: String, subtitle: String) {
-        
-        // Set values
-        titleView.text = title
-        subtitleView.text = subtitle
+    func show(animated: Bool) {
         
         // Set state
         viewState = .visible
@@ -132,17 +147,29 @@ class InfoView: BlurView {
         // Set constraint
         bottomConstraint?.constant = -halfHeight
         
+        // Check animation
+        if (!animated) {
+            superview!.layoutIfNeeded()
+            return
+        }
+        
         // Animate
         animateChange()
     }
     
-    func hide() {
+    func hide(animated: Bool) {
         
         // Set state
         viewState = .hidden
         
         // Set constraint
         bottomConstraint?.constant = -bounds.height
+        
+        // Check animation
+        if (!animated) {
+            superview!.layoutIfNeeded()
+            return
+        }
         
         // Animate
         animateChange()
