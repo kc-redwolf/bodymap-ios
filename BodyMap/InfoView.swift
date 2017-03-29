@@ -9,13 +9,14 @@
 import UIKit
 
 protocol InfoViewDelegate {
-    func infoViewDismissClick()
+    func infoViewDismissClick(infoView: InfoView)
 }
 
 class InfoView: BlurView {
     
     // Variables
     private var halfHeight:CGFloat = 0
+    private let animationDuration:TimeInterval = 0.33
     var delegate:InfoViewDelegate?
     var bottomConstraint:NSLayoutConstraint?
     
@@ -88,7 +89,7 @@ class InfoView: BlurView {
         
         // Close Button
         closeButton = UIButton()
-        closeButton.frame.size.height = halfHeight
+        closeButton.frame.size.height = 72 // Hardcoded 😱
         closeButton.frame.size.width = 64
         closeButton.frame.origin.x = bounds.width - 64
         closeButton.setImage(Constants.iconClose, for: .normal)
@@ -151,7 +152,7 @@ class InfoView: BlurView {
         
         // Animate
         UIView.animate(
-            withDuration: 0.33,
+            withDuration: animationDuration,
             delay: 0.0,
             usingSpringWithDamping: 0.8,
             initialSpringVelocity: 1.1,
@@ -167,7 +168,7 @@ class InfoView: BlurView {
     // MARK: Dismiss click
     @objc private func dismiss() {
         if let d = delegate {
-            d.infoViewDismissClick()
+            d.infoViewDismissClick(infoView: self)
         }
     }
 

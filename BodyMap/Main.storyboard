@@ -26,15 +26,20 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uMO-Nb-m9p" customClass="InfoView" customModule="BodyMap" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="599" width="375" height="68"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ei-70-bfn" customClass="ActionButton" customModule="BodyMap" customModuleProvider="target">
+                                <rect key="frame" x="16" y="595" width="56" height="56"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="136" id="Zif-bT-aVh"/>
+                                    <constraint firstAttribute="height" constant="56" id="5Bz-wd-8uV"/>
+                                    <constraint firstAttribute="width" constant="56" id="sLi-5a-TT9"/>
                                 </constraints>
-                            </view>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" image="icon_pan"/>
+                                <connections>
+                                    <action selector="bodySystemButtonAction:" destination="BV1-FR-VrT" eventType="touchUpInside" id="bYc-8B-sih"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O62-pY-GsY" customClass="ToggleButton" customModule="BodyMap" customModuleProvider="target">
-                                <rect key="frame" x="303" y="527" width="56" height="56"/>
+                                <rect key="frame" x="303" y="459" width="56" height="56"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="Abt-A5-gaN"/>
@@ -46,6 +51,24 @@
                                     <userDefinedRuntimeAttribute type="image" keyPath="iconOff" value="icon_rotate"/>
                                 </userDefinedRuntimeAttributes>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uMO-Nb-m9p" customClass="InfoView" customModule="BodyMap" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="531" width="375" height="136"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="144" id="Zif-bT-aVh"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F02-cY-5kw" customClass="ShadeView" customModule="BodyMap" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" red="0.86666666670000003" green="0.29803921570000003" blue="0.29803921570000003" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mYS-oG-FA3" customClass="InfoView" customModule="BodyMap" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="27" width="375" height="640"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="640" id="SBR-Mw-kYy"/>
+                                </constraints>
+                            </view>
                             <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7tP-oR-YFK" customClass="BlurView" customModule="BodyMap" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -58,13 +81,22 @@
                         <constraints>
                             <constraint firstItem="uMO-Nb-m9p" firstAttribute="top" secondItem="O62-pY-GsY" secondAttribute="bottom" constant="16" id="5YW-ex-FtA"/>
                             <constraint firstItem="hY1-GF-kuT" firstAttribute="leading" secondItem="MHU-kT-At7" secondAttribute="leading" id="5eo-50-b3C"/>
+                            <constraint firstItem="Xdf-NV-7ne" firstAttribute="top" secondItem="6ei-70-bfn" secondAttribute="bottom" constant="16" id="6JL-Cq-geH"/>
+                            <constraint firstItem="Xdf-NV-7ne" firstAttribute="top" secondItem="mYS-oG-FA3" secondAttribute="bottom" id="6Vx-WW-QzV"/>
                             <constraint firstItem="Xdf-NV-7ne" firstAttribute="top" secondItem="uMO-Nb-m9p" secondAttribute="bottom" id="9rc-iv-rWM"/>
                             <constraint firstItem="7tP-oR-YFK" firstAttribute="leading" secondItem="MHU-kT-At7" secondAttribute="leading" id="BtF-qg-5f8"/>
                             <constraint firstItem="uMO-Nb-m9p" firstAttribute="leading" secondItem="MHU-kT-At7" secondAttribute="leading" id="D0t-In-SIW"/>
+                            <constraint firstItem="F02-cY-5kw" firstAttribute="top" secondItem="MHU-kT-At7" secondAttribute="top" id="FXg-lf-MYF"/>
+                            <constraint firstItem="mYS-oG-FA3" firstAttribute="leading" secondItem="MHU-kT-At7" secondAttribute="leading" id="GIr-Mm-KDf"/>
+                            <constraint firstAttribute="trailing" secondItem="mYS-oG-FA3" secondAttribute="trailing" id="MfR-PI-ADB"/>
                             <constraint firstAttribute="trailing" secondItem="hY1-GF-kuT" secondAttribute="trailing" id="OIN-Ss-rtL"/>
                             <constraint firstAttribute="trailing" secondItem="O62-pY-GsY" secondAttribute="trailing" constant="16" id="PBV-X1-s2K"/>
+                            <constraint firstItem="Xdf-NV-7ne" firstAttribute="top" secondItem="F02-cY-5kw" secondAttribute="bottom" id="QDp-H1-416"/>
+                            <constraint firstItem="F02-cY-5kw" firstAttribute="leading" secondItem="MHU-kT-At7" secondAttribute="leading" id="Qyp-7J-G2k"/>
+                            <constraint firstItem="6ei-70-bfn" firstAttribute="leading" secondItem="MHU-kT-At7" secondAttribute="leading" constant="16" id="ceb-kt-EeK"/>
                             <constraint firstItem="hY1-GF-kuT" firstAttribute="top" secondItem="MHU-kT-At7" secondAttribute="top" id="cpV-zb-QZC"/>
                             <constraint firstAttribute="trailing" secondItem="uMO-Nb-m9p" secondAttribute="trailing" id="hfB-xv-M45"/>
+                            <constraint firstAttribute="trailing" secondItem="F02-cY-5kw" secondAttribute="trailing" id="oG7-rc-63C"/>
                             <constraint firstItem="7tP-oR-YFK" firstAttribute="top" secondItem="MHU-kT-At7" secondAttribute="topMargin" id="rHD-Av-21S"/>
                             <constraint firstAttribute="trailing" secondItem="7tP-oR-YFK" secondAttribute="trailing" id="xpD-20-mpF"/>
                             <constraint firstItem="Xdf-NV-7ne" firstAttribute="top" secondItem="hY1-GF-kuT" secondAttribute="bottom" id="zWy-tV-wmV"/>
@@ -72,9 +104,13 @@
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
+                        <outlet property="bodySystemButton" destination="6ei-70-bfn" id="6KH-k1-tdv"/>
+                        <outlet property="bodySystemView" destination="mYS-oG-FA3" id="NfO-ze-UAY"/>
+                        <outlet property="bodySystemViewBottom" destination="6Vx-WW-QzV" id="UF5-Iw-oQ3"/>
                         <outlet property="infoView" destination="uMO-Nb-m9p" id="0Ie-nG-ggW"/>
                         <outlet property="infoViewBottom" destination="9rc-iv-rWM" id="43s-ot-rR3"/>
                         <outlet property="sceneKitView" destination="hY1-GF-kuT" id="hL6-Bf-CTY"/>
+                        <outlet property="shadeView" destination="F02-cY-5kw" id="8At-UM-3ed"/>
                         <outlet property="toggleButton" destination="O62-pY-GsY" id="CHw-w5-VwD"/>
                     </connections>
                 </viewController>

@@ -15,7 +15,7 @@ protocol ToggleButtonDelegate {
 
 // Class init
 @IBDesignable
-class ToggleButton: UIButton {
+class ToggleButton: ActionButton {
     
     // Variables
     var delegate:ToggleButtonDelegate?

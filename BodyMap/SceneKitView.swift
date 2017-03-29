@@ -642,5 +642,44 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             }
         }
     }
+    
+    // MARK: Animated Zoom In / Out
+    func zoomOut(zoomFactor: Double) {
+        
+        // Check limits
+        if (camera.orthographicScale + zoomFactor > maxZoomDistance) {
+            return
+        }
+        
+        // Begin Animation
+        SCNTransaction.begin()
+        SCNTransaction.animationDuration = animationDuration
+        
+        // Perform Change
+        camera.orthographicScale += zoomFactor
+        
+        // End
+        SCNTransaction.commit()
+        
+    }
+    
+    func zoomIn(zoomFactor: Double) {
+        
+        // Check limits
+        if (camera.orthographicScale - zoomFactor < minZoomDistance) {
+            return
+        }
+        
+        // Begin Animation
+        SCNTransaction.begin()
+        SCNTransaction.animationDuration = animationDuration
+        
+        // Perform Change
+        camera.orthographicScale -= zoomFactor
+        
+        // End
+        SCNTransaction.commit()
+        
+    }
 
 }
