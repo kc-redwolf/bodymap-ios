@@ -13,7 +13,6 @@ import AudioToolbox
 
 // MARK: Protocols
 protocol SceneKitViewDelegate {
-    func sceneViewDidBeginMoving(position: SCNVector3)
     func sceneViewItemSelected(name: String)
     func sceneViewItemDeselected()
 }
@@ -67,6 +66,9 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     private var forcePressure:CGFloat = 0.6
     private var isTouchForced:Bool = false
     
+    // place the camera
+    private let defaults = UserDefaults.standard
+    
     // Set scene
     public var scene: SCNScene? {
         didSet {
@@ -92,9 +94,6 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             
             // Set the scene
             sceneView.scene = scene
-            
-            // place the camera
-            let defaults = UserDefaults.standard
             
             // Read defaults
             if let defaultX = defaults.object(forKey: Constants.scenePositionX) as? Float,
@@ -209,12 +208,6 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
         if (!subviews.contains(sceneView)) {
             return
         }
-        
-        // Handle Touches
-        if let d = delegate {
-            d.sceneViewDidBeginMoving(
-                position: sceneView.pointOfView!.position)
-        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -310,11 +303,11 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             wasFacingFacingFrontLast = isFacingFront
             
             // Save the camera positions
-            UserDefaults.standard.set(cameraOrbit.eulerAngles.x, forKey: Constants.scenePositionX)
-            UserDefaults.standard.set(cameraOrbit.eulerAngles.y, forKey: Constants.scenePositionY)
-            UserDefaults.standard.set(lastHeightRatio, forKey: Constants.sceneHeightRatio)
-            UserDefaults.standard.set(lastWidthRatio, forKey: Constants.sceneWidthRatio)
-            UserDefaults.standard.set(wasFacingFacingFrontLast, forKey: Constants.sceneFacingFront)
+            defaults.set(cameraOrbit.eulerAngles.x, forKey: Constants.scenePositionX)
+            defaults.set(cameraOrbit.eulerAngles.y, forKey: Constants.scenePositionY)
+            defaults.set(lastHeightRatio, forKey: Constants.sceneHeightRatio)
+            defaults.set(lastWidthRatio, forKey: Constants.sceneWidthRatio)
+            defaults.set(wasFacingFacingFrontLast, forKey: Constants.sceneFacingFront)
             
         default:
             break
@@ -418,10 +411,10 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             lastLongPressLocation = nil
             
             // Save the camera positions
-            UserDefaults.standard.set(cameraOrbit.position.x, forKey: Constants.scenePanX)
-            UserDefaults.standard.set(cameraOrbit.position.y, forKey: Constants.scenePanY)
-            UserDefaults.standard.set(lastAdjustWidthRatio, forKey: Constants.scenePanWidthRatio)
-            UserDefaults.standard.set(lastAdjustHeightRatio, forKey: Constants.scenePanHeightRatio)
+            defaults.set(cameraOrbit.position.x, forKey: Constants.scenePanX)
+            defaults.set(cameraOrbit.position.y, forKey: Constants.scenePanY)
+            defaults.set(lastAdjustWidthRatio, forKey: Constants.scenePanWidthRatio)
+            defaults.set(lastAdjustHeightRatio, forKey: Constants.scenePanHeightRatio)
             
         default:
             break
@@ -449,7 +442,7 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
         
         // Save zoom
         if (gesture.state == .ended) {
-            UserDefaults.standard.set(camera.orthographicScale, forKey: Constants.sceneZoom)
+            defaults.set(camera.orthographicScale, forKey: Constants.sceneZoom)
         }
     }
     
@@ -532,40 +525,34 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
         // Save double tap action
         doubleTapAction = DispatchWorkItem {
         
-            // Zoom factor
-            let zoomFactor = 0.1
+//            // Zoom factor
+//            let zoomFactor = 0.1
+//            
+//            // Calc what change would be
+//            let calculatedChange = self.camera.orthographicScale - zoomFactor
+//            
+//            // Change camera scale
+//            if (calculatedChange > self.minZoomDistance) {
+//                
+//                self.zoomIn(zoomFactor: zoomFactor)
+//                
+//            } else if (calculatedChange <= self.minZoomDistance) {
+//                
+//                // Begin Animation
+//                SCNTransaction.begin()
+//                SCNTransaction.animationDuration = self.animationDuration
+//                
+//                // Perform Change
+//                self.camera.orthographicScale = self.minZoomDistance
+//                
+//                // End
+//                SCNTransaction.commit()
+//            }
             
-            // Calc what change would be
-            let calculatedChange = self.camera.orthographicScale - zoomFactor
-            
-            // Change camera scale
-            if (calculatedChange > self.minZoomDistance) {
-                
-                // Begin Animation
-                SCNTransaction.begin()
-                SCNTransaction.animationDuration = self.animationDuration
-                
-                // Perform Change
-                self.camera.orthographicScale -= zoomFactor
-                
-                // End
-                SCNTransaction.commit()
-                
-            } else if (calculatedChange <= self.minZoomDistance) {
-                
-                // Begin Animation
-                SCNTransaction.begin()
-                SCNTransaction.animationDuration = self.animationDuration
-                
-                // Perform Change
-                self.camera.orthographicScale = self.minZoomDistance
-                
-                // End
-                SCNTransaction.commit()
-            }
+            self.zoomIn(zoomFactor: 0.1)
             
             // Save zoom
-            UserDefaults.standard.set(self.camera.orthographicScale, forKey: Constants.sceneZoom)
+            self.defaults.set(self.camera.orthographicScale, forKey: Constants.sceneZoom)
         }
         
         // Perform delayed event
@@ -585,40 +572,11 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             doubleTapAction.cancel()
         }
         
-        // Zoom factor
-        let zoomFactor = 0.1
-        
-        // Calc what change would be
-        let calculatedChange = camera.orthographicScale - zoomFactor
-        
-        // Change camera scale
-        if (calculatedChange < maxZoomDistance) {
-            
-            // Begin Animation
-            SCNTransaction.begin()
-            SCNTransaction.animationDuration = animationDuration
-            
-            // Perform Change
-            camera.orthographicScale += zoomFactor
-            
-            // End
-            SCNTransaction.commit()
-            
-        } else if (calculatedChange >= maxZoomDistance) {
-            
-            // Begin Animation
-            SCNTransaction.begin()
-            SCNTransaction.animationDuration = animationDuration
-            
-            // Perform Change
-            camera.orthographicScale = maxZoomDistance
-            
-            // End
-            SCNTransaction.commit()
-        }
+        // Animate zoom
+        zoomOut(zoomFactor: 0.1)
         
         // Save zoom
-        UserDefaults.standard.set(camera.orthographicScale, forKey: Constants.sceneZoom)
+        defaults.set(camera.orthographicScale, forKey: Constants.sceneZoom)
     }
     
     // MARK: Handle Multiple Gestures
@@ -646,40 +604,36 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     // MARK: Animated Zoom In / Out
     func zoomOut(zoomFactor: Double) {
         
-        // Check limits
-        if (camera.orthographicScale + zoomFactor > maxZoomDistance) {
-            return
-        }
-        
         // Begin Animation
         SCNTransaction.begin()
         SCNTransaction.animationDuration = animationDuration
         
         // Perform Change
-        camera.orthographicScale += zoomFactor
+        if (camera.orthographicScale + zoomFactor > maxZoomDistance) {
+            camera.orthographicScale = maxZoomDistance
+        } else {
+            camera.orthographicScale += zoomFactor
+        }
         
         // End
         SCNTransaction.commit()
-        
     }
     
     func zoomIn(zoomFactor: Double) {
         
-        // Check limits
-        if (camera.orthographicScale - zoomFactor < minZoomDistance) {
-            return
-        }
-        
         // Begin Animation
         SCNTransaction.begin()
         SCNTransaction.animationDuration = animationDuration
         
         // Perform Change
-        camera.orthographicScale -= zoomFactor
+        if (camera.orthographicScale - zoomFactor < minZoomDistance) {
+            camera.orthographicScale = minZoomDistance
+        } else {
+            camera.orthographicScale -= zoomFactor
+        }
         
         // End
         SCNTransaction.commit()
-        
     }
 
 }

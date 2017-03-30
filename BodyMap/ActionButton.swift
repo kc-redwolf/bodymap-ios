@@ -9,6 +9,14 @@
 import UIKit
 
 class ActionButton: UIButton {
+    
+    var icon:UIImage! {
+        didSet {
+            let image = icon.withRenderingMode(.alwaysTemplate)
+            setImage(image, for: .normal)
+            tintColor = UIColor.white
+        }
+    }
 
     // Init
     override init(frame: CGRect) {

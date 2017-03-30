@@ -21,6 +21,8 @@
 		7A9638A11E621C9000EB059D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A96389F1E621C9000EB059D /* LaunchScreen.storyboard */; };
 		7A9638AC1E621C9000EB059D /* BodyMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9638AB1E621C9000EB059D /* BodyMapTests.swift */; };
 		7A9638B71E621C9000EB059D /* BodyMapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9638B61E621C9000EB059D /* BodyMapUITests.swift */; };
+		7AA508ED1E8C8D2800B83D20 /* BodyImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA508EC1E8C8D2800B83D20 /* BodyImageView.swift */; };
+		7AA508EF1E8C98A700B83D20 /* BodySystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA508EE1E8C98A700B83D20 /* BodySystem.swift */; };
 		7AC820251E63D97F00FE347E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC820241E63D97F00FE347E /* MainViewController.swift */; };
 		7AC820281E63D98600FE347E /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC820261E63D98600FE347E /* Resources.swift */; };
 		7AC820291E63D98600FE347E /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC820271E63D98600FE347E /* SceneKitView.swift */; };
@@ -71,6 +73,8 @@
 		7A9638B21E621C9000EB059D /* BodyMapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BodyMapUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9638B61E621C9000EB059D /* BodyMapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BodyMapUITests.swift; sourceTree = "<group>"; };
 		7A9638B81E621C9000EB059D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7AA508EC1E8C8D2800B83D20 /* BodyImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BodyImageView.swift; sourceTree = "<group>"; };
+		7AA508EE1E8C98A700B83D20 /* BodySystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BodySystem.swift; sourceTree = "<group>"; };
 		7AC820241E63D97F00FE347E /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		7AC820261E63D98600FE347E /* Resources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
 		7AC820271E63D98600FE347E /* SceneKitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneKitView.swift; sourceTree = "<group>"; };
@@ -155,8 +159,7 @@
 		7A9638931E621C9000EB059D /* BodyMap */ = {
 			isa = PBXGroup;
 			children = (
-				7AC820311E63DA2900FE347E /* Launcher */,
-				7AC820301E63DA1E00FE347E /* Main */,
+				7AA508F11E8C996800B83D20 /* Controllers */,
 				7AC8202E1E63D9FB00FE347E /* Resources */,
 			);
 			path = BodyMap;
@@ -180,9 +183,27 @@
 			path = BodyMapUITests;
 			sourceTree = "<group>";
 		};
+		7AA508F01E8C995200B83D20 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				7AA508EE1E8C98A700B83D20 /* BodySystem.swift */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		7AA508F11E8C996800B83D20 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				7AC820311E63DA2900FE347E /* Launcher */,
+				7AC820301E63DA1E00FE347E /* Main */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		7AC8202E1E63D9FB00FE347E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7AA508F01E8C995200B83D20 /* Data */,
 				7AC8202F1E63DA0A00FE347E /* Views */,
 				7A6D47461E88599F0097E979 /* Fonts */,
 				7AC820261E63D98600FE347E /* Resources.swift */,
@@ -204,6 +225,7 @@
 				7A6D47421E88469E0097E979 /* InfoView.swift */,
 				7A0B921C1E8B4F060029D118 /* ShadeView.swift */,
 				7A6D47441E8859560097E979 /* BodyMapLabel.swift */,
+				7AA508EC1E8C8D2800B83D20 /* BodyImageView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -531,6 +553,8 @@
 				7A6D47451E8859560097E979 /* BodyMapLabel.swift in Sources */,
 				7AC820281E63D98600FE347E /* Resources.swift in Sources */,
 				7A9638951E621C9000EB059D /* AppDelegate.swift in Sources */,
+				7AA508EF1E8C98A700B83D20 /* BodySystem.swift in Sources */,
+				7AA508ED1E8C8D2800B83D20 /* BodyImageView.swift in Sources */,
 				7AC820291E63D98600FE347E /* SceneKitView.swift in Sources */,
 				7AC820251E63D97F00FE347E /* MainViewController.swift in Sources */,
 				7A0B921D1E8B4F060029D118 /* ShadeView.swift in Sources */,

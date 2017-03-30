@@ -24,14 +24,27 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
     
     // MARK: Variables
     private let animatedZoomFactor:Double = 0.1
+    let defaults = UserDefaults.standard
+    
+    let exampleSystem:BodySystem = BodySystem()
     
     // MARK: View Delegates
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        exampleSystem.system = .muscular
+        
+        
         // Toggle button
         toggleButton.delegate = self
-        toggleButton.toggledOn = true
+        
+        // Get the interaction toggle from user defaults
+        if let defaultInteractionToggle = defaults.object(forKey: Constants.interactionToggle) as? Bool {
+            toggleButton.toggledOn = defaultInteractionToggle
+        } else {
+            toggleButton.toggledOn = true
+        }
         
         // InfoView
         infoView.delegate = self
@@ -41,6 +54,9 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
         // Body System View
         bodySystemView.delegate = self
         bodySystemView.bottomConstraint = bodySystemViewBottom
+        
+        // Body System Button
+        bodySystemButton.icon = exampleSystem.icon
         
         // Shadow View
         shadeView.delegate = self
@@ -70,16 +86,14 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
     // MARK: Toggle Button
     func didToggleButton(toggled: Bool) {
         sceneKitView.shouldPan = toggled
+        defaults.set(toggled, forKey: Constants.interactionToggle)
     }
     
     // MARK: SceneView Delegate
-    func sceneViewDidBeginMoving(position: SCNVector3) {
-        //        print("\(position.x) : \(position.y) : \(position.z)")
-    }
-    
     func sceneViewItemSelected(name: String) {
         infoView.titleView.text = name
-        infoView.subtitleView.text = "TESTEST"
+        infoView.subtitleView.text = exampleSystem.name
+        infoView.iconView.system = exampleSystem
         infoView.show(animated: true)
     }
     

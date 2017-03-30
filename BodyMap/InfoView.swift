@@ -21,7 +21,7 @@ class InfoView: BlurView {
     var bottomConstraint:NSLayoutConstraint?
     
     // Info components
-    var iconView:UIImageView!
+    var iconView:BodyImageView!
     var titleView:BodyMapLabel!
     var subtitleView:BodyMapLabel!
     var closeButton:UIButton!
@@ -78,7 +78,9 @@ class InfoView: BlurView {
         closeButton.frame.size.height = 72 // Hardcoded 😱
         closeButton.frame.size.width = 64
         closeButton.frame.origin.x = bounds.width - 64
-        closeButton.setImage(Constants.iconClose, for: .normal)
+        let image = Constants.iconClose.withRenderingMode(.alwaysTemplate)
+        closeButton.setImage(image, for: .normal)
+        closeButton.tintColor = Constants.colorLightGrey
         closeButton.addTarget(self, action: #selector(dismiss), for: .touchUpInside)
         addSubview(closeButton)
         
@@ -104,13 +106,8 @@ class InfoView: BlurView {
         }
         
         // Icon view
-        iconView = UIImageView()
-        iconView.frame.size.height = 36
-        iconView.frame.size.width = 36
-        iconView.layer.cornerRadius = iconView.frame.size.height / 2
-        iconView.backgroundColor = UIColor.green
-        iconView.contentMode = .center
-        iconView.image = Constants.something
+        let imageSize = CGRect(origin: CGPoint(x: 0, y :0), size: CGSize(width: 36, height: 36))
+        iconView = BodyImageView(frame: imageSize)
         iconView.frame.origin.x = 16
         iconView.frame.origin.y = 18
         addSubview(iconView)
