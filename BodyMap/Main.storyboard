@@ -39,7 +39,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O62-pY-GsY" customClass="ToggleButton" customModule="BodyMap" customModuleProvider="target">
-                                <rect key="frame" x="303" y="459" width="56" height="56"/>
+                                <rect key="frame" x="303" y="451" width="56" height="56"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="56" id="Abt-A5-gaN"/>
@@ -52,7 +52,7 @@
                                 </userDefinedRuntimeAttributes>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uMO-Nb-m9p" customClass="InfoView" customModule="BodyMap" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="531" width="375" height="136"/>
+                                <rect key="frame" x="0.0" y="523" width="375" height="144"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="144" id="Zif-bT-aVh"/>
@@ -64,9 +64,67 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mYS-oG-FA3" customClass="InfoView" customModule="BodyMap" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="27" width="375" height="640"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Change System" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6yc-l5-W3r" customClass="BodyMapLabel" customModule="BodyMap" customModuleProvider="target">
+                                        <rect key="frame" x="16" y="0.0" width="295" height="72"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="72" id="e86-bA-hy8"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xZD-ZK-S8h" customClass="BodyMapSegmentedControl" customModule="BodyMap" customModuleProvider="target">
+                                        <rect key="frame" x="16" y="72" width="343" height="35"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="34" id="Pnk-3X-gWE"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="Male"/>
+                                            <segment title="Female"/>
+                                        </segments>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <action selector="segmentedValueChanged:" destination="BV1-FR-VrT" eventType="valueChanged" id="o1e-tJ-uuI"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="oWa-kH-S2P">
+                                        <rect key="frame" x="16" y="122" width="343" height="184"/>
+                                        <color key="backgroundColor" red="0.4549019608" green="0.1137254902" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="184" id="oBI-wP-sZt"/>
+                                        </constraints>
+                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Xig-xe-22G">
+                                            <size key="itemSize" width="50" height="50"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells>
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="nox-jc-Ui5">
+                                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </view>
+                                            </collectionViewCell>
+                                        </cells>
+                                    </collectionView>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="6yc-l5-W3r" firstAttribute="top" secondItem="mYS-oG-FA3" secondAttribute="top" id="C8R-Qj-kDC"/>
+                                    <constraint firstItem="6yc-l5-W3r" firstAttribute="leading" secondItem="mYS-oG-FA3" secondAttribute="leading" constant="16" id="DsN-Jh-p8R"/>
+                                    <constraint firstItem="xZD-ZK-S8h" firstAttribute="leading" secondItem="mYS-oG-FA3" secondAttribute="leading" constant="16" id="PWZ-kc-AGA"/>
+                                    <constraint firstItem="oWa-kH-S2P" firstAttribute="leading" secondItem="mYS-oG-FA3" secondAttribute="leading" constant="16" id="PZT-Lw-tFu"/>
+                                    <constraint firstItem="oWa-kH-S2P" firstAttribute="top" secondItem="xZD-ZK-S8h" secondAttribute="bottom" constant="16" id="R8n-oZ-4Jv"/>
                                     <constraint firstAttribute="height" constant="640" id="SBR-Mw-kYy"/>
+                                    <constraint firstItem="xZD-ZK-S8h" firstAttribute="top" secondItem="6yc-l5-W3r" secondAttribute="bottom" id="XKk-FJ-gqM"/>
+                                    <constraint firstAttribute="trailing" secondItem="oWa-kH-S2P" secondAttribute="trailing" constant="16" id="eoH-Lt-t2w"/>
+                                    <constraint firstAttribute="trailing" secondItem="xZD-ZK-S8h" secondAttribute="trailing" constant="16" id="gzL-iG-bpI"/>
+                                    <constraint firstAttribute="trailing" secondItem="6yc-l5-W3r" secondAttribute="trailing" constant="64" id="wNS-03-Lbb"/>
                                 </constraints>
                             </view>
                             <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7tP-oR-YFK" customClass="BlurView" customModule="BodyMap" customModuleProvider="target">
@@ -110,6 +168,7 @@
                         <outlet property="infoView" destination="uMO-Nb-m9p" id="0Ie-nG-ggW"/>
                         <outlet property="infoViewBottom" destination="9rc-iv-rWM" id="43s-ot-rR3"/>
                         <outlet property="sceneKitView" destination="hY1-GF-kuT" id="hL6-Bf-CTY"/>
+                        <outlet property="segmentedControl" destination="xZD-ZK-S8h" id="6Fa-L7-WNw"/>
                         <outlet property="shadeView" destination="F02-cY-5kw" id="8At-UM-3ed"/>
                         <outlet property="toggleButton" destination="O62-pY-GsY" id="CHw-w5-VwD"/>
                     </connections>

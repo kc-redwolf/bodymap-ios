@@ -21,6 +21,7 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
     @IBOutlet weak var bodySystemViewBottom: NSLayoutConstraint!
     @IBOutlet weak var bodySystemButton: ActionButton!
     @IBOutlet weak var shadeView: ShadeView!
+    @IBOutlet weak var segmentedControl: BodyMapSegmentedControl!
     
     // MARK: Variables
     private let animatedZoomFactor:Double = 0.1
@@ -58,11 +59,23 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
         // Body System Button
         bodySystemButton.icon = exampleSystem.icon
         
+        // Segmented Control
+        if let defaultGenderToggle = defaults.object(forKey: Constants.genderToggle) as? Int {
+            segmentedControl.selectedSegmentIndex = defaultGenderToggle
+        } else {
+            segmentedControl.selectedSegmentIndex = 0
+        }
+        
         // Shadow View
         shadeView.delegate = self
         
         // Setup delegates and scene
         sceneKitView.setScene(delegate: self, scene: Constants.male)
+    }
+    
+    // MARK Segmented Value Change
+    @IBAction func segmentedValueChanged(_ sender: UISegmentedControl) {
+        defaults.set(sender.selectedSegmentIndex, forKey: Constants.genderToggle)
     }
     
     // MARK: Body System Action
@@ -92,7 +105,7 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
     // MARK: SceneView Delegate
     func sceneViewItemSelected(name: String) {
         infoView.titleView.text = name
-        infoView.subtitleView.text = exampleSystem.name
+        infoView.subtitleView.text = "\(exampleSystem.name!) System"
         infoView.iconView.system = exampleSystem
         infoView.show(animated: true)
     }

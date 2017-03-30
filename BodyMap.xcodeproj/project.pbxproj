@@ -23,6 +23,7 @@
 		7A9638B71E621C9000EB059D /* BodyMapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9638B61E621C9000EB059D /* BodyMapUITests.swift */; };
 		7AA508ED1E8C8D2800B83D20 /* BodyImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA508EC1E8C8D2800B83D20 /* BodyImageView.swift */; };
 		7AA508EF1E8C98A700B83D20 /* BodySystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA508EE1E8C98A700B83D20 /* BodySystem.swift */; };
+		7AA508F31E8CA6BA00B83D20 /* BodyMapSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AA508F21E8CA6BA00B83D20 /* BodyMapSegmentedControl.swift */; };
 		7AC820251E63D97F00FE347E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC820241E63D97F00FE347E /* MainViewController.swift */; };
 		7AC820281E63D98600FE347E /* Resources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC820261E63D98600FE347E /* Resources.swift */; };
 		7AC820291E63D98600FE347E /* SceneKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC820271E63D98600FE347E /* SceneKitView.swift */; };
@@ -75,6 +76,7 @@
 		7A9638B81E621C9000EB059D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7AA508EC1E8C8D2800B83D20 /* BodyImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BodyImageView.swift; sourceTree = "<group>"; };
 		7AA508EE1E8C98A700B83D20 /* BodySystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BodySystem.swift; sourceTree = "<group>"; };
+		7AA508F21E8CA6BA00B83D20 /* BodyMapSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BodyMapSegmentedControl.swift; sourceTree = "<group>"; };
 		7AC820241E63D97F00FE347E /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		7AC820261E63D98600FE347E /* Resources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resources.swift; sourceTree = "<group>"; };
 		7AC820271E63D98600FE347E /* SceneKitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneKitView.swift; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				7A6D47421E88469E0097E979 /* InfoView.swift */,
 				7A0B921C1E8B4F060029D118 /* ShadeView.swift */,
 				7A6D47441E8859560097E979 /* BodyMapLabel.swift */,
+				7AA508F21E8CA6BA00B83D20 /* BodyMapSegmentedControl.swift */,
 				7AA508EC1E8C8D2800B83D20 /* BodyImageView.swift */,
 			);
 			name = Views;
@@ -557,6 +560,7 @@
 				7AA508ED1E8C8D2800B83D20 /* BodyImageView.swift in Sources */,
 				7AC820291E63D98600FE347E /* SceneKitView.swift in Sources */,
 				7AC820251E63D97F00FE347E /* MainViewController.swift in Sources */,
+				7AA508F31E8CA6BA00B83D20 /* BodyMapSegmentedControl.swift in Sources */,
 				7A0B921D1E8B4F060029D118 /* ShadeView.swift in Sources */,
 				7A6D47431E88469E0097E979 /* InfoView.swift in Sources */,
 				7A41356C1E69329600C489F5 /* BlurView.swift in Sources */,
