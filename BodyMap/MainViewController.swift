@@ -10,7 +10,7 @@ import UIKit
 import QuartzCore
 import SceneKit
 
-class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewDelegate, SceneKitViewDelegate, ShadeViewDelegate {
+class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewDelegate, SceneKitViewDelegate, ShadeViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     // MARK: Outlets
     @IBOutlet weak var sceneKitView: SceneKitView!
@@ -22,20 +22,35 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
     @IBOutlet weak var bodySystemButton: ActionButton!
     @IBOutlet weak var shadeView: ShadeView!
     @IBOutlet weak var segmentedControl: BodyMapSegmentedControl!
+    @IBOutlet weak var collectionView: UICollectionView!
     
     // MARK: Variables
     private let animatedZoomFactor:Double = 0.1
     let defaults = UserDefaults.standard
     
-    let exampleSystem:BodySystem = BodySystem()
+    // Body Systems
+    let bodySystems:[BodySystem] = [
+        BodySystem(system: .lymphatic),
+        BodySystem(system: .respiratory),
+        BodySystem(system: .digestive),
+        BodySystem(system: .nervous),
+        BodySystem(system: .reproductive),
+        BodySystem(system: .muscular),
+        BodySystem(system: .vascular),
+        BodySystem(system: .skeletory)
+    ]
+    
+    var currentBodySystem:BodySystem! {
+        didSet {
+            bodySystemButton.icon = currentBodySystem.icon
+        }
+    }
+    
+    let defaultBodySystemIndex:Int = 7 // Skeletory
     
     // MARK: View Delegates
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        exampleSystem.system = .muscular
-        
         
         // Toggle button
         toggleButton.delegate = self
@@ -56,8 +71,12 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
         bodySystemView.delegate = self
         bodySystemView.bottomConstraint = bodySystemViewBottom
         
-        // Body System Button
-        bodySystemButton.icon = exampleSystem.icon
+        // Get last body system from user defaults
+        if let bodySystemDefault = defaults.object(forKey: Constants.selectedSystemIndex) as? Int {
+            currentBodySystem = bodySystems[bodySystemDefault]
+        } else {
+            currentBodySystem = bodySystems[defaultBodySystemIndex]
+        }
         
         // Segmented Control
         if let defaultGenderToggle = defaults.object(forKey: Constants.genderToggle) as? Int {
@@ -66,11 +85,75 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
             segmentedControl.selectedSegmentIndex = 0
         }
         
+        // Collection View
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(UINib(nibName: BodySystemCollectionViewCell.id, bundle: nil), forCellWithReuseIdentifier: BodySystemCollectionViewCell.id)
+        
         // Shadow View
         shadeView.delegate = self
         
         // Setup delegates and scene
         sceneKitView.setScene(delegate: self, scene: Constants.male)
+    }
+    
+    // MARK: CollectionView Delegate
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return bodySystems.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        // Row
+        let row = indexPath.row
+        
+        // Build cell
+        let cell:BodySystemCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: BodySystemCollectionViewCell.id, for: indexPath) as! BodySystemCollectionViewCell
+        cell.setSystem(system: bodySystems[row])
+        
+        // Check for selected index
+        var selectedIndex = defaultBodySystemIndex
+        
+        // Check for default
+        if let bodySystemDefault = defaults.object(forKey: Constants.selectedSystemIndex) as? Int {
+            selectedIndex = bodySystemDefault
+        }
+        
+        // Set checked
+        cell.setChecked(checked: row == selectedIndex)
+        
+        // Set
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.bounds.width / 4, height: BodySystemCollectionViewCell.height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        // Row
+        let row = indexPath.row
+        
+        // Check for selected index
+        var selectedIndex = defaultBodySystemIndex
+        
+        // Check for default
+        if let bodySystemDefault = defaults.object(forKey: Constants.selectedSystemIndex) as? Int {
+            selectedIndex = bodySystemDefault
+        }
+        
+        // Get Previous Cell
+        let previewCell:BodySystemCollectionViewCell = collectionView.cellForItem(at: IndexPath(row: selectedIndex, section: 0)) as! BodySystemCollectionViewCell
+        previewCell.setChecked(checked: false)
+        
+        // Get New Cell
+        let newCell:BodySystemCollectionViewCell = collectionView.cellForItem(at: indexPath) as! BodySystemCollectionViewCell
+        newCell.setChecked(checked: true)
+        
+        // Set new default
+        defaults.set(row, forKey: Constants.selectedSystemIndex)
+        currentBodySystem = bodySystems[row]
     }
     
     // MARK Segmented Value Change
@@ -105,8 +188,8 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
     // MARK: SceneView Delegate
     func sceneViewItemSelected(name: String) {
         infoView.titleView.text = name
-        infoView.subtitleView.text = "\(exampleSystem.name!) System"
-        infoView.iconView.system = exampleSystem
+        infoView.subtitleView.text = "\(currentBodySystem.name!) System"
+        infoView.iconView.system = currentBodySystem
         infoView.show(animated: true)
     }
     

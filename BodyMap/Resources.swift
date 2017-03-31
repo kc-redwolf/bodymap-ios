@@ -27,6 +27,7 @@ struct Constants {
     static let sceneFacingFront    = "sceneFacingFront"
     static let interactionToggle   = "interactionToggle"
     static let genderToggle        = "genderToggle"
+    static let selectedSystemIndex = "selectedSystemIndex"
     
     // SceneKit
     static let car    = SCNScene(named: "art.scnassets/car.dae")! // For testing

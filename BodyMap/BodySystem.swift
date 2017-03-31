@@ -26,44 +26,7 @@ class BodySystem {
     var name:String!
     var icon:UIImage!
     var color:UIColor!
-    var system:SystemType = .skeletory {
-        didSet {
-            switch system {
-            case .digestive:
-                name = "Digestive"
-                color = Constants.colorAmber
-                icon = Constants.iconGuts
-            case .lymphatic:
-                name = "Lymphatic"
-                color = Constants.colorGreen
-                icon = Constants.iconConnect
-            case .muscular:
-                name = "Muscular"
-                color = Constants.colorOrange
-                icon = Constants.iconWeight
-            case .nervous:
-                name = "Nervous"
-                color = Constants.colorPink
-                icon = Constants.iconBrain
-            case .reproductive:
-                name = "Reproductive"
-                color = Constants.colorPurple
-                icon = Constants.iconGender
-            case .respiratory:
-                name = "Respiratory"
-                color = Constants.colorBlue
-                icon = Constants.iconLungs
-            case .skeletory:
-                name = "Skeletory"
-                color = Constants.colorAqua
-                icon = Constants.iconSkull
-            case .vascular:
-                name = "Vascular"
-                color = Constants.colorRed
-                icon = Constants.iconHeart
-            }
-        }
-    }
+    var system:SystemType!
     
     // MARK: Init
     init() {
@@ -71,6 +34,44 @@ class BodySystem {
     }
     
     init(system: SystemType) {
+        
+        // Set system
         self.system = system
+        
+        // Set other values
+        switch system {
+        case .digestive:
+            name = "Digestive"
+            color = Constants.colorAmber
+            icon = Constants.iconGuts
+        case .lymphatic:
+            name = "Lymphatic"
+            color = Constants.colorGreen
+            icon = Constants.iconConnect
+        case .muscular:
+            name = "Muscular"
+            color = Constants.colorOrange
+            icon = Constants.iconWeight
+        case .nervous:
+            name = "Nervous"
+            color = Constants.colorPink
+            icon = Constants.iconBrain
+        case .reproductive:
+            name = "Reproductive"
+            color = Constants.colorPurple
+            icon = Constants.iconGender
+        case .respiratory:
+            name = "Respiratory"
+            color = Constants.colorBlue
+            icon = Constants.iconLungs
+        case .skeletory:
+            name = "Skeletory"
+            color = Constants.colorAqua
+            icon = Constants.iconSkull
+        case .vascular:
+            name = "Vascular"
+            color = Constants.colorRed
+            icon = Constants.iconHeart
+        }
     }
 }

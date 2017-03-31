@@ -89,28 +89,19 @@
                                             <action selector="segmentedValueChanged:" destination="BV1-FR-VrT" eventType="valueChanged" id="o1e-tJ-uuI"/>
                                         </connections>
                                     </segmentedControl>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="oWa-kH-S2P">
-                                        <rect key="frame" x="16" y="122" width="343" height="184"/>
-                                        <color key="backgroundColor" red="0.4549019608" green="0.1137254902" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="oWa-kH-S2P">
+                                        <rect key="frame" x="16" y="122" width="343" height="176"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="184" id="oBI-wP-sZt"/>
+                                            <constraint firstAttribute="height" constant="192" id="oBI-wP-sZt"/>
                                         </constraints>
-                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Xig-xe-22G">
+                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Xig-xe-22G">
                                             <size key="itemSize" width="50" height="50"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
-                                        <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="nox-jc-Ui5">
-                                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                </view>
-                                            </collectionViewCell>
-                                        </cells>
+                                        <cells/>
                                     </collectionView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -119,8 +110,8 @@
                                     <constraint firstItem="6yc-l5-W3r" firstAttribute="leading" secondItem="mYS-oG-FA3" secondAttribute="leading" constant="16" id="DsN-Jh-p8R"/>
                                     <constraint firstItem="xZD-ZK-S8h" firstAttribute="leading" secondItem="mYS-oG-FA3" secondAttribute="leading" constant="16" id="PWZ-kc-AGA"/>
                                     <constraint firstItem="oWa-kH-S2P" firstAttribute="leading" secondItem="mYS-oG-FA3" secondAttribute="leading" constant="16" id="PZT-Lw-tFu"/>
-                                    <constraint firstItem="oWa-kH-S2P" firstAttribute="top" secondItem="xZD-ZK-S8h" secondAttribute="bottom" constant="16" id="R8n-oZ-4Jv"/>
-                                    <constraint firstAttribute="height" constant="640" id="SBR-Mw-kYy"/>
+                                    <constraint firstItem="oWa-kH-S2P" firstAttribute="top" secondItem="xZD-ZK-S8h" secondAttribute="bottom" constant="32" id="R8n-oZ-4Jv"/>
+                                    <constraint firstAttribute="height" constant="708" id="SBR-Mw-kYy"/>
                                     <constraint firstItem="xZD-ZK-S8h" firstAttribute="top" secondItem="6yc-l5-W3r" secondAttribute="bottom" id="XKk-FJ-gqM"/>
                                     <constraint firstAttribute="trailing" secondItem="oWa-kH-S2P" secondAttribute="trailing" constant="16" id="eoH-Lt-t2w"/>
                                     <constraint firstAttribute="trailing" secondItem="xZD-ZK-S8h" secondAttribute="trailing" constant="16" id="gzL-iG-bpI"/>
@@ -165,6 +156,7 @@
                         <outlet property="bodySystemButton" destination="6ei-70-bfn" id="6KH-k1-tdv"/>
                         <outlet property="bodySystemView" destination="mYS-oG-FA3" id="NfO-ze-UAY"/>
                         <outlet property="bodySystemViewBottom" destination="6Vx-WW-QzV" id="UF5-Iw-oQ3"/>
+                        <outlet property="collectionView" destination="oWa-kH-S2P" id="0Up-n4-JWS"/>
                         <outlet property="infoView" destination="uMO-Nb-m9p" id="0Ie-nG-ggW"/>
                         <outlet property="infoViewBottom" destination="9rc-iv-rWM" id="43s-ot-rR3"/>
                         <outlet property="sceneKitView" destination="hY1-GF-kuT" id="hL6-Bf-CTY"/>

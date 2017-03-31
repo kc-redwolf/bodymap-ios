@@ -10,6 +10,8 @@
 		7A0B921B1E8B4AD70029D118 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0B921A1E8B4AD70029D118 /* ActionButton.swift */; };
 		7A0B921D1E8B4F060029D118 /* ShadeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0B921C1E8B4F060029D118 /* ShadeView.swift */; };
 		7A41356C1E69329600C489F5 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A41356B1E69329600C489F5 /* BlurView.swift */; };
+		7A4257861E8DE70900DF0B69 /* BodySystemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4257841E8DE70900DF0B69 /* BodySystemCollectionViewCell.swift */; };
+		7A4257871E8DE70900DF0B69 /* BodySystemCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7A4257851E8DE70900DF0B69 /* BodySystemCollectionViewCell.xib */; };
 		7A6D473D1E8721880097E979 /* ToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6D473C1E8721880097E979 /* ToggleButton.swift */; };
 		7A6D473F1E883A350097E979 /* BodyMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6D473E1E883A350097E979 /* BodyMapViewController.swift */; };
 		7A6D47431E88469E0097E979 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A6D47421E88469E0097E979 /* InfoView.swift */; };
@@ -58,6 +60,8 @@
 		7A0B921A1E8B4AD70029D118 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		7A0B921C1E8B4F060029D118 /* ShadeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShadeView.swift; sourceTree = "<group>"; };
 		7A41356B1E69329600C489F5 /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
+		7A4257841E8DE70900DF0B69 /* BodySystemCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BodySystemCollectionViewCell.swift; sourceTree = "<group>"; };
+		7A4257851E8DE70900DF0B69 /* BodySystemCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BodySystemCollectionViewCell.xib; sourceTree = "<group>"; };
 		7A6D473C1E8721880097E979 /* ToggleButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleButton.swift; sourceTree = "<group>"; };
 		7A6D473E1E883A350097E979 /* BodyMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BodyMapViewController.swift; sourceTree = "<group>"; };
 		7A6D47421E88469E0097E979 /* InfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
@@ -126,6 +130,15 @@
 				DF4EF6B9C42B0ED40E1D2E64 /* Pods_BodyMapUITests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7A4257831E8DE6EB00DF0B69 /* Body System Cell */ = {
+			isa = PBXGroup;
+			children = (
+				7A4257841E8DE70900DF0B69 /* BodySystemCollectionViewCell.swift */,
+				7A4257851E8DE70900DF0B69 /* BodySystemCollectionViewCell.xib */,
+			);
+			name = "Body System Cell";
 			sourceTree = "<group>";
 		};
 		7A6D47461E88599F0097E979 /* Fonts */ = {
@@ -219,6 +232,7 @@
 		7AC8202F1E63DA0A00FE347E /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7A4257831E8DE6EB00DF0B69 /* Body System Cell */,
 				7A6D473E1E883A350097E979 /* BodyMapViewController.swift */,
 				7A6D473C1E8721880097E979 /* ToggleButton.swift */,
 				7A0B921A1E8B4AD70029D118 /* ActionButton.swift */,
@@ -383,6 +397,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A4257871E8DE70900DF0B69 /* BodySystemCollectionViewCell.xib in Resources */,
 				7A6D47481E8859CE0097E979 /* ABeeZee-Regular.otf in Resources */,
 				7AC8202B1E63D98E00FE347E /* Info.plist in Resources */,
 				7AC8202D1E63D99700FE347E /* Main.storyboard in Resources */,
@@ -560,6 +575,7 @@
 				7AA508ED1E8C8D2800B83D20 /* BodyImageView.swift in Sources */,
 				7AC820291E63D98600FE347E /* SceneKitView.swift in Sources */,
 				7AC820251E63D97F00FE347E /* MainViewController.swift in Sources */,
+				7A4257861E8DE70900DF0B69 /* BodySystemCollectionViewCell.swift in Sources */,
 				7AA508F31E8CA6BA00B83D20 /* BodyMapSegmentedControl.swift in Sources */,
 				7A0B921D1E8B4F060029D118 /* ShadeView.swift in Sources */,
 				7A6D47431E88469E0097E979 /* InfoView.swift in Sources */,

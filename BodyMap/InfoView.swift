@@ -106,10 +106,8 @@ class InfoView: BlurView {
         }
         
         // Icon view
-        let imageSize = CGRect(origin: CGPoint(x: 0, y :0), size: CGSize(width: 36, height: 36))
+        let imageSize = CGRect(origin: CGPoint(x: 14, y: 16), size: CGSize(width: 40, height: 40))
         iconView = BodyImageView(frame: imageSize)
-        iconView.frame.origin.x = 16
-        iconView.frame.origin.y = 18
         addSubview(iconView)
         
         // Title View
