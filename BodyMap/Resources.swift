@@ -30,9 +30,10 @@ struct Constants {
     static let selectedSystemIndex = "selectedSystemIndex"
     
     // SceneKit
-    static let car    = SCNScene(named: "art.scnassets/car.dae")! // For testing
-    static let male   = SCNScene(named: "art.scnassets/male.dae")!
-    static let female = SCNScene(named: "art.scnassets/female.dae")!
+    static let car     = SCNScene(named: "art.scnassets/car.dae")! // For testing
+    static let male    = SCNScene(named: "art.scnassets/male.dae")!
+    static let female  = SCNScene(named: "art.scnassets/female.dae")!
+    static let cameras = "directional"
     
     // Nodes
     static let skeletal = "skeletal"

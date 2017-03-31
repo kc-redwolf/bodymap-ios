@@ -37,12 +37,13 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
         BodySystem(system: .reproductive),
         BodySystem(system: .muscular),
         BodySystem(system: .vascular),
-        BodySystem(system: .skeletory)
+        BodySystem(system: .skeletal)
     ]
     
     var currentBodySystem:BodySystem! {
         didSet {
             bodySystemButton.icon = currentBodySystem.icon
+            sceneKitView.bodySystem = currentBodySystem
         }
     }
     
@@ -85,6 +86,10 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
             segmentedControl.selectedSegmentIndex = 0
         }
         
+        // Set model
+        // Done on the segmented action
+        segmentedValueChanged(segmentedControl)
+        
         // Collection View
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -92,9 +97,6 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
         
         // Shadow View
         shadeView.delegate = self
-        
-        // Setup delegates and scene
-        sceneKitView.setScene(delegate: self, scene: Constants.male)
     }
     
     // MARK: CollectionView Delegate
@@ -158,7 +160,16 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
     
     // MARK Segmented Value Change
     @IBAction func segmentedValueChanged(_ sender: UISegmentedControl) {
+        
+        // Set default
         defaults.set(sender.selectedSegmentIndex, forKey: Constants.genderToggle)
+        
+        // Change model
+        if (sender.selectedSegmentIndex == 0) {
+            sceneKitView.setScene(delegate: self, scene: Constants.male)
+        } else {
+            sceneKitView.setScene(delegate: self, scene: Constants.female)
+        }
     }
     
     // MARK: Body System Action
@@ -187,9 +198,7 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
     
     // MARK: SceneView Delegate
     func sceneViewItemSelected(name: String) {
-        infoView.titleView.text = name
-        infoView.subtitleView.text = "\(currentBodySystem.name!) System"
-        infoView.iconView.system = currentBodySystem
+        infoView.setContent(bodyPartName: name, system: currentBodySystem)
         infoView.show(animated: true)
     }
     

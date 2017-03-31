@@ -66,6 +66,13 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     private var forcePressure:CGFloat = 0.6
     private var isTouchForced:Bool = false
     
+    // The body system the view is looking to show
+    var bodySystem:BodySystem! {
+        didSet {
+            setBodySystem(system: bodySystem)
+        }
+    }
+    
     // place the camera
     private let defaults = UserDefaults.standard
     
@@ -524,31 +531,8 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
         
         // Save double tap action
         doubleTapAction = DispatchWorkItem {
-        
-//            // Zoom factor
-//            let zoomFactor = 0.1
-//            
-//            // Calc what change would be
-//            let calculatedChange = self.camera.orthographicScale - zoomFactor
-//            
-//            // Change camera scale
-//            if (calculatedChange > self.minZoomDistance) {
-//                
-//                self.zoomIn(zoomFactor: zoomFactor)
-//                
-//            } else if (calculatedChange <= self.minZoomDistance) {
-//                
-//                // Begin Animation
-//                SCNTransaction.begin()
-//                SCNTransaction.animationDuration = self.animationDuration
-//                
-//                // Perform Change
-//                self.camera.orthographicScale = self.minZoomDistance
-//                
-//                // End
-//                SCNTransaction.commit()
-//            }
             
+            // Zoom
             self.zoomIn(zoomFactor: 0.1)
             
             // Save zoom
@@ -586,16 +570,25 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     
     // MARK: SceneKit Render Delegates
     func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
-        
+        if let system = bodySystem {
+            setBodySystem(system: system)
+        }
+    }
+    
+    // MARK: Changes the body system
+    private func setBodySystem(system: BodySystem) {
+    
         // Loop Child nodes
-        scene.rootNode.enumerateChildNodes { (node, stop) -> Void in
-            
-            // Set opacity
-            if let name = node.name {
-                if (name.contains("Skeletal")) {
-                    node.isHidden = true
-                } else {
-                    node.isHidden = false
+        if let scene = sceneView.scene {
+            scene.rootNode.enumerateChildNodes { (node, stop) -> Void in
+                
+                // Set opacity
+                if let name = node.name {
+                    
+                    // Check for camera
+                    if (name != Constants.cameras) {
+                        node.isHidden = !name.contains(system.name!)
+                    }
                 }
             }
         }

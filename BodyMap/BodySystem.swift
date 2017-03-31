@@ -18,7 +18,7 @@ class BodySystem {
         case nervous
         case reproductive
         case respiratory
-        case skeletory
+        case skeletal
         case vascular
     }
     
@@ -64,8 +64,8 @@ class BodySystem {
             name = "Respiratory"
             color = Constants.colorBlue
             icon = Constants.iconLungs
-        case .skeletory:
-            name = "Skeletory"
+        case .skeletal:
+            name = "Skeletal"
             color = Constants.colorAqua
             icon = Constants.iconSkull
         case .vascular:

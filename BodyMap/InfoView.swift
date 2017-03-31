@@ -194,4 +194,16 @@ class InfoView: BlurView {
         }
     }
 
+    // MARK: Sets the text on the view
+    func setContent(bodyPartName: String, system: BodySystem) {
+        
+        // Removes the prefix
+        let removedSystemPrefix = bodyPartName.replacingOccurrences(of: "\(system.name!)_", with: "")
+        let finalTitle = removedSystemPrefix.replacingOccurrences(of: "_", with: " ")
+        
+        // Sets the values
+        titleView.text = finalTitle
+        subtitleView.text = "\(system.name!) System"
+        iconView.system = system
+    }
 }
