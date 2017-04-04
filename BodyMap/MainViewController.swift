@@ -36,7 +36,7 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
         BodySystem(system: .nervous),
         BodySystem(system: .reproductive),
         BodySystem(system: .muscular),
-        BodySystem(system: .vascular),
+        BodySystem(system: .circulatory),
         BodySystem(system: .skeletal)
     ]
     

@@ -19,7 +19,7 @@ class BodySystem {
         case reproductive
         case respiratory
         case skeletal
-        case vascular
+        case circulatory
     }
     
     // MARK: Values
@@ -68,8 +68,8 @@ class BodySystem {
             name = "Skeletal"
             color = Constants.colorAqua
             icon = Constants.iconSkull
-        case .vascular:
-            name = "Vascular"
+        case .circulatory:
+            name = "Circulatory"
             color = Constants.colorRed
             icon = Constants.iconHeart
         }
