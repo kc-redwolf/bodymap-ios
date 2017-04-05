@@ -52,16 +52,11 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     private var roundedRotation:Double = 0.5
     
     // Panning Variables
-    private var lastAdjustWidthRatio:Float = 0
-    private var lastAdjustHeightRatio:Float = 0
-    private var adjustWidthRatio:Float = 0
-    private var adjustHeightRatio:Float = 0
+    private var previousLocation:SCNVector3!
     private let maxPanDown:Float = -1.0
     private let maxPanUp:Float = 1.0
     private let maxPanLeft:Float = -0.8
     private let maxPanRight:Float = 0.8
-    private var isFacingFront:Bool = true
-    private var wasFacingFacingFrontLast:Bool = true
     private var lastLongPressLocation:CGPoint! = nil
     private var forcePressure:CGFloat = 0.6
     private var isTouchForced:Bool = false
@@ -92,10 +87,6 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             cameraOrbit.addChildNode(cameraNode)
             scene!.rootNode.addChildNode(cameraOrbit)
             
-            // Initial camera setup
-            cameraOrbit.eulerAngles.y = Float(-2 * M_PI) * lastWidthRatio
-            cameraOrbit.eulerAngles.x = Float(-M_PI) * lastHeightRatio
-            
             // Disable default camera controls
             sceneView.allowsCameraControl = false
             
@@ -103,16 +94,14 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             sceneView.scene = scene
             
             // Read defaults
-            if let defaultX = defaults.object(forKey: Constants.scenePositionX) as? Float,
-                let defaultY = defaults.object(forKey: Constants.scenePositionY) as? Float,
+            if let defaultX     = defaults.object(forKey: Constants.scenePositionX)   as? Float,
+                let defaultY    = defaults.object(forKey: Constants.scenePositionY)   as? Float,
                 let heightRatio = defaults.object(forKey: Constants.sceneHeightRatio) as? Float,
-                let widthRatio = defaults.object(forKey: Constants.sceneWidthRatio) as? Float,
-                let zoom = defaults.object(forKey: Constants.sceneZoom) as? Double,
-                let panX = defaults.object(forKey: Constants.scenePanX) as? Float,
-                let panY = defaults.object(forKey: Constants.scenePanY) as? Float,
-                let panWidth = defaults.object(forKey: Constants.scenePanWidthRatio) as? Float,
-                let panHeight = defaults.object(forKey: Constants.scenePanHeightRatio) as? Float,
-                let facingFront = defaults.object(forKey: Constants.sceneFacingFront) as? Bool {
+                let widthRatio  = defaults.object(forKey: Constants.sceneWidthRatio)  as? Float,
+                let zoom        = defaults.object(forKey: Constants.sceneZoom)        as? Double,
+                let panX        = defaults.object(forKey: Constants.scenePanX)        as? Float,
+                let panY        = defaults.object(forKey: Constants.scenePanY)        as? Float,
+                let panZ        = defaults.object(forKey: Constants.scenePanZ)        as? Float {
                 
                 // Set camera position
                 cameraOrbit.eulerAngles.y = defaultY
@@ -125,16 +114,10 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
                 // Set zoom
                 camera.orthographicScale = zoom
                 
-                // Set XY
+                // Set XYZ
                 cameraOrbit.position.x = panX
                 cameraOrbit.position.y = panY
-                
-                // Last XY pan
-                lastAdjustWidthRatio = panWidth
-                lastAdjustHeightRatio = panHeight
-                
-                // Check facing direction
-                wasFacingFacingFrontLast = facingFront
+                cameraOrbit.position.z = panZ
                 
             } else {
                 
@@ -285,36 +268,17 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             cameraOrbit.eulerAngles.y = Float(-2 * M_PI) * widthRatio
             cameraOrbit.eulerAngles.x = Float(-M_PI) * heightRatio
             
-            // Save current rotation
-            roundedRotation = Double((widthRatio - round(widthRatio)) + 0.5)
-            
-            // Check for rotation
-            if (roundedRotation < 0.25 || roundedRotation > 0.75) {
-                isFacingFront = false
-            } else {
-                isFacingFront = true
-            }
-            
         case .ended:
             
             // Save ratios
             lastWidthRatio = widthRatio
             lastHeightRatio = heightRatio
             
-            // Check if rotation was changed
-            if (wasFacingFacingFrontLast != isFacingFront) {
-                lastAdjustWidthRatio = -lastAdjustWidthRatio
-            }
-            
-            // Save rotation side
-            wasFacingFacingFrontLast = isFacingFront
-            
             // Save the camera positions
             defaults.set(cameraOrbit.eulerAngles.x, forKey: Constants.scenePositionX)
             defaults.set(cameraOrbit.eulerAngles.y, forKey: Constants.scenePositionY)
             defaults.set(lastHeightRatio, forKey: Constants.sceneHeightRatio)
             defaults.set(lastWidthRatio, forKey: Constants.sceneWidthRatio)
-            defaults.set(wasFacingFacingFrontLast, forKey: Constants.sceneFacingFront)
             
         default:
             break
@@ -325,7 +289,7 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     @objc private func handleDoublePan(gesture: UIPanGestureRecognizer) {
         
         // Get translation
-        let translation = gesture.translation(in: gesture.view!)
+        let translation = gesture.translation(in: sceneView)
         
         // Handle panning
         panXY(gesture: gesture, translation: translation)
@@ -359,60 +323,75 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
         panXY(gesture: gesture, translation: translation)
     }
     
-    var previousLocation:SCNVector3!
-    
     // MARK: Pan the view X and Y
     private func panXY(gesture: UIGestureRecognizer, translation: CGPoint) {
         
-        // Get ratios
-        adjustWidthRatio = Float(translation.x) / Float(sceneView.frame.size.width) + lastAdjustWidthRatio
-        adjustHeightRatio = Float(translation.y) / Float(sceneView.frame.size.height) + lastAdjustHeightRatio
+        // Get location in view
+        let location = gesture.location(in: sceneView)
         
-        // Up limitation
-        if (adjustHeightRatio >= maxPanUp) {
-            adjustHeightRatio = maxPanUp
-        }
+        // Add location to translation
+        let secLocation = CGPoint(x: location.x + translation.x, y: location.y + translation.y)
         
-        // Down limitation
-        if (adjustHeightRatio <= maxPanDown) {
-            adjustHeightRatio = maxPanDown
-        }
+        // Get projection
+        let P1 = sceneView.unprojectPoint(SCNVector3(x: Float(location.x), y: Float(location.y), z: 0.0))
+        let P2 = sceneView.unprojectPoint(SCNVector3(x: Float(location.x), y: Float(location.y), z: 1.0))
         
-        // Right limitation
-        if (adjustWidthRatio >= maxPanRight) {
-            adjustWidthRatio = maxPanRight
-        }
+        let Q1 = sceneView.unprojectPoint(SCNVector3(x: Float(secLocation.x), y: Float(secLocation.y), z: 0.0))
+        let Q2 = sceneView.unprojectPoint(SCNVector3(x: Float(secLocation.x), y: Float(secLocation.y), z: 1.0))
         
-        // Left limitation
-        if (adjustWidthRatio <= maxPanLeft) {
-            adjustWidthRatio = maxPanLeft
-        }
+        // Calcuate locations
+        let t1 = -P1.z / (P2.z - P1.z)
+        let x1 = P1.x + t1 * (P2.x - P1.x)
+        let y1 = P1.y + t1 * (P2.y - P1.y)
+        let P0 = SCNVector3Make(x1, y1, 0)
+        let x2 = Q1.x + t1 * (Q2.x - Q1.x)
+        let y2 = Q1.y + t1 * (Q2.y - Q1.y)
+        let Q0 = SCNVector3Make(x2, y2, 0)
         
-        // Get panning state
+        // Generate vector
+        let diffR = SCNVector3Make(Q0.x - P0.x, Q0.y - P0.y, Q0.z - P0.z)
+        
+        // Handle Gesture
         switch gesture.state {
-            
         case .began:
-            break
+            
+            // Save previous location
+            previousLocation = cameraOrbit.position
             
         case .changed:
             
-            // Set position of camera
-            cameraOrbit.position.y = adjustHeightRatio
+            // Check limits
+            var x = previousLocation.x + -diffR.x
+            var y = previousLocation.y + -diffR.y
+            let z = previousLocation.z + -diffR.z
             
-            // Check for rotation
-            if (roundedRotation < 0.25 || roundedRotation > 0.75) {
-                cameraOrbit.position.x = adjustWidthRatio
-            } else {
-                cameraOrbit.position.x = -adjustWidthRatio
+            // Up limitation
+            if (y >= maxPanUp) {
+                y = maxPanUp
             }
+            
+            // Down limitation
+            if (y <= maxPanDown) {
+                y = maxPanDown
+            }
+            
+            // Right limitation
+            if (x >= maxPanRight) {
+                x = maxPanRight
+            }
+            
+            // Left limitation
+            if (x <= maxPanLeft) {
+                x = maxPanLeft
+            }
+            
+            // Set camera position
+            cameraOrbit.position = SCNVector3Make(x, y, z)
             
         case .ended:
             
+            // Check if the touch was 3D
             isTouchForced = false
-            
-            // Save ratios
-            lastAdjustWidthRatio = adjustWidthRatio
-            lastAdjustHeightRatio = adjustHeightRatio
             
             // Reset last location
             lastLongPressLocation = nil
@@ -420,12 +399,12 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             // Save the camera positions
             defaults.set(cameraOrbit.position.x, forKey: Constants.scenePanX)
             defaults.set(cameraOrbit.position.y, forKey: Constants.scenePanY)
-            defaults.set(lastAdjustWidthRatio, forKey: Constants.scenePanWidthRatio)
-            defaults.set(lastAdjustHeightRatio, forKey: Constants.scenePanHeightRatio)
+            defaults.set(cameraOrbit.position.z, forKey: Constants.scenePanZ)
             
         default:
             break
         }
+
     }
     
     // MARK: Handle Pinch
