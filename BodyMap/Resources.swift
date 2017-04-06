@@ -31,7 +31,8 @@ struct Constants {
     static let car     = SCNScene(named: "art.scnassets/car.dae")! // For testing
 //    static let male    = SCNScene(named: "art.scnassets/male.dae")!
     static let male    = SCNScene(named: "art.scnassets/male_2.dae")!
-    static let female  = SCNScene(named: "art.scnassets/female.dae")!
+//    static let female  = SCNScene(named: "art.scnassets/female.dae")!
+    static let female  = SCNScene(named: "art.scnassets/female_2.dae")!
     static let cameras = "directional"
     
     // Nodes

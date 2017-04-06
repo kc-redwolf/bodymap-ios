@@ -463,7 +463,7 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
 
                     // Set opacity
                     if let name = node.name {
-                        if (name == Constants.skeletal || name == Constants.spot || node.name == currentNode.name) {
+                        if (name == Constants.spot || node.name == currentNode.name) {
                             node.opacity = 1
                         } else {
                             node.opacity = 0.2

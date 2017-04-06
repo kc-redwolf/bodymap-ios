@@ -82,7 +82,7 @@ class BodySystemCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: Set Checked
-    func setChecked(checked: Bool) {
+    func setChecked(checked: Bool, completion: @escaping(Bool) ->()) {
         
         // Toggle
         self.checkImageView.isHidden = !checked
@@ -106,7 +106,7 @@ class BodySystemCollectionViewCell: UICollectionViewCell {
                     self.checkImageView.transform = CGAffineTransform(scaleX: 1, y: 1)
                     
             }, completion: { (value: Bool) in
-                //
+                completion(value)
             })
         }
     }

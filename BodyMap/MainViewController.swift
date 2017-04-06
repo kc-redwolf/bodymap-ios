@@ -79,6 +79,9 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
             currentBodySystem = bodySystems[defaultBodySystemIndex]
         }
         
+        // Set scenekit delegate
+        sceneKitView.delegate = self
+        
         // Segmented Control
         if let defaultGenderToggle = defaults.object(forKey: Constants.genderToggle) as? Int {
             segmentedControl.selectedSegmentIndex = defaultGenderToggle
@@ -122,7 +125,9 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
         }
         
         // Set checked
-        cell.setChecked(checked: row == selectedIndex)
+        cell.setChecked(checked: row == selectedIndex, completion: { _ in
+            // Completion
+        })
         
         // Set
         return cell
@@ -147,15 +152,22 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
         
         // Get Previous Cell
         let previewCell:BodySystemCollectionViewCell = collectionView.cellForItem(at: IndexPath(row: selectedIndex, section: 0)) as! BodySystemCollectionViewCell
-        previewCell.setChecked(checked: false)
+        previewCell.setChecked(checked: false, completion: { _ in
+            // Completion
+        })
         
         // Get New Cell
         let newCell:BodySystemCollectionViewCell = collectionView.cellForItem(at: indexPath) as! BodySystemCollectionViewCell
-        newCell.setChecked(checked: true)
+        newCell.setChecked(checked: true, completion: { _ in
+            // self.shadeViewTapped()
+        })
         
         // Set new default
         defaults.set(row, forKey: Constants.selectedSystemIndex)
         currentBodySystem = bodySystems[row]
+        
+        // Hide the info view
+        shadeViewTapped()
     }
     
     // MARK Segmented Value Change
@@ -166,9 +178,9 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
         
         // Change model
         if (sender.selectedSegmentIndex == 0) {
-            sceneKitView.setScene(delegate: self, scene: Constants.male)
+            sceneKitView.scene = Constants.male
         } else {
-            sceneKitView.setScene(delegate: self, scene: Constants.female)
+            sceneKitView.scene = Constants.female
         }
     }
     
@@ -176,7 +188,7 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
     @IBAction func bodySystemButtonAction(_ sender: Any) {
         shadeView.show(animated: true)
         bodySystemView.show(animated: true)
-        sceneKitView.zoomIn(zoomFactor: animatedZoomFactor)
+        sceneKitView.zoomOut(zoomFactor: animatedZoomFactor)
     }
     
     // MARK: Info View Delegate
@@ -210,6 +222,6 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
     func shadeViewTapped() {
         shadeView.hide(animated: true)
         bodySystemView.hide(animated: true)
-        sceneKitView.zoomOut(zoomFactor: animatedZoomFactor)
+        sceneKitView.zoomIn(zoomFactor: animatedZoomFactor)
     }
 }
