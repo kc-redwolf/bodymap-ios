@@ -57,11 +57,7 @@ class ToggleButton: ActionButton {
         super.layoutSubviews()
         
         // Set icon
-        if (toggledOn) {
-            setImage(iconOn, for: .normal)
-        } else {
-            setImage(iconOff, for: .normal)
-        }
+        swap()
     }
     
     // Toggle Button
@@ -76,10 +72,17 @@ class ToggleButton: ActionButton {
         }
         
         // Set icon
+        swap()
+    }
+    
+    // MARK: Swaps toggle
+    private func swap() {
         if (toggledOn) {
-            setImage(iconOn, for: .normal)
+            icon = iconOff
+            title = "Rotate"
         } else {
-            setImage(iconOff, for: .normal)
+            icon = iconOn
+            title = "Move"
         }
     }
 

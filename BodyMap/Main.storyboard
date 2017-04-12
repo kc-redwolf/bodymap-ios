@@ -39,16 +39,17 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O62-pY-GsY" customClass="ToggleButton" customModule="BodyMap" customModuleProvider="target">
-                                <rect key="frame" x="303" y="451" width="56" height="56"/>
+                                <rect key="frame" x="291" y="435" width="68" height="72"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="56" id="Abt-A5-gaN"/>
-                                    <constraint firstAttribute="width" constant="56" id="kY0-NI-tKO"/>
+                                    <constraint firstAttribute="height" constant="72" id="Abt-A5-gaN"/>
+                                    <constraint firstAttribute="width" constant="68" id="kY0-NI-tKO"/>
                                 </constraints>
-                                <color key="tintColor" red="0.039215686270000001" green="0.039215686270000001" blue="0.039215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="image" keyPath="iconOn" value="icon_pan"/>
                                     <userDefinedRuntimeAttribute type="image" keyPath="iconOff" value="icon_rotate"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="titled" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uMO-Nb-m9p" customClass="InfoView" customModule="BodyMap" customModuleProvider="target">
@@ -63,7 +64,7 @@
                                 <color key="backgroundColor" red="0.86666666670000003" green="0.29803921570000003" blue="0.29803921570000003" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mYS-oG-FA3" customClass="InfoView" customModule="BodyMap" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="27" width="375" height="640"/>
+                                <rect key="frame" x="0.0" y="89" width="375" height="578"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Change System" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6yc-l5-W3r" customClass="BodyMapLabel" customModule="BodyMap" customModuleProvider="target">
                                         <rect key="frame" x="16" y="0.0" width="295" height="72"/>
@@ -75,10 +76,10 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xZD-ZK-S8h" customClass="BodyMapSegmentedControl" customModule="BodyMap" customModuleProvider="target">
-                                        <rect key="frame" x="16" y="72" width="343" height="35"/>
+                                    <segmentedControl hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xZD-ZK-S8h" customClass="BodyMapSegmentedControl" customModule="BodyMap" customModuleProvider="target">
+                                        <rect key="frame" x="16" y="72" width="343" height="1"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="34" id="Pnk-3X-gWE"/>
+                                            <constraint firstAttribute="height" id="Pnk-3X-gWE"/>
                                         </constraints>
                                         <segments>
                                             <segment title="Male"/>
@@ -90,7 +91,7 @@
                                         </connections>
                                     </segmentedControl>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="oWa-kH-S2P">
-                                        <rect key="frame" x="16" y="122" width="343" height="176"/>
+                                        <rect key="frame" x="16" y="72" width="343" height="192"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="192" id="oBI-wP-sZt"/>
@@ -110,8 +111,8 @@
                                     <constraint firstItem="6yc-l5-W3r" firstAttribute="leading" secondItem="mYS-oG-FA3" secondAttribute="leading" constant="16" id="DsN-Jh-p8R"/>
                                     <constraint firstItem="xZD-ZK-S8h" firstAttribute="leading" secondItem="mYS-oG-FA3" secondAttribute="leading" constant="16" id="PWZ-kc-AGA"/>
                                     <constraint firstItem="oWa-kH-S2P" firstAttribute="leading" secondItem="mYS-oG-FA3" secondAttribute="leading" constant="16" id="PZT-Lw-tFu"/>
-                                    <constraint firstItem="oWa-kH-S2P" firstAttribute="top" secondItem="xZD-ZK-S8h" secondAttribute="bottom" constant="32" id="R8n-oZ-4Jv"/>
-                                    <constraint firstAttribute="height" constant="708" id="SBR-Mw-kYy"/>
+                                    <constraint firstItem="oWa-kH-S2P" firstAttribute="top" secondItem="xZD-ZK-S8h" secondAttribute="bottom" id="R8n-oZ-4Jv"/>
+                                    <constraint firstAttribute="height" constant="578" id="SBR-Mw-kYy"/>
                                     <constraint firstItem="xZD-ZK-S8h" firstAttribute="top" secondItem="6yc-l5-W3r" secondAttribute="bottom" id="XKk-FJ-gqM"/>
                                     <constraint firstAttribute="trailing" secondItem="oWa-kH-S2P" secondAttribute="trailing" constant="16" id="eoH-Lt-t2w"/>
                                     <constraint firstAttribute="trailing" secondItem="xZD-ZK-S8h" secondAttribute="trailing" constant="16" id="gzL-iG-bpI"/>

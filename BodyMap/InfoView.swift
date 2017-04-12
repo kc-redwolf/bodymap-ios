@@ -106,16 +106,19 @@ class InfoView: BlurView {
         }
         
         // Icon view
-        let imageSize = CGRect(origin: CGPoint(x: 14, y: 16), size: CGSize(width: 40, height: 40))
-        iconView = BodyImageView(frame: imageSize)
-        addSubview(iconView)
+//        let imageSize = CGRect(origin: CGPoint(x: 14, y: 16), size: CGSize(width: 40, height: 40))
+//        iconView = BodyImageView(frame: imageSize)
+//        iconView.hideBackground = true
+//        addSubview(iconView)
         
         // Title View
         titleView = BodyMapLabel()
-        titleView.frame.origin.x = 16 + iconView.frame.size.width + iconView.frame.origin.x
+//        titleView.frame.origin.x = 16 + iconView.frame.size.width + iconView.frame.origin.x
+        titleView.frame.origin.x = 16
         titleView.frame.origin.y = 16
         titleView.frame.size.height = 19
-        titleView.frame.size.width = bounds.width - ((iconView.frame.origin.x * 2) + iconView.frame.size.width + closeButton.frame.size.width)
+//        titleView.frame.size.width = bounds.width - ((iconView.frame.origin.x * 2) + iconView.frame.size.width + closeButton.frame.size.width)
+        titleView.frame.size.width = bounds.width - closeButton.frame.size.width
         titleView.textColor = UIColor.white
         titleView.font = titleView.font.withSize(16)
         titleView.numberOfLines = 1
@@ -123,10 +126,12 @@ class InfoView: BlurView {
         
         // SubTitle View
         subtitleView = BodyMapLabel()
-        subtitleView.frame.origin.x = 16 + iconView.frame.size.width + iconView.frame.origin.x
+//        subtitleView.frame.origin.x = 16 + iconView.frame.size.width + iconView.frame.origin.x
+        subtitleView.frame.origin.x = 16
         subtitleView.frame.origin.y = 39
         subtitleView.frame.size.height = 17
-        subtitleView.frame.size.width = bounds.width - ((iconView.frame.origin.x * 2) + iconView.frame.size.width + closeButton.frame.size.width)
+//        subtitleView.frame.size.width = bounds.width - ((iconView.frame.origin.x * 2) + iconView.frame.size.width + closeButton.frame.size.width)
+        subtitleView.frame.size.width = bounds.width - closeButton.frame.size.width
         subtitleView.textColor = UIColor.white.withAlphaComponent(0.54)
         subtitleView.font = titleView.font.withSize(14)
         subtitleView.numberOfLines = 1
@@ -204,6 +209,6 @@ class InfoView: BlurView {
         // Sets the values
         titleView.text = finalTitle
         subtitleView.text = "\(system.name!) System"
-        iconView.system = system
+//        iconView.system = system
     }
 }

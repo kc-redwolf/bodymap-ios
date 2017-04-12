@@ -132,13 +132,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7A4257831E8DE6EB00DF0B69 /* Body System Cell */ = {
+		7A4257831E8DE6EB00DF0B69 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
 				7A4257841E8DE70900DF0B69 /* BodySystemCollectionViewCell.swift */,
 				7A4257851E8DE70900DF0B69 /* BodySystemCollectionViewCell.xib */,
 			);
-			name = "Body System Cell";
+			name = Cells;
 			sourceTree = "<group>";
 		};
 		7A6D47461E88599F0097E979 /* Fonts */ = {
@@ -215,6 +215,58 @@
 			name = Controllers;
 			sourceTree = "<group>";
 		};
+		7AABEEFA1E973447001979EB /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				7A6D473C1E8721880097E979 /* ToggleButton.swift */,
+				7A0B921A1E8B4AD70029D118 /* ActionButton.swift */,
+			);
+			name = Buttons;
+			sourceTree = "<group>";
+		};
+		7AABEEFB1E973457001979EB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7AC820271E63D98600FE347E /* SceneKitView.swift */,
+				7A41356B1E69329600C489F5 /* BlurView.swift */,
+				7A6D47421E88469E0097E979 /* InfoView.swift */,
+				7A0B921C1E8B4F060029D118 /* ShadeView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		7AABEEFC1E973465001979EB /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				7A6D473E1E883A350097E979 /* BodyMapViewController.swift */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		7AABEEFD1E973475001979EB /* Labels */ = {
+			isa = PBXGroup;
+			children = (
+				7A6D47441E8859560097E979 /* BodyMapLabel.swift */,
+			);
+			name = Labels;
+			sourceTree = "<group>";
+		};
+		7AABEEFE1E97347C001979EB /* Segmented Controls */ = {
+			isa = PBXGroup;
+			children = (
+				7AA508F21E8CA6BA00B83D20 /* BodyMapSegmentedControl.swift */,
+			);
+			name = "Segmented Controls";
+			sourceTree = "<group>";
+		};
+		7AABEEFF1E973484001979EB /* Image Views */ = {
+			isa = PBXGroup;
+			children = (
+				7AA508EC1E8C8D2800B83D20 /* BodyImageView.swift */,
+			);
+			name = "Image Views";
+			sourceTree = "<group>";
+		};
 		7AC8202E1E63D9FB00FE347E /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -232,17 +284,13 @@
 		7AC8202F1E63DA0A00FE347E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				7A4257831E8DE6EB00DF0B69 /* Body System Cell */,
-				7A6D473E1E883A350097E979 /* BodyMapViewController.swift */,
-				7A6D473C1E8721880097E979 /* ToggleButton.swift */,
-				7A0B921A1E8B4AD70029D118 /* ActionButton.swift */,
-				7AC820271E63D98600FE347E /* SceneKitView.swift */,
-				7A41356B1E69329600C489F5 /* BlurView.swift */,
-				7A6D47421E88469E0097E979 /* InfoView.swift */,
-				7A0B921C1E8B4F060029D118 /* ShadeView.swift */,
-				7A6D47441E8859560097E979 /* BodyMapLabel.swift */,
-				7AA508F21E8CA6BA00B83D20 /* BodyMapSegmentedControl.swift */,
-				7AA508EC1E8C8D2800B83D20 /* BodyImageView.swift */,
+				7AABEEFC1E973465001979EB /* View Controllers */,
+				7AABEEFB1E973457001979EB /* Views */,
+				7AABEEFA1E973447001979EB /* Buttons */,
+				7AABEEFD1E973475001979EB /* Labels */,
+				7AABEEFF1E973484001979EB /* Image Views */,
+				7AABEEFE1E97347C001979EB /* Segmented Controls */,
+				7A4257831E8DE6EB00DF0B69 /* Cells */,
 			);
 			name = Views;
 			sourceTree = "<group>";

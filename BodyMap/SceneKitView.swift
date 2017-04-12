@@ -141,7 +141,7 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             
             // Set colors
             backgroundColor = UIColor.clear
-            sceneView.backgroundColor = UIColor.clear
+            sceneView.backgroundColor = Constants.colorDarkGrey
             
             // Add single tap
             let singleTap = UITapGestureRecognizer(target: self, action: #selector(singleTapped))
@@ -264,6 +264,11 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
             
         case .changed:
             
+            // Catch removing 2 fingers
+            if (gesture.numberOfTouches != 1) {
+                return
+            }
+            
             // Set camera position
             cameraOrbit.eulerAngles.y = Float(-2 * M_PI) * widthRatio
             cameraOrbit.eulerAngles.x = Float(-M_PI) * heightRatio
@@ -287,6 +292,11 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     
     // MARK: Handle Double Pan
     @objc private func handleDoublePan(gesture: UIPanGestureRecognizer) {
+        
+        // Catch removing finger
+        if (gesture.numberOfTouches != 2) {
+            return
+        }
         
         // Get translation
         let translation = gesture.translation(in: sceneView)
@@ -409,6 +419,11 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     
     // MARK: Handle Pinch
     @objc private func handlePinch(gesture: UIPinchGestureRecognizer) {
+        
+        // Catch removing finger
+        if (gesture.numberOfTouches != 2) {
+            return
+        }
         
         // Get velocity
         let pinchVelocity = Double(gesture.velocity)
@@ -544,7 +559,14 @@ class SceneKitView: UIView, SCNSceneRendererDelegate, UIGestureRecognizerDelegat
     
     // MARK: Handle Multiple Gestures
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return false // for now
+
+        // TODO
+        // Make me better
+        if (gestureRecognizer.numberOfTouches == 2 || otherGestureRecognizer.numberOfTouches == 2) {
+            return true
+        } else {
+            return false
+        }
     }
     
     // MARK: SceneKit Render Delegates

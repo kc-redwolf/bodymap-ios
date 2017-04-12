@@ -30,11 +30,11 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
     
     // Body Systems
     let bodySystems:[BodySystem] = [
-        BodySystem(system: .lymphatic),
+//        BodySystem(system: .lymphatic),
         BodySystem(system: .respiratory),
         BodySystem(system: .digestive),
         BodySystem(system: .nervous),
-        BodySystem(system: .reproductive),
+//        BodySystem(system: .reproductive),
         BodySystem(system: .muscular),
         BodySystem(system: .circulatory),
         BodySystem(system: .skeletal)
@@ -47,7 +47,7 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
         }
     }
     
-    let defaultBodySystemIndex:Int = 7 // Skeletory
+    let defaultBodySystemIndex:Int = 5 // Skeletory
     
     // MARK: View Delegates
     override func viewDidLoad() {
@@ -134,7 +134,7 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width / 4, height: BodySystemCollectionViewCell.height)
+        return CGSize(width: collectionView.bounds.width / CGFloat(bodySystems.count / 2), height: BodySystemCollectionViewCell.height)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -188,7 +188,7 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
     @IBAction func bodySystemButtonAction(_ sender: Any) {
         shadeView.show(animated: true)
         bodySystemView.show(animated: true)
-        sceneKitView.zoomOut(zoomFactor: animatedZoomFactor)
+//        sceneKitView.zoomOut(zoomFactor: animatedZoomFactor)
     }
     
     // MARK: Info View Delegate
@@ -222,6 +222,6 @@ class MainViewController: BodyMapViewController, ToggleButtonDelegate, InfoViewD
     func shadeViewTapped() {
         shadeView.hide(animated: true)
         bodySystemView.hide(animated: true)
-        sceneKitView.zoomIn(zoomFactor: animatedZoomFactor)
+//        sceneKitView.zoomIn(zoomFactor: animatedZoomFactor)
     }
 }

@@ -17,6 +17,18 @@ class BodyImageView: UIImageView {
         }
     }
     
+    var hideBackground:Bool = false {
+        didSet {
+            
+            // Check value
+            if (hideBackground) {
+                backgroundColor = UIColor.clear
+            } else {
+                backgroundColor = system.color
+            }
+        }
+    }
+    
     // MARK: Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -44,8 +56,12 @@ class BodyImageView: UIImageView {
     private func setStyle(system: BodySystem) {
         
         // Get System
-        backgroundColor = system.color
         image = system.icon
+        if (hideBackground) {
+            backgroundColor = UIColor.clear
+        } else {
+            backgroundColor = system.color
+        }
         
         // Tint the image
         image = image!.withRenderingMode(.alwaysTemplate)
